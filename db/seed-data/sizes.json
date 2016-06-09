@@ -1,0 +1,9 @@
+[
+{"id": "20cf8b85-8b79-46cd-bcc8-16081988c184", "grams": 2500, "name": "1.5L"},
+{"id": "2f609b65-3ffd-40b5-9860-de68eb8a1d5b", "grams": 0, "name": "6.0L"},
+{"id": "389b4ca7-b37a-40f1-8ebe-0236c3664a02", "grams": 1200, "name": "500ml"},
+{"id": "6a5883fb-8974-4db3-a8a2-17487243677e", "grams": 1360, "name": "750ml"},
+{"id": "7fa7c5bd-66e4-47b5-bab2-ecf4873fbd55", "grams": 900, "name": "375ml"},
+{"id": "9572d918-1d69-4bb8-a78e-8e2c69ab6959", "grams": 4500, "name": "3.0L"},
+{"id": "9b0aabfb-2d2e-4618-aefc-24def0a9d37c", "grams": 0, "name": "5.0L"}
+]
