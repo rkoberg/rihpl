@@ -4,6 +4,9 @@ import React from 'react';
 import linksMessages from '../../common/app/linksMessages';
 import { FormattedHTMLMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 
+import { asyncConnect } from 'redux-connect'
+
+
 const messages = defineMessages({
   intro: {
     defaultMessage: `
@@ -38,4 +41,9 @@ class HomePage extends Component {
 
 }
 
-export default injectIntl(HomePage);
+HomePage = injectIntl(HomePage)
+
+export default asyncConnect([{
+  key: 'lunch',
+  promise: ({ params, helpers }) => Promise.resolve({ id: 1, name: 'Borsch' })
+}])(HomePage);

@@ -11,6 +11,8 @@ import { Provider } from 'react-redux';
 import { createMemoryHistory, match, RouterContext } from 'react-router';
 import { routerMiddleware, syncHistoryWithStore } from 'react-router-redux';
 
+import { ReduxAsyncConnect, loadOnServer, reducer as reduxAsyncConnect } from 'redux-connect'
+
 const initialState = createInitialState();
 
 const createRequestInitialState = req => ({
@@ -30,7 +32,7 @@ const createRequestInitialState = req => ({
 const renderApp = (store, renderProps) => {
   const appHtml = ReactDOMServer.renderToString(
     <Provider store={store}>
-      <RouterContext {...renderProps} />
+      <ReduxAsyncConnect {...renderProps} />
     </Provider>
   );
   return { appHtml, helmet: Helmet.rewind() };
@@ -93,16 +95,19 @@ export default function render(req, res, next) {
       next(error);
       return;
     }
-    try {
-      if (!process.env.IS_SERVERLESS) {
+
+    loadOnServer({ ...renderProps, store }).then(() => {
+      try {
+        if (!process.env.IS_SERVERLESS) {
 //        await queryFirebaseServer(() => renderApp(store, renderProps));
+        }
+        const html = renderPage(store, renderProps, req);
+        const status = renderProps.routes
+          .some(route => route.path === '*') ? 404 : 200;
+        res.status(status).send(html);
+      } catch (e) {
+        next(e);
       }
-      const html = renderPage(store, renderProps, req);
-      const status = renderProps.routes
-        .some(route => route.path === '*') ? 404 : 200;
-      res.status(status).send(html);
-    } catch (e) {
-      next(e);
-    }
+    })
   });
 }
