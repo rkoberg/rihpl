@@ -11,13 +11,9 @@ import { SET_CURRENT_LOCALE } from './intl/actions';
 import { applyMiddleware, createStore } from 'redux';
 import { createMiddleware as createStorageMiddleware } from 'redux-storage';
 
-const isReactNative =
-  typeof navigator === 'object' &&
-  navigator.product === 'ReactNative';
-
 const enableLogger =
   process.env.NODE_ENV !== 'production' &&
-  process.env.IS_BROWSER || isReactNative;
+  process.env.IS_BROWSER;
 
 // Like redux-thunk with dependency injection.
 const injectMiddleware = deps => ({ dispatch, getState }) => next => action =>

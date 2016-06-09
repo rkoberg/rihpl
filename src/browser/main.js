@@ -9,6 +9,8 @@ import { Provider } from 'react-redux';
 import { Router, applyRouterMiddleware, browserHistory } from 'react-router';
 import { routerMiddleware, syncHistoryWithStore } from 'react-router-redux';
 
+import { ReduxAsyncConnect } from 'redux-connect'
+
 const initialState = window.__INITIAL_STATE__;
 const reportingMiddleware = configureReporting({
   appVersion: initialState.config.appVersion,
@@ -27,7 +29,12 @@ ReactDOM.render(
   <Provider store={store}>
     <Router
       history={history}
-      render={applyRouterMiddleware(useScroll())}
+      render={(props) => (
+        <ReduxAsyncConnect
+          {...props}
+          render={applyRouterMiddleware(useScroll())}
+        />
+      )}
     >
       {routes}
     </Router>

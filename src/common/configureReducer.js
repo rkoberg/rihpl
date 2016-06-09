@@ -10,6 +10,8 @@ import { combineReducers } from 'redux';
 import { reduxFields } from './lib/redux-fields';
 import { routerReducer as routing } from 'react-router-redux';
 
+import { reducer as reduxAsyncConnect } from 'redux-connect'
+
 const resetOnLogout = (reducer, initialState) => (state, action) => {
   // Reset app state on logout, stackoverflow.com/q/35622588/233902.
   if (action.type === LOGOUT) {
@@ -24,6 +26,7 @@ const resetOnLogout = (reducer, initialState) => (state, action) => {
 
 export default function configureReducer(initialState, platformReducers) {
   let reducer = combineReducers({
+    reduxAsyncConnect,
     ...platformReducers,
     auth,
     config,
