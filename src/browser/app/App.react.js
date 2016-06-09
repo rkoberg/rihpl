@@ -1,5 +1,7 @@
-import './App.scss';
 import Component from 'react-pure-render/component';
+
+//import { ReduxAsyncConnect, asyncConnect, reducer as reduxAsyncConnect } from 'redux-connect'
+
 import Footer from './Footer.react';
 import Header from './Header.react';
 import Helmet from 'react-helmet';

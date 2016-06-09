@@ -1,4 +1,3 @@
-import './Login.scss';
 import Component from 'react-pure-render/component';
 import LoginError from './LoginError.react';
 import React, { PropTypes } from 'react';

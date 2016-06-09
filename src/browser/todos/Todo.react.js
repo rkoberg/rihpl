@@ -1,4 +1,3 @@
-import './Todo.scss';
 import Component from 'react-pure-render/component';
 import React, { PropTypes } from 'react';
 import cx from 'classnames';

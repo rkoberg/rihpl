@@ -1,4 +1,3 @@
-import './FieldsPage.scss';
 import Component from 'react-pure-render/component';
 import DynamicField from './DynamicField.react.js';
 import Helmet from 'react-helmet';
