@@ -1,0 +1,10 @@
+module.exports = {
+  api: {
+    db: {
+      name: 'fwi',
+      user: 'rkoberg',
+      password: ''
+      startRole: 'rkoberg'
+    }
+  }
+};
