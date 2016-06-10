@@ -1,5 +1,5 @@
 
-var config = require('../../config.js');
+var config = require('../config.js');
 
 module.exports = {
 
@@ -37,7 +37,7 @@ module.exports = {
   production: {
     client: 'pg',
     connection: {
-      database: 'my_db',
+      database: 'fwi',
       user:     'username',
       password: 'password'
     },

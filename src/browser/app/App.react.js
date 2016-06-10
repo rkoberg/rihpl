@@ -11,6 +11,11 @@ import start from '../../common/app/start';
 import { connect } from 'react-redux';
 import { locationShape } from 'react-router';
 
+import { asyncConnect } from 'redux-connect'
+
+import {initLoadSizes} from '../../common/app/actions'
+// import Size from '../../server/model/sizes'
+
 // v4-alpha.getbootstrap.com/getting-started/introduction/#starter-template
 const bootstrap4Metas = [
   { charset: 'utf-8' },
@@ -64,6 +69,21 @@ class App extends Component {
 
 App = start(App);
 
-export default connect(state => ({
-  currentLocale: state.intl.currentLocale
-}))(App);
+export default asyncConnect([
+  {
+    key: 'sizes',
+    promise: ({store}) => {
+      // console.log('App asyncConnect something', something);
+      // return initData
+      // return initLoadSizes()
+      return store.dispatch(initLoadSizes())
+    }
+  },
+  {
+    key: 'currentLocale',
+    promise: (something) => {
+      // console.log('App asyncConnect something', something);
+      return Promise.resolve('en')
+    }
+  }
+])(App);

@@ -3,6 +3,7 @@ import config from './config';
 import errorHandler from './lib/errorHandler';
 import express from 'express';
 import frontend from './frontend';
+// import '../../db/staticInitialState';
 
 const app = express();
 

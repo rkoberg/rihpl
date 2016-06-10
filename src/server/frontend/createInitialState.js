@@ -1,7 +1,10 @@
 import config from '../config';
+
+
 import loadMessages from '../intl/loadMessages';
 
 const messages = loadMessages();
+
 
 export default function createInitialState() {
   return {

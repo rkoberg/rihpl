@@ -15,19 +15,21 @@ import { ReduxAsyncConnect, loadOnServer, reducer as reduxAsyncConnect } from 'r
 
 const initialState = createInitialState();
 
-const createRequestInitialState = req => ({
+const createRequestInitialState = req => {
+  return {
   ...initialState,
-  intl: {
-    ...initialState.intl,
-    currentLocale: process.env.IS_SERVERLESS
+    intl: {
+  ...initialState.intl,
+      currentLocale: process.env.IS_SERVERLESS
       ? config.defaultLocale
       : req.acceptsLanguages(config.locales) || config.defaultLocale,
-    initialNow: Date.now(),
+      initialNow: Date.now(),
   },
-  device: {
-    host: `${req.headers['x-forwarded-proto'] || req.protocol}://${req.headers.host}`
-  },
-});
+    device: {
+      host: `${req.headers['x-forwarded-proto'] || req.protocol}://${req.headers.host}`
+    },
+  }
+}
 
 const renderApp = (store, renderProps) => {
   const appHtml = ReactDOMServer.renderToString(
@@ -78,8 +80,9 @@ const renderPage = (store, renderProps, req) => {
 
 export default function render(req, res, next) {
   const memoryHistory = createMemoryHistory(req.originalUrl);
+  const initialState = createRequestInitialState(req)
   const store = configureStore({
-    initialState: createRequestInitialState(req),
+    initialState,
     platformMiddleware: [routerMiddleware(memoryHistory)]
   });
   const history = syncHistoryWithStore(memoryHistory, store);

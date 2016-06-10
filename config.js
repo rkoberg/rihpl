@@ -1,4 +1,4 @@
-const fs = require('fs');
+import fs from 'fs';
 
 let localConfig = false;
 
@@ -24,5 +24,6 @@ const defaultConfig = {
   }
 };
 
-module.exports = localConfig ? Object.assign({}, defaultConfig, localConfig) : defaultConfig;
-
+module.exports = localConfig ?
+  Object.assign({}, defaultConfig, localConfig) :
+  defaultConfig;
