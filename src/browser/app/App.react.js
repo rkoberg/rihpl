@@ -40,8 +40,8 @@ class App extends Component {
     location: locationShape
   };
 
-  render() {
-//    console.log('App render this.props.app.sizes.toJS()', this.props.app.sizes.toJS());
+  render() {//.app.sizes.toJS()
+    console.log('App render this.props.sizes.toJS()', this.props.sizes.toJS());
     const { children, currentLocale, location } = this.props;
 
     return (
@@ -95,22 +95,27 @@ export default asyncConnect([
 //      key: 'sizes',
       promise: ({store}) => store.dispatch(AppActionCreators.initLoad('sizes')),
     },
-//    {
-//      key: 'types',
-//      promise: ({store}) => store.dispatch(AppActionCreators.initLoad('types')),
-//    },
-//    {
-//      key: 'regions',
-//      promise: ({store}) => store.dispatch(AppActionCreators.initLoad('regions')),
-//    },
     {
-      key: 'currentLocale',
-      promise: (something) => {
-        // console.log('App asyncConnect something', something);
-        return Promise.resolve('en')
-      }
-    }
+//      key: 'types',
+      promise: ({store}) => store.dispatch(AppActionCreators.initLoad('types')),
+    },
+    {
+//      key: 'regions',
+      promise: ({store}) => store.dispatch(AppActionCreators.initLoad('regions')),
+//      , '?level=lt.2'
+    },
+//    {
+//      key: 'currentLocale',
+//      promise: (something) => {
+//        // console.log('App asyncConnect something', something);
+//        return Promise.resolve('en')
+//      }
+//    }
   ],
+  state => ({
+    currentLocale: state.intl.currentLocale,
+    sizes: state.sizes
+  })
 
 //  mapStateToProps,
 //  mapDispatchToProps

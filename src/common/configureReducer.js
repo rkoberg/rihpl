@@ -13,6 +13,9 @@ import { routerReducer as routing } from 'react-router-redux';
 import { reducer as reduxAsyncConnect } from 'redux-connect'
 
 import app from './app/reducer';
+import sizes from './sizes/reducer';
+import types from './types/reducer';
+import regions from './regions/reducer';
 
 const resetOnLogout = (reducer, initialState) => (state, action) => {
   // Reset app state on logout, stackoverflow.com/q/35622588/233902.
@@ -41,6 +44,9 @@ export default function configureReducer(initialState, platformReducers) {
     users,
 
     app,
+    sizes,
+    types,
+    regions,
   });
 
   // Higher order reducer.

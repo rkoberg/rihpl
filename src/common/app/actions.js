@@ -26,10 +26,10 @@ export function updateAppStateFromStorage() {
   };
 }
 
-export function initLoad(key) {
+export function initLoad(key, query = '') {
   return ({ fetch }) => {
     const getPromise = async () => {
-      const response = await fetch(`http://127.0.0.1:3000/${key}`);
+      const response = await fetch(`http://127.0.0.1:3000/${key}${query}`);
       // console.log('app/actions initLoadSizes response', response);
       if (response.status > 399) throw response;
 

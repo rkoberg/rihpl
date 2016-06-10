@@ -15,15 +15,10 @@ export default function appReducer(state = initialState, action) {
 //  console.log('appReducerS state', state);
 
   if (!(state instanceof InitialState))
-    return initialState
-      .set('regions', Map(state.regions))
-      .set('sizes', Map(state.sizes))
-      .set('types', Map(state.types));
+    return initialState;
 
   switch (action.type) {
 
-    case actions.INIT_LOAD_SUCCESS:
-      return state.set(action.meta.key, Map(action.payload.map(item => [item.id, item])))
     case actions.INIT_LOAD_ERROR:
       console.error('appReducer INIT_LOAD_ERROR action', action);
       console.error('appReducer INIT_LOAD_ERROR state', state);
