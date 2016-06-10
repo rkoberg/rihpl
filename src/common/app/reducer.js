@@ -11,20 +11,22 @@ const initialState = new InitialState;
 
 export default function appReducer(state = initialState, action) {
 
-  // if (state instanceof Promise) return initialState.merge(Promise.resolve(state))
+//  console.log('appReducer action', action);
+//  console.log('appReducerS state', state);
 
-  if (!(state instanceof InitialState)) return initialState;
+  if (!(state instanceof InitialState))
+    return initialState
+      .set('regions', Map(state.regions))
+      .set('sizes', Map(state.sizes))
+      .set('types', Map(state.types));
 
   switch (action.type) {
 
-    case actions.INIT_LOAD_SIZES_SUCCESS:
-      // console.log('appReducer INIT_LOAD_SIZES_SUCCESS action', action);
-      // console.log('appReducer INIT_LOAD_SIZES_SUCCESS state', state);
-      // return state.merge(action.payload)
-      return state
-    case actions.INIT_LOAD_SIZES_ERROR:
-      console.log('appReducer INIT_LOAD_SIZES_ERROR action', action);
-      console.log('appReducer INIT_LOAD_SIZES_ERROR state', state);
+    case actions.INIT_LOAD_SUCCESS:
+      return state.set(action.meta.key, Map(action.payload.map(item => [item.id, item])))
+    case actions.INIT_LOAD_ERROR:
+      console.error('appReducer INIT_LOAD_ERROR action', action);
+      console.error('appReducer INIT_LOAD_ERROR state', state);
       return state
 
     case actions.ON_SIDE_MENU_CHANGE: {

@@ -1,19 +1,22 @@
 import Component from 'react-pure-render/component';
 
+import Immutable from 'immutable'
+
 //import { ReduxAsyncConnect, asyncConnect, reducer as reduxAsyncConnect } from 'redux-connect'
 
 import Footer from './Footer.react';
 import Header from './Header.react';
 import Helmet from 'react-helmet';
 import React, { PropTypes } from 'react';
-import favicon from './favicon';
+import favicon from '../../common/app/favicon';
 import start from '../../common/app/start';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { locationShape } from 'react-router';
 
 import { asyncConnect } from 'redux-connect'
 
-import {initLoadSizes} from '../../common/app/actions'
+import * as AppActionCreators from '../../common/app/actions'
 // import Size from '../../server/model/sizes'
 
 // v4-alpha.getbootstrap.com/getting-started/introduction/#starter-template
@@ -38,13 +41,14 @@ class App extends Component {
   };
 
   render() {
+//    console.log('App render this.props.app.sizes.toJS()', this.props.app.sizes.toJS());
     const { children, currentLocale, location } = this.props;
 
     return (
       <div className="container">
         <Helmet
           htmlAttributes={{ lang: currentLocale }}
-          titleTemplate="%s - Este.js"
+          titleTemplate="%s - rihpl"
           meta={[
             ...bootstrap4Metas,
             {
@@ -67,23 +71,48 @@ class App extends Component {
 
 }
 
+function mapStateToProps(state) {
+//  console.log('mapStateToProps state.reduxAsyncConnect.sizes.value', state.reduxAsyncConnect.sizes.value);
+//  return {
+//    app: {
+//      sizes: Immutable.Map(state.reduxAsyncConnect.sizes.value.map(item => [item.id, item])),
+//      types: Immutable.Map(state.reduxAsyncConnect.types.value.map(item => [item.id, item])),
+//      regions: Immutable.Map(state.reduxAsyncConnect.regions.value.map(item => [item.id, item])),
+//    }
+//  };
+}
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(AppActionCreators, dispatch),
+//    routerActions: bindActionCreators({pushState}, dispatch)
+  }
+}
+
 App = start(App);
 
 export default asyncConnect([
-  {
-    key: 'sizes',
-    promise: ({store}) => {
-      // console.log('App asyncConnect something', something);
-      // return initData
-      // return initLoadSizes()
-      return store.dispatch(initLoadSizes())
+    {
+//      key: 'sizes',
+      promise: ({store}) => store.dispatch(AppActionCreators.initLoad('sizes')),
+    },
+//    {
+//      key: 'types',
+//      promise: ({store}) => store.dispatch(AppActionCreators.initLoad('types')),
+//    },
+//    {
+//      key: 'regions',
+//      promise: ({store}) => store.dispatch(AppActionCreators.initLoad('regions')),
+//    },
+    {
+      key: 'currentLocale',
+      promise: (something) => {
+        // console.log('App asyncConnect something', something);
+        return Promise.resolve('en')
+      }
     }
-  },
-  {
-    key: 'currentLocale',
-    promise: (something) => {
-      // console.log('App asyncConnect something', something);
-      return Promise.resolve('en')
-    }
-  }
-])(App);
+  ],
+
+//  mapStateToProps,
+//  mapDispatchToProps
+
+)(App);

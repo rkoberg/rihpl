@@ -2,10 +2,10 @@ import { setCurrentLocale } from '../intl/actions';
 
 export const UPDATE_APP_STATE_FROM_STORAGE = 'UPDATE_APP_STATE_FROM_STORAGE';
 
-export const INIT_LOAD_SIZES = 'INIT_LOAD_SIZES'
-export const INIT_LOAD_SIZES_START = 'INIT_LOAD_SIZES_START'
-export const INIT_LOAD_SIZES_SUCCESS = 'INIT_LOAD_SIZES_SUCCESS'
-export const INIT_LOAD_SIZES_ERROR = 'INIT_LOAD_SIZES_ERROR'
+export const INIT_LOAD = 'INIT_LOAD'
+export const INIT_LOAD_START = 'INIT_LOAD_START'
+export const INIT_LOAD_SUCCESS = 'INIT_LOAD_SUCCESS'
+export const INIT_LOAD_ERROR = 'INIT_LOAD_ERROR'
 
 export function updateAppStateFromStorage() {
   return ({ dispatch, engine }) => {
@@ -26,20 +26,23 @@ export function updateAppStateFromStorage() {
   };
 }
 
-export function initLoadSizes() {
+export function initLoad(key) {
   return ({ fetch }) => {
     const getPromise = async () => {
-      const response = await fetch('http://127.0.0.1:3000/sizes');
+      const response = await fetch(`http://127.0.0.1:3000/${key}`);
       // console.log('app/actions initLoadSizes response', response);
       if (response.status > 399) throw response;
 
-      const sizes = response.json();
+      const items = response.json();
       // console.log('app/actions initLoadSizes sizes', sizes);
-      return sizes
+      return items
     }
     return {
-      type: INIT_LOAD_SIZES,
-      payload: getPromise()
+      type: INIT_LOAD,
+      payload: getPromise(),
+      meta: {
+        key
+      }
     }
   }
 }
