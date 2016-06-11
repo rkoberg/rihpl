@@ -1,9 +1,9 @@
-import * as todosActions from '../../common/todos/actions';
-import Component from 'react-pure-render/component';
-import React, { PropTypes } from 'react';
-import buttonsMessages from '../../common/todos/buttonsMessages';
-import { FormattedMessage } from 'react-intl';
-import { connect } from 'react-redux';
+import * as todosActions from '../../common/todos/actions'
+import Component from 'react-pure-render/component'
+import React, { PropTypes } from 'react'
+import buttonsMessages from '../../common/todos/buttonsMessages'
+import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
 
 class Buttons extends Component {
 
@@ -14,7 +14,7 @@ class Buttons extends Component {
   };
 
   render() {
-    const { addHundredTodos, clearAllTodos, todos } = this.props;
+    const { addHundredTodos, clearAllTodos, todos } = this.props
 
     return (
       <div className="buttons">
@@ -26,11 +26,11 @@ class Buttons extends Component {
           onClick={addHundredTodos}
         ><FormattedMessage {...buttonsMessages.add100} /></button>
       </div>
-    );
+    )
   }
 
 }
 
 export default connect(state => ({
   todos: state.todos.map
-}), todosActions)(Buttons);
+}), todosActions)(Buttons)

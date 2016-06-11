@@ -1,11 +1,11 @@
-import Component from 'react-pure-render/component';
-import React, { PropTypes } from 'react';
-import invariant from 'invariant';
-import { resetFields, setField } from './actions';
+import Component from 'react-pure-render/component'
+import React, { PropTypes } from 'react'
+import invariant from 'invariant'
+import { resetFields, setField } from './actions'
 
 const isReactNative =
   typeof navigator === 'object' &&
-  navigator.product === 'ReactNative';
+  navigator.product === 'ReactNative'
 
 // Higher order component for huge fast dynamic deeply nested universal forms.
 export default function fields(Wrapped, options) {
@@ -13,14 +13,14 @@ export default function fields(Wrapped, options) {
     path = '',
     fields = [],
     getInitialState
-  } = options;
+  } = options
 
-  invariant(Array.isArray(fields), 'Fields must be an array.');
+  invariant(Array.isArray(fields), 'Fields must be an array.')
   invariant(
     (typeof path === 'string') ||
     (typeof path === 'function') ||
     Array.isArray(path)
-  , 'Path must be a string, function, or an array.');
+  , 'Path must be a string, function, or an array.')
 
   return class Fields extends Component {
 
@@ -30,119 +30,119 @@ export default function fields(Wrapped, options) {
 
     static getNormalizePath(props) {
       switch (typeof path) {
-        case 'function': return path(props);
-        case 'string': return [path];
-        default: return path;
+        case 'function': return path(props)
+        case 'string': return [path]
+        default: return path
       }
     }
 
     static getFieldValue(field, model, initialState) {
       if (model && model.has(field)) {
-        return model.get(field);
+        return model.get(field)
       }
       if (initialState && initialState.hasOwnProperty(field)) {
-        return initialState[field];
+        return initialState[field]
       }
-      return '';
+      return ''
     }
 
     static lazyJsonValuesOf(model, props) {
-      const initialState = getInitialState && getInitialState(props);
+      const initialState = getInitialState && getInitialState(props)
       // http://www.devthought.com/2012/01/18/an-object-is-not-a-hash
       return options.fields.reduce((fields, field) => ({
         ...fields,
         [field]: Fields.getFieldValue(field, model, initialState)
-      }), Object.create(null));
+      }), Object.create(null))
     }
 
     static createFieldObject(field, onChange) {
       const fieldObject = isReactNative ? {
         onChangeText: text => {
-          onChange(field, text);
+          onChange(field, text)
         }
       } : {
         name: field,
         onChange: (event) => {
           // React-select is not passing an event but the target directly
-          const target = event.target || event;
-          const { type, checked, value } = target;
-          const isCheckbox = type && type.toLowerCase() === 'checkbox';
-          onChange(field, isCheckbox ? checked : value);
+          const target = event.target || event
+          const { type, checked, value } = target
+          const isCheckbox = type && type.toLowerCase() === 'checkbox'
+          onChange(field, isCheckbox ? checked : value)
         }
-      };
+      }
       return {
         ...fieldObject,
         setValue(value) {
-          onChange(field, value);
+          onChange(field, value)
         }
-      };
+      }
     }
 
     constructor(props) {
-      super(props);
+      super(props)
       this.state = {
         model: null
-      };
-      this.onFieldChange = this.onFieldChange.bind(this);
+      }
+      this.onFieldChange = this.onFieldChange.bind(this)
     }
 
     onFieldChange(field, value) {
-      const normalizedPath = Fields.getNormalizePath(this.props).concat(field);
-      this.context.store.dispatch(setField(normalizedPath, value));
+      const normalizedPath = Fields.getNormalizePath(this.props).concat(field)
+      this.context.store.dispatch(setField(normalizedPath, value))
     }
 
     createFields() {
       const formFields = options.fields.reduce((fields, field) => ({
         ...fields,
         [field]: Fields.createFieldObject(field, this.onFieldChange)
-      }), {});
+      }), {})
 
       this.fields = {
         ...formFields,
         $values: () => this.values,
         $reset: () => {
-          const normalizedPath = Fields.getNormalizePath(this.props);
-          this.context.store.dispatch(resetFields(normalizedPath));
+          const normalizedPath = Fields.getNormalizePath(this.props)
+          this.context.store.dispatch(resetFields(normalizedPath))
         }
-      };
+      }
     }
 
     getModelFromState() {
-      const normalizedPath = Fields.getNormalizePath(this.props);
-      return this.context.store.getState().reduxFields.getIn(normalizedPath);
+      const normalizedPath = Fields.getNormalizePath(this.props)
+      return this.context.store.getState().reduxFields.getIn(normalizedPath)
     }
 
     setModel(model) {
-      this.values = Fields.lazyJsonValuesOf(model, this.props);
+      this.values = Fields.lazyJsonValuesOf(model, this.props)
       options.fields.forEach(field => {
-        this.fields[field].value = this.values[field];
-      });
-      this.fields = { ...this.fields }; // Ensure rerender for pure components.
-      this.setState({ model });
+        this.fields[field].value = this.values[field]
+      })
+      this.fields = { ...this.fields } // Ensure rerender for pure components.
+      this.setState({ model })
     }
 
     componentWillMount() {
-      this.createFields();
-      this.setModel(this.getModelFromState());
+      this.createFields()
+      this.setModel(this.getModelFromState())
     }
 
     componentDidMount() {
-      const { store } = this.context;
+      const { store } = this.context
       this.unsubscribe = store.subscribe(() => {
-        const newModel = this.getModelFromState();
-        if (newModel === this.state.model) return;
-        this.setModel(newModel);
-      });
+        const newModel = this.getModelFromState()
+        if (newModel === this.state.model) return
+        this.setModel(newModel)
+      })
     }
 
     componentWillUnmount() {
-      this.unsubscribe();
-      this.fields = null;
+      this.unsubscribe()
+      this.fields = null
     }
 
     render() {
-      return <Wrapped {...this.props} fields={this.fields} />;
+      return <Wrapped {...this.props} fields={this.fields} />
     }
 
-  };
+  }
 }

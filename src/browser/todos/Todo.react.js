@@ -1,6 +1,6 @@
-import Component from 'react-pure-render/component';
-import React, { PropTypes } from 'react';
-import cx from 'classnames';
+import Component from 'react-pure-render/component'
+import React, { PropTypes } from 'react'
+import cx from 'classnames'
 
 // Presentational component.
 export default class Todo extends Component {
@@ -12,23 +12,23 @@ export default class Todo extends Component {
   };
 
   constructor(props) {
-    super(props);
-    this.onButtonClick = this.onButtonClick.bind(this);
-    this.onTitleClick = this.onTitleClick.bind(this);
+    super(props)
+    this.onButtonClick = this.onButtonClick.bind(this)
+    this.onTitleClick = this.onTitleClick.bind(this)
   }
 
   onButtonClick() {
-    const { deleteTodo, todo } = this.props;
-    deleteTodo(todo.id);
+    const { deleteTodo, todo } = this.props
+    deleteTodo(todo.id)
   }
 
   onTitleClick() {
-    const { todo, toggleTodoCompleted } = this.props;
-    toggleTodoCompleted(todo);
+    const { todo, toggleTodoCompleted } = this.props
+    toggleTodoCompleted(todo)
   }
 
   render() {
-    const { todo } = this.props;
+    const { todo } = this.props
 
     return (
       <li className="todo">
@@ -41,7 +41,7 @@ export default class Todo extends Component {
           onClick={this.onButtonClick}
         >x</span>
       </li>
-    );
+    )
   }
 
 }

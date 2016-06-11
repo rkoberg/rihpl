@@ -1,14 +1,14 @@
-import Component from 'react-pure-render/component';
-import Helmet from 'react-helmet';
-import React from 'react';
-import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
+import Component from 'react-pure-render/component'
+import Helmet from 'react-helmet'
+import React from 'react'
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl'
 
 const messages = defineMessages({
   title: {
     defaultMessage: 'Profile',
     id: 'me.profilePage.title'
   }
-});
+})
 
 class ProfilePage extends Component {
 
@@ -17,8 +17,8 @@ class ProfilePage extends Component {
   };
 
   render() {
-    const { intl } = this.props;
-    const title = intl.formatMessage(messages.title);
+    const { intl } = this.props
+    const title = intl.formatMessage(messages.title)
 
     return (
       <div className="profile-page">
@@ -27,9 +27,9 @@ class ProfilePage extends Component {
           <FormattedMessage {...messages.title} />
         </p>
       </div>
-    );
+    )
   }
 
 }
 
-export default injectIntl(ProfilePage);
+export default injectIntl(ProfilePage)

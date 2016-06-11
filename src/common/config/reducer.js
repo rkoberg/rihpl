@@ -1,3 +1,3 @@
 export default function configReducer(state = {}) {
-  return state;
+  return state
 }

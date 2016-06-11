@@ -1,8 +1,8 @@
 // www.andrewsouthpaw.com/2015/02/08/environment-variables/
-import nconf from 'nconf';
+import nconf from 'nconf'
 
 // Use less-terrible separator character, stackoverflow.com/questions/25017495
-nconf.env('__');
+nconf.env('__')
 
 // For local development with secrets. Check src/common/_secrets.json file.
 // nconf.file('src/common/secrets.json');
@@ -19,6 +19,6 @@ nconf.defaults({
   locales: ['en'],
   port: process.env.PORT || 8000,
   sentryUrl: 'https://f297cec9c9654088b8ccf1ea9136c458@app.getsentry.com/77415',
-});
+})
 
-export default nconf.get();
+export default nconf.get()

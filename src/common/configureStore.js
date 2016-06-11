@@ -1,26 +1,26 @@
 
-import configureReducer from './configureReducer';
-import createLogger from 'redux-logger';
-import isomorphicFetch from 'isomorphic-fetch';
-import promiseMiddleware from 'redux-promise-middleware';
-import shortid from 'shortid';
-import storageDebounce from 'redux-storage-decorator-debounce';
-import storageFilter from 'redux-storage-decorator-filter';
-import validate from './validate';
-import { SET_CURRENT_LOCALE } from './intl/actions';
-import { applyMiddleware, createStore } from 'redux';
-import { createMiddleware as createStorageMiddleware } from 'redux-storage';
+import configureReducer from './configureReducer'
+import createLogger from 'redux-logger'
+import isomorphicFetch from 'isomorphic-fetch'
+import promiseMiddleware from 'redux-promise-middleware'
+import shortid from 'shortid'
+import storageDebounce from 'redux-storage-decorator-debounce'
+import storageFilter from 'redux-storage-decorator-filter'
+import validate from './validate'
+import { SET_CURRENT_LOCALE } from './intl/actions'
+import { applyMiddleware, createStore } from 'redux'
+import { createMiddleware as createStorageMiddleware } from 'redux-storage'
 
 const enableLogger =
   process.env.NODE_ENV !== 'production' &&
-  process.env.IS_BROWSER;
+  process.env.IS_BROWSER
 
 // Like redux-thunk with dependency injection.
 const injectMiddleware = deps => ({ dispatch, getState }) => next => action =>
   next(typeof action === 'function'
     ? action({ ...deps, dispatch, getState })
     : action
-  );
+  )
 
 // configureStore is blog.ploeh.dk/2011/07/28/CompositionRoot
 export default function configureStore(options) {
@@ -29,11 +29,11 @@ export default function configureStore(options) {
     platformDeps = {},
     platformMiddleware = [],
     platformReducers = {},
-  } = options;
+  } = options
 
   const engine =
     platformDeps.createEngine &&
-    platformDeps.createEngine(`redux-storage:${initialState.config.appName}`);
+    platformDeps.createEngine(`redux-storage:${initialState.config.appName}`)
   // // Check whether connection works.
 
   const middleware = [
@@ -49,16 +49,16 @@ export default function configureStore(options) {
       promiseTypeSuffixes: ['START', 'SUCCESS', 'ERROR']
     }),
     ...platformMiddleware
-  ];
+  ]
 
   if (engine) {
     let decoratedEngine = storageFilter(engine, [
       ['intl', 'currentLocale']
-    ]);
-    decoratedEngine = storageDebounce(decoratedEngine, 300);
+    ])
+    decoratedEngine = storageDebounce(decoratedEngine, 300)
     middleware.push(createStorageMiddleware(decoratedEngine, [], [
       SET_CURRENT_LOCALE
-    ]));
+    ]))
   }
 
   // Logger must be the last middleware in chain.
@@ -67,30 +67,30 @@ export default function configureStore(options) {
       collapsed: true,
       // Convert immutable to JSON.
       stateTransformer: state => JSON.parse(JSON.stringify(state))
-    });
-    middleware.push(logger);
+    })
+    middleware.push(logger)
   }
 
   const store = createStore(
     configureReducer(initialState, platformReducers),
     initialState,
     applyMiddleware(...middleware)
-  );
+  )
 
   // Enable hot reload where available.
   if (module.hot) {
     const replaceReducer = configureReducer =>
-      store.replaceReducer(configureReducer(initialState, platformReducers));
+      store.replaceReducer(configureReducer(initialState, platformReducers))
     if (process.env.IS_BROWSER) {
       module.hot.accept('./configureReducer', () => {
-        replaceReducer(require('./configureReducer'));
-      });
+        replaceReducer(require('./configureReducer'))
+      })
     } else { // React Native hot reload has different API.
       module.hot.accept(() => {
-        replaceReducer(require('./configureReducer').default);
-      });
+        replaceReducer(require('./configureReducer').default)
+      })
     }
   }
 
-  return store;
+  return store
 }

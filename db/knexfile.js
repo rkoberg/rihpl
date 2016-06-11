@@ -1,13 +1,13 @@
 
-var config = require('../config.js');
+import config from '../config.js'
 
-module.exports = {
+export default {
 
   development: {
     client: 'pg',
     connection: {
       database: config.api.db.name,
-      user:     config.api.db.user,
+      user: config.api.db.user,
       password: config.api.db.password
     },
     migrations: {
@@ -22,7 +22,7 @@ module.exports = {
     client: 'pg',
     connection: {
       database: 'fwi',
-      user:     'username',
+      user: 'username',
       password: 'password'
     },
     pool: {
@@ -38,7 +38,7 @@ module.exports = {
     client: 'pg',
     connection: {
       database: 'fwi',
-      user:     'username',
+      user: 'username',
       password: 'password'
     },
     pool: {
@@ -50,4 +50,4 @@ module.exports = {
     }
   }
 
-};
+}

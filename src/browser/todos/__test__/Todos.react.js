@@ -1,9 +1,9 @@
-import { Todos } from '../Todos.react.js';
-import Todo from '../Todo.react.js';
-import { expect } from 'chai';
-import { shallow } from 'enzyme';
-import { Map } from 'immutable';
-import React from 'react';
+import { Todos } from '../Todos.react.js'
+import Todo from '../Todo.react.js'
+import { expect } from 'chai'
+import { shallow } from 'enzyme'
+import { Map } from 'immutable'
+import React from 'react'
 
 describe('Todos', () => {
   // Define default props to reuse through all the tests
@@ -15,7 +15,7 @@ describe('Todos', () => {
     },
     todos: Map(),
     toggleTodoCompleted: () => {}
-  };
+  }
 
   it('should render a Todo item per todo', () => {
     const todoList = Map({
@@ -27,7 +27,7 @@ describe('Todos', () => {
         id: 3,
         title: 'Second todo'
       }
-    });
+    })
 
     // Use shallow-rendering as much as possible.
     // With shallow-rendering, no need to think of the component's children
@@ -39,8 +39,8 @@ describe('Todos', () => {
           todos: todoList,
         }}
       />
-    );
+    )
 
-    expect(wrapper.find(Todo).length).equal(todoList.size);
-  });
-});
+    expect(wrapper.find(Todo).length).equal(todoList.size)
+  })
+})

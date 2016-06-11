@@ -1,44 +1,44 @@
-import CopyWebpackPlugin from 'copy-webpack-plugin';
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
-import WebpackIsomorphicToolsPlugin from 'webpack-isomorphic-tools/plugin';
-import autoprefixer from 'autoprefixer';
-import constants from './constants';
-import ip from 'ip';
-import path from 'path';
-import webpack from 'webpack';
-import webpackIsomorphicAssets from './assets';
+import CopyWebpackPlugin from 'copy-webpack-plugin'
+import ExtractTextPlugin from 'extract-text-webpack-plugin'
+import WebpackIsomorphicToolsPlugin from 'webpack-isomorphic-tools/plugin'
+import autoprefixer from 'autoprefixer'
+import constants from './constants'
+import ip from 'ip'
+import path from 'path'
+import webpack from 'webpack'
+import webpackIsomorphicAssets from './assets'
 
-const webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(webpackIsomorphicAssets);
+const webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(webpackIsomorphicAssets)
 
 // cheap-module-eval-source-map, because we want original source, but we don't
 // care about columns, which makes this devtool faster than eval-source-map.
 // http://webpack.github.io/docs/configuration.html#devtool
 // const devtools = 'cheap-module-eval-source-map';
 // TODO: https://github.com/webpack/webpack/issues/2145
-const devtools = 'eval-source-map';
+const devtools = 'eval-source-map'
 
 const loaders = {
   css: '',
   // Why not LESS or Stylus? The battle is over, let's focus on inline styles.
   scss: '!sass-loader',
   sass: '!sass-loader?indentedSyntax'
-};
+}
 
-const serverIp = ip.address();
+const serverIp = ip.address()
 
 export default function makeConfig(isDevelopment) {
   function stylesLoaders() {
     return Object.keys(loaders).map(ext => {
-      const prefix = 'css-loader!postcss-loader';
-      const extLoaders = prefix + loaders[ext];
+      const prefix = 'css-loader!postcss-loader'
+      const extLoaders = prefix + loaders[ext]
       const loader = isDevelopment
         ? `style-loader!${extLoaders}`
-        : ExtractTextPlugin.extract('style-loader', extLoaders);
+        : ExtractTextPlugin.extract('style-loader', extLoaders)
       return {
         loader,
         test: new RegExp(`\\.(${ext})$`)
-      };
-    });
+      }
+    })
   }
 
   const config = {
@@ -112,14 +112,14 @@ export default function makeConfig(isDevelopment) {
             SERVER_URL: JSON.stringify(process.env.SERVER_URL || '')
           }
         })
-      ];
+      ]
       if (isDevelopment) {
         plugins.push(
           new webpack.optimize.OccurrenceOrderPlugin(),
           new webpack.HotModuleReplacementPlugin(),
           new webpack.NoErrorsPlugin(),
           webpackIsomorphicToolsPlugin.development()
-        );
+        )
       } else {
         plugins.push(
           // Render styles into separate cacheable file to prevent FOUC and
@@ -145,20 +145,20 @@ export default function makeConfig(isDevelopment) {
           }], {
             ignore: ['original/**']
           })
-        );
+        )
       }
-      return plugins;
+      return plugins
     })(),
     postcss: () => [autoprefixer({ browsers: 'last 2 version' })],
     resolve: {
-      extensions: ['', '.js', '.json'], 
+      extensions: ['', '.js', '.json'],
       modulesDirectories: ['src', 'node_modules'],
       root: constants.ABSOLUTE_BASE,
       alias: {
         react$: require.resolve(path.join(constants.NODE_MODULES_DIR, 'react'))
       }
     }
-  };
+  }
 
-  return config;
+  return config
 }

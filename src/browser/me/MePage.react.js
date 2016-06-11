@@ -1,11 +1,11 @@
-import AuthLogout from '../auth/Logout.react';
-import Component from 'react-pure-render/component';
-import Helmet from 'react-helmet';
-import React, { PropTypes } from 'react';
-import linksMessages from '../../common/app/linksMessages';
-import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
-import { Link } from 'react-router';
-import { connect } from 'react-redux';
+import AuthLogout from '../auth/Logout.react'
+import Component from 'react-pure-render/component'
+import Helmet from 'react-helmet'
+import React, { PropTypes } from 'react'
+import linksMessages from '../../common/app/linksMessages'
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl'
+import { Link } from 'react-router'
+import { connect } from 'react-redux'
 
 const messages = defineMessages({
   welcome: {
@@ -20,7 +20,7 @@ const messages = defineMessages({
     defaultMessage: 'Settings',
     id: 'me.page.linkToSettings'
   },
-});
+})
 
 class MePage extends Component {
 
@@ -31,8 +31,8 @@ class MePage extends Component {
   };
 
   render() {
-    const { children, intl, viewer: { email } } = this.props;
-    const title = intl.formatMessage(linksMessages.me);
+    const { children, intl, viewer: { email } } = this.props
+    const title = intl.formatMessage(linksMessages.me)
 
     return (
       <div className="me-page">
@@ -52,13 +52,13 @@ class MePage extends Component {
         }
         <AuthLogout />
       </div>
-    );
+    )
   }
 
 }
 
-MePage = injectIntl(MePage);
+MePage = injectIntl(MePage)
 
 export default connect(state => ({
   viewer: state.users.viewer
-}))(MePage);
+}))(MePage)

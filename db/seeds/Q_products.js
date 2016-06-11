@@ -1,16 +1,16 @@
 
-const items = require('../seed-data/products.json');
-const TABLE_NAME = 'products';
+const items = require('../seed-data/products.json')
+const TABLE_NAME = 'products'
 
-items.unshift(TABLE_NAME);
+items.unshift(TABLE_NAME)
 
-exports.seed = function(knex, Promise) {
+exports.seed = function (knex, Promise) {
 
   return Promise
-    .map(items, function(item) {
+    .map(items, function (item) {
       if (item === TABLE_NAME)
         // Deletes ALL existing entries
-        return knex(TABLE_NAME).del();
+        return knex(TABLE_NAME).del()
       else
         // Inserts seed entries
         return knex(TABLE_NAME)
@@ -24,9 +24,9 @@ exports.seed = function(knex, Promise) {
             type_id: item.type,
             size_id: item.size,
             // regions: item.regions
-          });
+          })
     })
     .catch(err => {
-      console.error('ERROR products:', err);
-    });
-};
+      console.error('ERROR products:', err)
+    })
+}

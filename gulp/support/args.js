@@ -1,7 +1,7 @@
-import yargs from 'yargs';
+import yargs from 'yargs'
 
 const args = yargs
   .alias('p', 'production')
-  .argv;
+  .argv
 
-export default args;
+export default args

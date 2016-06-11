@@ -1,5 +1,5 @@
-import gulp from 'gulp';
-import realFavicon from 'gulp-real-favicon';
+import gulp from 'gulp'
+import realFavicon from 'gulp-real-favicon'
 
 // Settings were generated online on https://realfavicongenerator.net
 // Guide: https://www.npmjs.com/package/gulp-real-favicon
@@ -41,5 +41,5 @@ gulp.task('favicon-generate', done => {
       errorOnImageTooSmall: false
     },
     markupFile: './gulp/support/favicon/favicon-data.json'
-  }, done);
-});
+  }, done)
+})

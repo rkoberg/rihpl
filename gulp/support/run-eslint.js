@@ -1,11 +1,11 @@
-import args from './args';
-import eslint from 'gulp-eslint';
-import gulp from 'gulp';
-import gulpIf from 'gulp-if';
+import args from './args'
+import eslint from 'gulp-eslint'
+import gulp from 'gulp'
+import gulpIf from 'gulp-if'
 
 // To fix some eslint issues: gulp eslint --fix
 const runEslint = () => {
-  const isFixed = file => args.fix && file.eslint && file.eslint.fixed;
+  const isFixed = file => args.fix && file.eslint && file.eslint.fixed
   return gulp.src([
     'gulp/**/*.js',
     'gulpfile.babel.js',
@@ -15,7 +15,7 @@ const runEslint = () => {
   ], { base: './' })
     .pipe(eslint({ fix: args.fix }))
     .pipe(eslint.format())
-    .pipe(gulpIf(isFixed, gulp.dest('./')));
-};
+    .pipe(gulpIf(isFixed, gulp.dest('./')))
+}
 
-export default runEslint;
+export default runEslint

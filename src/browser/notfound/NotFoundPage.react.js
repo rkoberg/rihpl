@@ -1,8 +1,8 @@
-import Component from 'react-pure-render/component';
-import Helmet from 'react-helmet';
-import React from 'react';
-import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
-import { Link } from 'react-router';
+import Component from 'react-pure-render/component'
+import Helmet from 'react-helmet'
+import React from 'react'
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl'
+import { Link } from 'react-router'
 
 const messages = defineMessages({
   title: {
@@ -21,7 +21,7 @@ const messages = defineMessages({
     defaultMessage: 'Continue here please.',
     id: 'notFound.continue'
   }
-});
+})
 
 class NotFoundPage extends Component {
 
@@ -30,8 +30,8 @@ class NotFoundPage extends Component {
   };
 
   render() {
-    const { intl } = this.props;
-    const title = intl.formatMessage(messages.title);
+    const { intl } = this.props
+    const title = intl.formatMessage(messages.title)
 
     return (
       <div className="notfound-page">
@@ -46,9 +46,9 @@ class NotFoundPage extends Component {
           <FormattedMessage {...messages.continue} />
         </Link>
       </div>
-    );
+    )
   }
 
 }
 
-export default injectIntl(NotFoundPage);
+export default injectIntl(NotFoundPage)

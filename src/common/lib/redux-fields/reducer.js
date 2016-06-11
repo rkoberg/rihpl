@@ -1,24 +1,24 @@
-import * as actions from './actions';
-import { Map } from 'immutable';
+import * as actions from './actions'
+import { Map } from 'immutable'
 
-const initialState = Map();
+const initialState = Map()
 
 export default function reducer(state = initialState, action) {
-  if (!(state instanceof Map)) return initialState.mergeDeep(state);
+  if (!(state instanceof Map)) return initialState.mergeDeep(state)
 
   switch (action.type) {
 
     case actions.ESTE_REDUX_FIELDS_RESET_FIELDS: {
-      const { path } = action.payload;
-      return state.deleteIn(path);
+      const { path } = action.payload
+      return state.deleteIn(path)
     }
 
     case actions.ESTE_REDUX_FIELDS_SET_FIELD: {
-      const { path, value } = action.payload;
-      return state.setIn(path, value);
+      const { path, value } = action.payload
+      return state.setIn(path, value)
     }
 
   }
 
-  return state;
+  return state
 }

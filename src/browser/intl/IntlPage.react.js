@@ -1,8 +1,8 @@
-import Component from 'react-pure-render/component';
-import Helmet from 'react-helmet';
-import Locales from './Locales.react';
-import React from 'react';
-import linksMessages from '../../common/app/linksMessages';
+import Component from 'react-pure-render/component'
+import Helmet from 'react-helmet'
+import Locales from './Locales.react'
+import React from 'react'
+import linksMessages from '../../common/app/linksMessages'
 import {
   FormattedDate,
   FormattedMessage,
@@ -11,7 +11,7 @@ import {
   defineMessages,
   injectIntl,
   intlShape
-} from 'react-intl';
+} from 'react-intl'
 
 const messages = defineMessages({
   h2: {
@@ -25,7 +25,7 @@ const messages = defineMessages({
     }`,
     id: 'intl.page.unreadCount'
   }
-});
+})
 
 class IntlPage extends Component {
 
@@ -34,15 +34,15 @@ class IntlPage extends Component {
   };
 
   constructor(props) {
-    super(props);
-    this.componentRenderedAt = Date.now();
+    super(props)
+    this.componentRenderedAt = Date.now()
   }
 
   render() {
-    const { intl } = this.props;
-    const title = intl.formatMessage(linksMessages.intl);
+    const { intl } = this.props
+    const title = intl.formatMessage(linksMessages.intl)
     // To remember beloved −123 min. https://www.youtube.com/watch?v=VKOv1I8zKso
-    const unreadCount = 123;
+    const unreadCount = 123
 
     return (
       <div className="intl-page">
@@ -69,9 +69,9 @@ class IntlPage extends Component {
           />
         </p>
       </div>
-    );
+    )
   }
 
 }
 
-export default injectIntl(IntlPage);
+export default injectIntl(IntlPage)

@@ -1,16 +1,16 @@
-import {INIT_LOAD_SUCCESS} from '../app/actions';
-import { Map, Record } from 'immutable';
+import { INIT_LOAD_SUCCESS } from '../app/actions'
+import { Map, Record } from 'immutable'
 
 const InitialState = Record({
   map: Map(),
-});
-const initialState = new InitialState;
+})
+const initialState = new InitialState
 
 export default function sizesReducer(state = initialState, action) {
 
   if (!(state instanceof InitialState))
     return initialState
-      .set('map', Map(state.map));
+      .set('map', Map(state.map))
 
   switch (action.type) {
 
@@ -20,5 +20,5 @@ export default function sizesReducer(state = initialState, action) {
 
   }
 
-  return state;
+  return state
 }

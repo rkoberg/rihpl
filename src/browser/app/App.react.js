@@ -1,18 +1,20 @@
-import Component from 'react-pure-render/component';
+import '../styles/main.scss'
+
+import Component from 'react-pure-render/component'
 
 import Immutable from 'immutable'
 
-//import { ReduxAsyncConnect, asyncConnect, reducer as reduxAsyncConnect } from 'redux-connect'
+// import { ReduxAsyncConnect, asyncConnect, reducer as reduxAsyncConnect } from 'redux-connect'
 
-import Footer from './Footer.react';
-import Header from './Header.react';
-import Helmet from 'react-helmet';
-import React, { PropTypes } from 'react';
-import favicon from '../../common/app/favicon';
-import start from '../../common/app/start';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { locationShape } from 'react-router';
+import Footer from './Footer.react'
+import Header from './Header.react'
+import Helmet from 'react-helmet'
+import React, { PropTypes } from 'react'
+import favicon from '../../common/app/favicon'
+import start from '../../common/app/start'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { locationShape } from 'react-router'
 
 import { asyncConnect } from 'redux-connect'
 
@@ -30,7 +32,7 @@ const bootstrap4Metas = [
     'http-equiv': 'x-ua-compatible',
     content: 'ie=edge'
   }
-];
+]
 
 class App extends Component {
 
@@ -40,9 +42,8 @@ class App extends Component {
     location: locationShape
   };
 
-  render() {//.app.sizes.toJS()
-    console.log('App render this.props.sizes.toJS()', this.props.sizes.toJS());
-    const { children, currentLocale, location } = this.props;
+  render() { // .app.sizes.toJS()
+    const { children, currentLocale, location } = this.props
 
     return (
       <div className="container">
@@ -66,7 +67,7 @@ class App extends Component {
         {children}
         <Footer />
       </div>
-    );
+    )
   }
 
 }
@@ -88,22 +89,21 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-App = start(App);
+App = start(App)
 
 export default asyncConnect([
-    {
-//      key: 'sizes',
-      promise: ({store}) => store.dispatch(AppActionCreators.initLoad('sizes')),
-    },
-    {
-//      key: 'types',
-      promise: ({store}) => store.dispatch(AppActionCreators.initLoad('types')),
-    },
-    {
-//      key: 'regions',
-      promise: ({store}) => store.dispatch(AppActionCreators.initLoad('regions')),
-//      , '?level=lt.2'
-    },
+  {
+    promise: ({ store }) => store.dispatch(AppActionCreators.initLoad('')),
+  },
+  {
+    promise: ({ store }) => store.dispatch(AppActionCreators.initLoad('sizes')),
+  },
+  {
+    promise: ({ store }) => store.dispatch(AppActionCreators.initLoad('types')),
+  },
+  {
+    promise: ({ store }) => store.dispatch(AppActionCreators.initLoad('regions')),
+  },
 //    {
 //      key: 'currentLocale',
 //      promise: (something) => {
@@ -111,7 +111,7 @@ export default asyncConnect([
 //        return Promise.resolve('en')
 //      }
 //    }
-  ],
+],
   state => ({
     currentLocale: state.intl.currentLocale,
     sizes: state.sizes
@@ -120,4 +120,4 @@ export default asyncConnect([
 //  mapStateToProps,
 //  mapDispatchToProps
 
-)(App);
+)(App)

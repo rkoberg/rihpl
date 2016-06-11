@@ -1,9 +1,9 @@
-import Component from 'react-pure-render/component';
-import React, { PropTypes } from 'react';
-import linksMessages from '../../common/app/linksMessages';
-import { FormattedMessage } from 'react-intl';
-import { Link } from 'react-router';
-import { connect } from 'react-redux';
+import Component from 'react-pure-render/component'
+import React, { PropTypes } from 'react'
+import linksMessages from '../../common/app/linksMessages'
+import { FormattedMessage } from 'react-intl'
+import { Link } from 'react-router'
+import { connect } from 'react-redux'
 
 class Header extends Component {
 
@@ -12,7 +12,7 @@ class Header extends Component {
   };
 
   render() {
-    const { viewer } = this.props;
+    const { viewer } = this.props
 
     return (
       <header>
@@ -51,11 +51,11 @@ class Header extends Component {
           }
         </ul>
       </header>
-    );
+    )
   }
 
 }
 
 export default connect(state => ({
   viewer: state.users.viewer
-}))(Header);
+}))(Header)

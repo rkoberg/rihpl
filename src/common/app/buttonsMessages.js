@@ -1,4 +1,4 @@
-import { defineMessages } from 'react-intl';
+import { defineMessages } from 'react-intl'
 
 export default defineMessages({
   add: {
@@ -33,4 +33,4 @@ export default defineMessages({
     defaultMessage: 'Submit',
     id: 'app.buttons.submit'
   }
-});
+})

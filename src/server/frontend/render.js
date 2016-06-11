@@ -1,30 +1,31 @@
-import Helmet from 'react-helmet';
-import Html from './Html.react';
-import React from 'react';
-import ReactDOMServer from 'react-dom/server';
-import config from '../config';
-import configureStore from '../../common/configureStore';
-import createInitialState from './createInitialState';
-import createRoutes from '../../browser/createRoutes';
-import serialize from 'serialize-javascript';
-import { Provider } from 'react-redux';
-import { createMemoryHistory, match, RouterContext } from 'react-router';
-import { routerMiddleware, syncHistoryWithStore } from 'react-router-redux';
+import Helmet from 'react-helmet'
+import Html from './Html.react'
+import React from 'react'
+import ReactDOMServer from 'react-dom/server'
+import config from '../config'
+import configureStore from '../../common/configureStore'
+import createInitialState from './createInitialState'
+import createRoutes from '../../browser/createRoutes'
+import serialize from 'serialize-javascript'
+import { Provider } from 'react-redux'
+import { createMemoryHistory, match, RouterContext } from 'react-router'
+import { routerMiddleware, syncHistoryWithStore } from 'react-router-redux'
 
 import { ReduxAsyncConnect, loadOnServer, reducer as reduxAsyncConnect } from 'redux-connect'
 
-const initialState = createInitialState();
+const initialState = createInitialState()
+console.log('initialState', initialState)
 
 const createRequestInitialState = req => {
   return {
-  ...initialState,
+    ...initialState,
     intl: {
-  ...initialState.intl,
+      ...initialState.intl,
       currentLocale: process.env.IS_SERVERLESS
       ? config.defaultLocale
       : req.acceptsLanguages(config.locales) || config.defaultLocale,
       initialNow: Date.now(),
-  },
+    },
     device: {
       host: `${req.headers['x-forwarded-proto'] || req.protocol}://${req.headers.host}`
     },
@@ -36,9 +37,9 @@ const renderApp = (store, renderProps) => {
     <Provider store={store}>
       <ReduxAsyncConnect {...renderProps} />
     </Provider>
-  );
-  return { appHtml, helmet: Helmet.rewind() };
-};
+  )
+  return { appHtml, helmet: Helmet.rewind() }
+}
 
 const renderScripts = (state, headers, hostname, appJsFilename) =>
   // https://github.com/yahoo/serialize-javascript#user-content-automatic-escaping-of-html-characters
@@ -48,23 +49,23 @@ const renderScripts = (state, headers, hostname, appJsFilename) =>
       window.__INITIAL_STATE__ = ${serialize(state)};
     </script>
     <script src="${appJsFilename}"></script>
-  `;
+  `
 
 const renderPage = (store, renderProps, req) => {
-  const state = store.getState();
+  const state = store.getState()
   // No server routing for server-less apps.
   if (process.env.IS_SERVERLESS) {
-    delete state.routing;
+    delete state.routing
   }
-  const { headers, hostname } = req;
-  const { appHtml, helmet } = renderApp(store, renderProps);
+  const { headers, hostname } = req
+  const { appHtml, helmet } = renderApp(store, renderProps)
   const {
     styles: { app: appCssFilename },
     javascript: { app: appJsFilename }
-  } = webpackIsomorphicTools.assets();
-  const scriptsHtml = renderScripts(state, headers, hostname, appJsFilename);
+  } = webpackIsomorphicTools.assets()
+  const scriptsHtml = renderScripts(state, headers, hostname, appJsFilename)
   if (!config.isProduction) {
-    webpackIsomorphicTools.refresh();
+    webpackIsomorphicTools.refresh()
   }
   const docHtml = ReactDOMServer.renderToStaticMarkup(
     <Html
@@ -74,29 +75,29 @@ const renderPage = (store, renderProps, req) => {
       helmet={helmet}
       isProduction={config.isProduction}
     />
-  );
-  return `<!DOCTYPE html>${docHtml}`;
-};
+  )
+  return `<!DOCTYPE html>${docHtml}`
+}
 
 export default function render(req, res, next) {
-  const memoryHistory = createMemoryHistory(req.originalUrl);
+  const memoryHistory = createMemoryHistory(req.originalUrl)
   const initialState = createRequestInitialState(req)
   const store = configureStore({
     initialState,
     platformMiddleware: [routerMiddleware(memoryHistory)]
-  });
-  const history = syncHistoryWithStore(memoryHistory, store);
-  const routes = createRoutes(store.getState);
-  const location = req.url;
+  })
+  const history = syncHistoryWithStore(memoryHistory, store)
+  const routes = createRoutes(store.getState)
+  const location = req.url
 
   match({ history, routes, location }, async (error, redirectLocation, renderProps) => {
     if (redirectLocation) {
-      res.redirect(301, redirectLocation.pathname + redirectLocation.search);
-      return;
+      res.redirect(301, redirectLocation.pathname + redirectLocation.search)
+      return
     }
     if (error) {
-      next(error);
-      return;
+      next(error)
+      return
     }
 
     loadOnServer({ ...renderProps, store }).then(() => {
@@ -104,13 +105,13 @@ export default function render(req, res, next) {
         if (!process.env.IS_SERVERLESS) {
 //        await queryFirebaseServer(() => renderApp(store, renderProps));
         }
-        const html = renderPage(store, renderProps, req);
+        const html = renderPage(store, renderProps, req)
         const status = renderProps.routes
-          .some(route => route.path === '*') ? 404 : 200;
-        res.status(status).send(html);
+          .some(route => route.path === '*') ? 404 : 200
+        res.status(status).send(html)
       } catch (e) {
-        next(e);
+        next(e)
       }
     })
-  });
+  })
 }

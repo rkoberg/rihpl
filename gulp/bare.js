@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import gulp from 'gulp';
+import gulp from 'gulp'
 
 gulp.task('bare', () => {
   console.log(`
@@ -20,5 +20,5 @@ gulp.task('bare', () => {
       - Unused code should be deleted as well. TODO: Make a gulp task for it.
 
     Yeah, it's that easy.
-  `);
-});
+  `)
+})
