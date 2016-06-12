@@ -6,15 +6,19 @@ export default defineMessages({
     id: 'app.admin.title'
   },
   types: {
-    defaultMessage: 'Wine Types',
+    defaultMessage: 'Types',
     id: 'app.admin.types'
   },
   sizes: {
-    defaultMessage: 'Wine Sizes',
+    defaultMessage: 'Sizes',
     id: 'app.admin.sizes'
   },
   regions: {
-    defaultMessage: 'Wine Regions',
+    defaultMessage: 'Regions',
     id: 'app.admin.regions'
+  },
+  products: {
+    defaultMessage: 'Products',
+    id: 'app.admin.products'
   }
 })

@@ -1,11 +1,9 @@
 import * as actions from './actions'
+import * as uiActions from '../ui/actions'
 import { Map, Record } from 'immutable'
 
 const InitialState = Record({
   isSideMenuOpen: false,
-  regions: Map(),
-  sizes: Map(),
-  types: Map(),
 })
 const initialState = new InitialState
 
@@ -24,12 +22,12 @@ export default function appReducer(state = initialState, action) {
       console.error('appReducer INIT_LOAD_ERROR state', state)
       return state
 
-    case actions.ON_SIDE_MENU_CHANGE: {
+    case uiActions.ON_SIDE_MENU_CHANGE: {
       const { isOpen } = action.payload
       return state.set('isSideMenuOpen', isOpen)
     }
 
-    case actions.TOGGLE_SIDE_MENU:
+    case uiActions.TOGGLE_SIDE_MENU:
       return state.update('isSideMenuOpen', isSideMenuOpen => !isSideMenuOpen)
 
   }

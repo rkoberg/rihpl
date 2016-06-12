@@ -12,9 +12,7 @@ import Todos from './todos/TodosPage.react'
 import { IndexRoute, Route } from 'react-router'
 
 import AdminPage from './admin/AdminPage.react.js'
-import AdminWineTypes from './admin/WineTypesPage.react'
-import AdminWineSizes from './admin/SizesPage.react'
-import AdminWineRegions from './admin/RegionsPage.react'
+import AdminTablePage from './admin/TablePage.react'
 
 export default function createRoutes(getState) {
   const requireAuth = (nextState, replace) => {
@@ -43,9 +41,7 @@ export default function createRoutes(getState) {
 
 
       <Route component={AdminPage} path="admin">
-        <Route component={AdminWineTypes} path="types" />
-        <Route component={AdminWineSizes} path="sizes" />
-        <Route component={AdminWineRegions} path="regions" />
+        <Route component={AdminTablePage} path=":table" />
       </Route>
 
 

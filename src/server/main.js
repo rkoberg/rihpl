@@ -7,6 +7,8 @@ import frontend from './frontend'
 
 const app = express()
 
+app.use('/public', express.static(`${__dirname}/../../public`));
+
 app.use('/api/v1', api)
 app.use(frontend)
 app.use(errorHandler)

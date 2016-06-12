@@ -8,3 +8,18 @@
     width:auto;
   }
 }
+
+.griddle-settings-toggle {
+  .settings {
+    //@extend .expanded;
+    @extend .button;
+  }
+}
+
+.wrapper-row {
+  max-width: 100rem;
+  &>.column {
+    padding-left: 0rem;
+    padding-right: 0rem;
+  }
+}

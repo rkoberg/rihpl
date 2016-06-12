@@ -16,6 +16,9 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { locationShape } from 'react-router'
 
+import { Row, Column } from 'react-foundation-components/lib/grid';
+import { ShowForScreenSize, ShowOnlyForScreenSize } from 'react-foundation-components/lib/visibility';
+
 import { asyncConnect } from 'redux-connect'
 
 import * as AppActionCreators from '../../common/app/actions'
@@ -64,7 +67,11 @@ class App extends Component {
         />
         {/* Pass location to ensure header active links are updated. */}
         <Header location={location} />
-        {children}
+        <Row className="wrapper-row">
+          <Column>
+            {children}
+          </Column>
+        </Row>
         <Footer />
       </div>
     )
@@ -72,29 +79,9 @@ class App extends Component {
 
 }
 
-function mapStateToProps(state) {
-//  console.log('mapStateToProps state.reduxAsyncConnect.sizes.value', state.reduxAsyncConnect.sizes.value);
-//  return {
-//    app: {
-//      sizes: Immutable.Map(state.reduxAsyncConnect.sizes.value.map(item => [item.id, item])),
-//      types: Immutable.Map(state.reduxAsyncConnect.types.value.map(item => [item.id, item])),
-//      regions: Immutable.Map(state.reduxAsyncConnect.regions.value.map(item => [item.id, item])),
-//    }
-//  };
-}
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(AppActionCreators, dispatch),
-//    routerActions: bindActionCreators({pushState}, dispatch)
-  }
-}
-
 App = start(App)
 
 export default asyncConnect([
-  {
-    promise: ({ store }) => store.dispatch(AppActionCreators.initLoad('')),
-  },
   {
     promise: ({ store }) => store.dispatch(AppActionCreators.initLoad('sizes')),
   },
@@ -104,20 +91,10 @@ export default asyncConnect([
   {
     promise: ({ store }) => store.dispatch(AppActionCreators.initLoad('regions')),
   },
-//    {
-//      key: 'currentLocale',
-//      promise: (something) => {
-//        // console.log('App asyncConnect something', something);
-//        return Promise.resolve('en')
-//      }
-//    }
 ],
   state => ({
     currentLocale: state.intl.currentLocale,
     sizes: state.sizes
   })
-
-//  mapStateToProps,
-//  mapDispatchToProps
 
 )(App)

@@ -34,8 +34,16 @@ import {
 //  TitleBarItem as FlexTitleBarItem,
 //  TitleBarTitle as FlexTitleBarTitle,
 //  TitleBarMenuIcon as FlexTitleBarMenuIcon,
-// } from 'react-foundation-components/lib/title-bar-flex' 
-import { HideForScreenSize } from 'react-foundation-components/lib/visibility'
+// } from 'react-foundation-components/lib/title-bar-flex'
+import { Row, Column } from 'react-foundation-components/lib/grid';
+import {
+  HideForScreenSize,
+  ShowForScreenSize,
+  ShowOnlyForScreenSize
+} from 'react-foundation-components/lib/visibility';
+
+
+import { asyncConnect } from 'redux-connect'
 
 import * as adminActions from '../../common/admin/actions'
 import adminMessages from '../../common/admin/adminMessages'
@@ -66,38 +74,39 @@ class AdminPage extends Component {
     toggleOffcanvas: PropTypes.func.isRequired
   };
 
-
   render() {
     const { children, intl, open, tables, toggleOffcanvas } = this.props
     const title = intl.formatMessage(adminMessages.title)
 
+//    console.log('tables', table);
+
     return (
-      <div className="admin-page">
+      <Row className="admin-page">
         <Helmet title={title} />
+        <Column small={12} medium={12} large={3} xlarge={2} xxlarge={2}>
+          <Menu vertical>
+            <MenuItem>
+              <Link activeClassName="active" to="/admin">
+                <h3><FormattedMessage {...messages.dashboard} /></h3>
+              </Link>
+            </MenuItem>
+            {tables.map(table => adminMessages[table.name] && (
+              <MenuItem key={table.name}>
+                <Link activeClassName="active" to={`/admin/${table.name}`}>
+                  <FormattedMessage {...adminMessages[table.name]} />
+                </Link>
+              </MenuItem>
+            ))}
+          </Menu>
+        </Column>
+        <Column small={12} medium={12} large={9} xlarge={10} xxlarge={10}>
+          {children ||
+          <FormattedHTMLMessage {...messages.intro} />
+          }
+        </Column>
+        {/*
         <OffCanvasContainer className="admin-page" open={open}>
           <OffCanvas position="left" style={{ position: 'absolute' }}>
-            <Menu vertical>
-              <MenuItem>
-                <Link activeClassName="active" to="/admin">
-                  <h3><FormattedMessage {...messages.dashboard} /></h3>
-                </Link>
-              </MenuItem>
-              <MenuItem>
-                <Link activeClassName="active" to="/admin/regions">
-                  <FormattedMessage {...adminMessages.regions} />
-                </Link>
-              </MenuItem>
-              <MenuItem>
-                <Link activeClassName="active" to="/admin/sizes">
-                  <FormattedMessage {...adminMessages.sizes} />
-                </Link>
-              </MenuItem>
-              <MenuItem>
-                <Link activeClassName="active" to="/admin/types">
-                  <FormattedMessage {...adminMessages.types} />
-                </Link>
-              </MenuItem>
-            </Menu>
           </OffCanvas>
 
           <OffCanvasContent onContentBlockerClick={toggleOffcanvas}>
@@ -119,7 +128,8 @@ class AdminPage extends Component {
             }
           </OffCanvasContent>
         </OffCanvasContainer>
-      </div>
+         */}
+      </Row>
     )
   }
 
@@ -127,7 +137,20 @@ class AdminPage extends Component {
 
 AdminPage = injectIntl(AdminPage)
 
-export default connect(state => ({
-  open: state.admin.open,
-  tables: state.formMeta.tables
-}), adminActions)(AdminPage)
+export default asyncConnect([
+  {
+    promise: ({ store }) => store.dispatch(adminActions.initLoad('')),
+  },
+  ],
+  state => ({
+    open: state.admin.open,
+    tables: state.admin.tables,
+  }),
+  adminActions
+
+)(AdminPage)
+
+//export default connect(state => ({
+//  open: state.admin.open,
+//  tables: state.formMeta.tables
+//}), adminActions)(AdminPage)
