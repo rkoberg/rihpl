@@ -13,11 +13,16 @@ import { routerMiddleware, syncHistoryWithStore } from 'react-router-redux'
 
 import { ReduxAsyncConnect, loadOnServer, reducer as reduxAsyncConnect } from 'redux-connect'
 
+import {getCache} from '../cache'
+
 const initialState = createInitialState()
-console.log('initialState', initialState)
+//console.log('initialState', initialState)
 
 const createRequestInitialState = req => {
+  const cached = getCache();
+//  console.log('createRequestInitialState cached', cached);
   return {
+    ...cached,
     ...initialState,
     intl: {
       ...initialState.intl,

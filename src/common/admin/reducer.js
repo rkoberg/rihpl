@@ -5,20 +5,13 @@ const InitialState = Immutable.Record({
   loading: false,
   message: '',
   open: null,
-
-  tables: Immutable.List(),
-
-  regions: Immutable.Map(),
-  sizes: Immutable.Map(),
-  types: Immutable.Map(),
-  products: Immutable.Map(),
 })
 const initialState = new InitialState
 
 export default function adminReducer(state = initialState, action) {
   if (!(state instanceof InitialState))
     return initialState
-      .set('tables', Immutable.List(state.tables))
+//      .set('tables', Immutable.List(state.tables))
 
   switch (action.type) {
 
@@ -31,11 +24,11 @@ export default function adminReducer(state = initialState, action) {
       console.error('adminReducer ADMIN_INIT_LOAD_ERROR state', state)
       return state
 
-    case actions.ADMIN_INIT_LOAD_SUCCESS:
-        return state
-          .set('tables', Immutable.List(
-            action.payload.filter(item => item.name.indexOf('knex_') === -1)
-          ))
+//    case actions.ADMIN_INIT_LOAD_SUCCESS:
+//        return state
+//          .set('tables', Immutable.List(
+//            action.payload.filter(item => item.name.indexOf('knex_') === -1)
+//          ))
 
   }
 

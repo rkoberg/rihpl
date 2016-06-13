@@ -18,10 +18,10 @@ export default function productsReducer(state = initialState, action) {
 
   switch (action.type) {
 
-    case INIT_LOAD_SUCCESS:
-      if (action.meta.key === 'products')
-        return state.set('map', Immutable.Map(action.payload.map(item => [item.id, item])))
-
+//    case INIT_LOAD_SUCCESS:
+//      if (action.meta.key === 'products')
+//        return state.set('map', Immutable.Map(action.payload.map(item => [item.id, item])))
+//
     case ADMIN_BOOTSTRAP_SUCCESS:
       if (action.meta.key === 'products')
         return state.set('meta', Immutable.Map(action.payload))

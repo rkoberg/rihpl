@@ -75,10 +75,11 @@ class AdminPage extends Component {
   };
 
   render() {
+//    console.log('AdminPage this.props', this.props)
     const { children, intl, open, tables, toggleOffcanvas } = this.props
     const title = intl.formatMessage(adminMessages.title)
 
-//    console.log('tables', table);
+//    console.log('tables', tables.map.valueSeq().toJS());
 
     return (
       <Row className="admin-page">
@@ -87,15 +88,15 @@ class AdminPage extends Component {
           <Menu vertical>
             <MenuItem>
               <Link activeClassName="active" to="/admin">
-                <h3><FormattedMessage {...messages.dashboard} /></h3>
+                <h4><FormattedMessage {...messages.dashboard} /></h4>
               </Link>
             </MenuItem>
-            {tables.map(table => adminMessages[table.name] && (
-              <MenuItem key={table.name}>
-                <Link activeClassName="active" to={`/admin/${table.name}`}>
-                  <FormattedMessage {...adminMessages[table.name]} />
-                </Link>
-              </MenuItem>
+            {tables.map.valueSeq().map(table => adminMessages[table.name] && (
+            <MenuItem key={table.name}>
+              <Link activeClassName="active" to={`/admin/${table.name}`}>
+                <FormattedMessage {...adminMessages[table.name]} />
+              </Link>
+            </MenuItem>
             ))}
           </Menu>
         </Column>
@@ -138,13 +139,13 @@ class AdminPage extends Component {
 AdminPage = injectIntl(AdminPage)
 
 export default asyncConnect([
-  {
-    promise: ({ store }) => store.dispatch(adminActions.initLoad('')),
-  },
+//  {
+//    promise: ({ store }) => store.dispatch(adminActions.initLoad('')),
+//  },
   ],
   state => ({
     open: state.admin.open,
-    tables: state.admin.tables,
+    tables: state.tables,
   }),
   adminActions
 

@@ -1,31 +1,43 @@
-import { INIT_LOAD_SUCCESS } from '../app/actions'
+
 import { ADMIN_BOOTSTRAP_SUCCESS } from '../admin/actions'
+import { PAGE_TABLE } from '../tables/actions'
 import Immutable from 'immutable'
 
-const InitialState = Immutable.Record({
-  preloaded: true,
-  map: Immutable.Map(),
-  meta: Immutable.Map(),
+import {TableInitialState, setMap, setMeta} from '../models/TableDef'
+
+const TableItem = Immutable.Record({
+  grams: 0,
+  id: '',
+  name: '',
 })
-const initialState = new InitialState
+
+const initialState = new TableInitialState
 
 export default function sizesReducer(state = initialState, action) {
 
-  if (!(state instanceof InitialState))
+  if (!(state instanceof TableInitialState)) {
+    const totalItems = Object.keys(state.map).length
+
     return initialState
-      .set('map', Immutable.Map(state.map))
-      .set('meta', Immutable.Map(state.meta))
+      .set('activePage', 1)
+      .set('map', setMap(TableItem, state.map))
+      .set('meta', setMeta(state.meta))
+      .set('preloaded', true)
+      .set('rangeSize', 10)
+      .set('sortBy', 'name')
+      .set('totalItems', totalItems)
+  }
 
   switch (action.type) {
 
-    case INIT_LOAD_SUCCESS:
-      if (action.meta.key === 'sizes')
-        return state.set('map', Immutable.Map(action.payload.map(item => [item.id, item])))
-
     case ADMIN_BOOTSTRAP_SUCCESS:
       if (action.meta.key === 'sizes')
-        return state.set('meta', Immutable.Map(action.payload))
+        return state.set('meta', setMeta(action.payload))
 
+    case PAGE_TABLE:
+      if (action.meta.tableName === 'sizes')
+        return state
+          .set('activePage', action.meta.activePage)
   }
 
   return state

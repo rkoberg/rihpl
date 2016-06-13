@@ -1,4 +1,5 @@
-import api from './api'
+//import api from './api'
+import cache from './cache'
 import config from './config'
 import errorHandler from './lib/errorHandler'
 import express from 'express'
@@ -7,9 +8,8 @@ import frontend from './frontend'
 
 const app = express()
 
-app.use('/public', express.static(`${__dirname}/../../public`));
-
-app.use('/api/v1', api)
+app.use('/cache', cache)
+//app.use('/api/v1', api)
 app.use(frontend)
 app.use(errorHandler)
 

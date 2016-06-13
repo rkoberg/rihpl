@@ -1,4 +1,5 @@
 import fs from 'fs';
+import extend from 'extend';
 
 let localConfig = false;
 
@@ -21,9 +22,13 @@ const defaultConfig = {
       port: 5432,
       startRole: '',
     }
+  },
+  app: {
+    port: 8000,
+    host: '127.0.0.1',
   }
 };
 
-module.exports = localConfig ?
-  Object.assign({}, defaultConfig, localConfig) :
+export default localConfig ?
+  extend(true, {}, defaultConfig, localConfig) :
   defaultConfig;

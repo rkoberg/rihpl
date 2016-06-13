@@ -3,17 +3,8 @@
   font-weight: bold;
 }
 
-.griddle-table {
-  select {
-    width:auto;
-  }
-}
-
-.griddle-settings-toggle {
-  .settings {
-    //@extend .expanded;
-    @extend .button;
-  }
+.grid-table-wrapper {
+  font-size: .8rem;
 }
 
 .wrapper-row {

@@ -2,6 +2,8 @@ import Raven from 'raven-js'
 import { ValidationError } from './lib/validation'
 
 // Some errors can be ignored, for example ValidationError is pretty innocent.
+// Such errors should be handled locally without re-throw.
+// This check is here because legacy code.
 const isNegligibleError = error =>
   error.reason instanceof ValidationError
 

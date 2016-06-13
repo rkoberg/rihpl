@@ -17,7 +17,7 @@ import sizes from './sizes/reducer'
 import types from './types/reducer'
 import regions from './regions/reducer'
 
-import formMeta from './formMeta/reducer'
+import tables from './tables/reducer'
 import admin from './admin/reducer'
 
 const resetOnLogout = (reducer, initialState) => (state, action) => {
@@ -51,7 +51,7 @@ export default function configureReducer(initialState, platformReducers) {
     types,
     regions,
 
-    formMeta,
+    tables,
     admin,
   })
 
