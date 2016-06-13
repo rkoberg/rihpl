@@ -1,9 +1,10 @@
 
-import { ADMIN_BOOTSTRAP_SUCCESS } from '../admin/actions'
-import { PAGE_TABLE } from '../tables/actions'
+import { PAGE_TABLE, TABLES_BOOTSTRAP_SUCCESS } from '../tables/actions'
 import Immutable from 'immutable'
 
-import {TableInitialState, setMap, setMeta} from '../models/TableDef'
+import {TableInitialState, setMap, setMeta} from '../tables/TableDef'
+
+const TABLE_NAME = 'sizes'
 
 const TableItem = Immutable.Record({
   grams: 0,
@@ -28,12 +29,12 @@ export default function sizesReducer(state = new TableInitialState, action) {
 
   switch (action.type) {
 
-    case ADMIN_BOOTSTRAP_SUCCESS:
-      if (action.meta.key === 'sizes')
+    case TABLES_BOOTSTRAP_SUCCESS:
+      if (action.meta.key === TABLE_NAME)
         return state.set('meta', setMeta(action.payload))
 
     case PAGE_TABLE:
-      if (action.meta.tableName === 'sizes')
+      if (action.meta.tableName === TABLE_NAME)
         return state
           .set('activePage', action.meta.activePage)
   }

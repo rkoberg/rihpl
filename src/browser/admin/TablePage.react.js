@@ -9,7 +9,6 @@ import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-i
 
 import { asyncConnect } from 'redux-connect'
 
-import * as adminActions from '../../common/admin/actions'
 import * as tablesActions from '../../common/tables/actions'
 import adminMessages from '../../common/admin/adminMessages'
 
@@ -65,7 +64,17 @@ export default asyncConnect([
     {
       promise: ({ store }) => {
         const tableName = getTableName(store.getState())
-        return store.dispatch(adminActions.bootstrap(tableName))
+        return store.dispatch(tablesActions.bootstrap(tableName))
+      }
+    },
+    {
+      promise: ({ store }) => {
+        const tableName = getTableName(store.getState())
+        const targetState = store.getState()[tableName]
+        if (!targetState.preloaded)
+          return store.dispatch(tablesActions.load(tableName, targetState))
+        else
+          return true
       }
     },
   ],

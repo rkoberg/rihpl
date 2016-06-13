@@ -17,6 +17,7 @@ import app from './app/reducer'
 import sizes from './sizes/reducer'
 import types from './types/reducer'
 import regions from './regions/reducer'
+import products from './products/reducer'
 
 import tables from './tables/reducer'
 import admin from './admin/reducer'
@@ -70,7 +71,7 @@ export default function configureReducer(initialState, platformReducers) {
     sizes,
     types,
     regions,
-
+    products,
     tables,
     admin,
   })

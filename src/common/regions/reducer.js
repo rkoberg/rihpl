@@ -1,9 +1,10 @@
 
-import { ADMIN_BOOTSTRAP_SUCCESS } from '../admin/actions'
-import { PAGE_TABLE } from '../tables/actions'
+import { PAGE_TABLE, TABLES_BOOTSTRAP_SUCCESS } from '../tables/actions'
 import Immutable from 'immutable'
 
-import {TableInitialState, setMap, setMeta} from '../models/TableDef'
+import {TableInitialState, setMap, setMeta} from '../tables/TableDef'
+
+const TABLE_NAME = 'regions'
 
 const TableItem = Immutable.Record({
   id: '',
@@ -31,12 +32,12 @@ export default function regionsReducer(state = new TableInitialState, action) {
 
   switch (action.type) {
 
-    case ADMIN_BOOTSTRAP_SUCCESS:
-      if (action.meta.key === 'regions')
+    case TABLES_BOOTSTRAP_SUCCESS:
+      if (action.meta.key === TABLE_NAME)
         return state.set('meta', setMeta(action.payload))
 
     case PAGE_TABLE:
-      if (action.meta.tableName === 'regions')
+      if (action.meta.tableName === TABLE_NAME)
         return state
           .set('activePage', action.meta.activePage)
   }

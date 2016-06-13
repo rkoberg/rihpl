@@ -16,11 +16,12 @@ export default class GridTable extends Component {
 
   handleSelect = (activePage) => {
     const {dispatch, pageTable, tableName} = this.props
-//    console.log('handleSelect activePage', activePage);
+   console.log('handleSelect activePage', activePage);
     dispatch(pageTable(tableName, activePage))
   }
 
   render() {
+    // console.log('this.props', this.props)
     const {
       table: {
         activePage, meta, rangeSize, map, totalItems
@@ -29,10 +30,14 @@ export default class GridTable extends Component {
 
     const numPages = Math.ceil(totalItems / rangeSize)
     const startItem = ((activePage - 1) * rangeSize)
-    const endItem = startItem + rangeSize
+    const endItem = startItem + (rangeSize - 1)
+    console.log('GridTable render activePage', activePage)
+    console.log('GridTable rendernumPages', numPages)
+    console.log('GridTable renderstartItem', startItem)
+    console.log('GridTable renderendItem', endItem)
 
     const iterableItems = map.valueSeq().slice(startItem, endItem)
-    const iterableCols = meta.columns.valueSeq()
+    const iterableCols = meta.columns ? meta.columns.valueSeq() : []
 //    console.log('iterableItems', iterableItems.toJS())
 //    console.log('meta.columns', meta.columns.toJS())
 

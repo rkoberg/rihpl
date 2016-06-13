@@ -1,5 +1,5 @@
-import { INIT_LOAD_SUCCESS } from '../app/actions'
-import { ADMIN_BOOTSTRAP_SUCCESS } from '../admin/actions'
+
+import { TABLES_BOOTSTRAP_ERROR, TABLES_LOAD_ERROR } from '../tables/actions'
 import Immutable from 'immutable'
 
 const TableItem = Immutable.Record({
@@ -22,11 +22,15 @@ export default function tablesReducer(state = new InitialState, action) {
 
   switch (action.type) {
 
-//    case ADMIN_BOOTSTRAP_SUCCESS:
-//      if (action.meta.key === 'sizes')
-//        return state.set('meta', Immutable.Map(action.payload))
+
+    case TABLES_LOAD_ERROR:
+    case TABLES_BOOTSTRAP_ERROR:
+      console.error('adminReducer ADMIN_INIT_LOAD_ERROR action', action)
+      console.error('adminReducer ADMIN_INIT_LOAD_ERROR state', state)
+      return state
 
   }
+
 
   return state
 }

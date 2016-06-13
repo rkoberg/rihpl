@@ -21,7 +21,7 @@ const MetaTableDef = Immutable.Record({
 })
 
 export const TableInitialState = Immutable.Record({
-  activePage: 0,
+  activePage: 1,
   map: Immutable.OrderedMap(),
   meta: MetaTableDef(),
   preloaded: false,
@@ -34,6 +34,9 @@ export const setMap = (tableItem, mapJson) => Immutable.OrderedMap(
   Object.keys(mapJson)
     .map(key => [key, new tableItem(mapJson[key])])
 )
+
+export const loadMap = (tableItem, arrayJson) => arrayJson.map(item => [item.id, new tableItem(item)])
+
 
 export const setMeta = metaJson => metaJson ?
   MetaTableDef({

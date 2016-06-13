@@ -16,11 +16,6 @@ export default function adminReducer(state = new InitialState, action) {
     case actions.TOGGLE_OFFCANVAS:
       return state.set('open', state.get('open') === 'left' ? null : 'left')
 
-    case actions.ADMIN_BOOTSTRAP_ERROR:
-      console.error('adminReducer ADMIN_INIT_LOAD_ERROR action', action)
-      console.error('adminReducer ADMIN_INIT_LOAD_ERROR state', state)
-      return state
-
   }
 
   return state
