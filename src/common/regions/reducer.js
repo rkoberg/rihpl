@@ -17,7 +17,7 @@ export default function regionsReducer(state = new TableInitialState, action) {
   if (!(state instanceof TableInitialState)) {
     const totalItems = Object.keys(state.map).length
 
-    return initialState
+    return new TableInitialState()
       .set('activePage', 1)
       .set('map', setMap(TableItem, state.map))
       .set('meta', setMeta(state.meta))

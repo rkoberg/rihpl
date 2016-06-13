@@ -11,7 +11,7 @@ const InitialState = Immutable.Record({
 export default function productsReducer(state = new InitialState, action) {
 
   if (!(state instanceof InitialState))
-    return initialState
+    return new InitialState()
       .set('map', Immutable.Map(state.map))
       .set('meta', Immutable.Map(state.meta))
 

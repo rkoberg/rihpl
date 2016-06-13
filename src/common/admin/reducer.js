@@ -9,8 +9,8 @@ const InitialState = Immutable.Record({
 
 export default function adminReducer(state = new InitialState, action) {
   if (!(state instanceof InitialState))
-    return initialState
-  
+    return new InitialState
+
   switch (action.type) {
 
     case actions.TOGGLE_OFFCANVAS:

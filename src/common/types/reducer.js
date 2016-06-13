@@ -15,7 +15,7 @@ export default function typesReducer(state = new TableInitialState, action) {
   if (!(state instanceof TableInitialState)) {
     const totalItems = Object.keys(state.map).length
 //    console.log('typesReducer initialState state', state);
-    return initialState
+    return new TableInitialState()
       .set('activePage', 1)
       .set('map', setMap(TableItem, state.map))
       .set('meta', setMeta(state.meta))

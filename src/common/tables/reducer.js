@@ -15,7 +15,7 @@ const InitialState = Immutable.Record({
 export default function tablesReducer(state = new InitialState, action) {
 
   if (!(state instanceof InitialState))
-    return initialState
+    return new InitialState()
       .set('map', Immutable.Map(
         Object.keys(state.map)
           .map(key => [key, new TableItem(state.map[key])])))
