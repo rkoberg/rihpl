@@ -82,15 +82,7 @@ class App extends Component {
 App = start(App)
 
 export default asyncConnect([
-//  {
-//    promise: ({ store }) => store.dispatch(AppActionCreators.initLoad('sizes')),
-//  },
-//  {
-//    promise: ({ store }) => store.dispatch(AppActionCreators.initLoad('types')),
-//  },
-//  {
-//    promise: ({ store }) => store.dispatch(AppActionCreators.initLoad('regions')),
-//  },
+  
 ],
   state => ({
     currentLocale: state.intl.currentLocale,

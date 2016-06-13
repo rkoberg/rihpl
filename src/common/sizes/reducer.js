@@ -11,9 +11,7 @@ const TableItem = Immutable.Record({
   name: '',
 })
 
-const initialState = new TableInitialState
-
-export default function sizesReducer(state = initialState, action) {
+export default function sizesReducer(state = new TableInitialState, action) {
 
   if (!(state instanceof TableInitialState)) {
     const totalItems = Object.keys(state.map).length

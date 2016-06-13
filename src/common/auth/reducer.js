@@ -7,8 +7,8 @@ const InitialState = Record({
 })
 const initialState = new InitialState
 
-export default function authReducer(state = initialState, action) {
-  if (!(state instanceof InitialState)) return initialState.mergeDeep(state)
+export default function authReducer(state = new InitialState, action) {
+  if (!(state instanceof InitialState)) return new InitialState(state);
 
   switch (action.type) {
 

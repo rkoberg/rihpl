@@ -12,9 +12,7 @@ const TableItem = Immutable.Record({
   parent_id: '',
 })
 
-const initialState = new TableInitialState
-
-export default function regionsReducer(state = initialState, action) {
+export default function regionsReducer(state = new TableInitialState, action) {
 
   if (!(state instanceof TableInitialState)) {
     const totalItems = Object.keys(state.map).length

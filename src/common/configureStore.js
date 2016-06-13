@@ -3,17 +3,20 @@ import configureReducer from './configureReducer'
 import createLogger from 'redux-logger'
 import isomorphicFetch from 'isomorphic-fetch'
 import promiseMiddleware from 'redux-promise-middleware'
+import reduxStorage from 'redux-storage'
 import shortid from 'shortid'
 import storageDebounce from 'redux-storage-decorator-debounce'
 import storageFilter from 'redux-storage-decorator-filter'
 import validate from './validate'
-import { SET_CURRENT_LOCALE } from './intl/actions'
 import { applyMiddleware, createStore } from 'redux'
-import { createMiddleware as createStorageMiddleware } from 'redux-storage'
+
+const isReactNative =
+  typeof navigator === 'object' &&
+  navigator.product === 'ReactNative';
 
 const enableLogger =
   process.env.NODE_ENV !== 'production' &&
-  process.env.IS_BROWSER
+  process.env.IS_BROWSER || isReactNative
 
 // Like redux-thunk with dependency injection.
 const injectMiddleware = deps => ({ dispatch, getState }) => next => action =>
@@ -56,15 +59,15 @@ export default function configureStore(options) {
       ['intl', 'currentLocale']
     ])
     decoratedEngine = storageDebounce(decoratedEngine, 300)
-    middleware.push(createStorageMiddleware(decoratedEngine, [], [
-      SET_CURRENT_LOCALE
-    ]))
+    middleware.push(reduxStorage.createMiddleware(decoratedEngine))
   }
 
   // Logger must be the last middleware in chain.
   if (enableLogger) {
+    const ignoredActions = [reduxStorage.SAVE]
     const logger = createLogger({
       collapsed: true,
+      predicate: (getState, action) => ignoredActions.indexOf(action.type) === -1,
       // Convert immutable to JSON.
       stateTransformer: state => JSON.parse(JSON.stringify(state))
     })
@@ -81,14 +84,14 @@ export default function configureStore(options) {
   if (module.hot) {
     const replaceReducer = configureReducer =>
       store.replaceReducer(configureReducer(initialState, platformReducers))
-    if (process.env.IS_BROWSER) {
-      module.hot.accept('./configureReducer', () => {
-        replaceReducer(require('./configureReducer'))
-      })
-    } else { // React Native hot reload has different API.
+    if (isReactNative) {
       module.hot.accept(() => {
         replaceReducer(require('./configureReducer').default)
-      })
+      });
+    } else {
+      module.hot.accept('./configureReducer', () => {
+        replaceReducer(require('./configureReducer'))
+      });
     }
   }
 

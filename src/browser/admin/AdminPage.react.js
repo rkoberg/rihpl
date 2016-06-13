@@ -139,9 +139,7 @@ class AdminPage extends Component {
 AdminPage = injectIntl(AdminPage)
 
 export default asyncConnect([
-//  {
-//    promise: ({ store }) => store.dispatch(adminActions.initLoad('')),
-//  },
+  
   ],
   state => ({
     open: state.admin.open,

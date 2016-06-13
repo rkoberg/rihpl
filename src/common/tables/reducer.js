@@ -11,9 +11,8 @@ const TableItem = Immutable.Record({
 const InitialState = Immutable.Record({
   map: Immutable.Map()
 })
-const initialState = new InitialState
 
-export default function tablesReducer(state = initialState, action) {
+export default function tablesReducer(state = new InitialState, action) {
 
   if (!(state instanceof InitialState))
     return initialState

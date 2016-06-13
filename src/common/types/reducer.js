@@ -10,9 +10,7 @@ const TableItem = Immutable.Record({
   name: '',
 })
 
-const initialState = new TableInitialState
-
-export default function typesReducer(state = initialState, action) {
+export default function typesReducer(state = new TableInitialState, action) {
 
   if (!(state instanceof TableInitialState)) {
     const totalItems = Object.keys(state.map).length
