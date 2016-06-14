@@ -2,7 +2,7 @@
 import { PAGE_TABLE, TABLES_BOOTSTRAP_SUCCESS } from '../tables/actions'
 import Immutable from 'immutable'
 
-import {initializeTableState, TableInitialState, setList, setMeta} from '../tables/model'
+import {initializeTableState, setupPageTable, setMeta, TableInitialState} from '../tables/model'
 
 const TABLE_NAME = 'sizes'
 
@@ -26,8 +26,7 @@ export default function sizesReducer(state = new TableInitialState, action) {
 
     case PAGE_TABLE:
       if (action.meta.tableName === TABLE_NAME)
-        return state
-          .set('activePage', action.meta.activePage)
+        return setupPageTable(state, action.meta.activePage)
   }
 
   return state

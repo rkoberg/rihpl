@@ -49,7 +49,13 @@ export const initializeTableState = (state, tableItem, isPreloaded = false) => {
   const newMap = Immutable.Map(state.map)
   const currentItems = newMap
     .valueSeq()
-    .sort((a, b) => a[sortBy] > b[sortBy])
+    .sort((a, b) => {
+      const aVal = a[sortBy]
+      const bVal = b[sortBy]
+      if (aVal == bVal)
+        return 0
+      return a[sortBy] > b[sortBy] ? 1 : -1
+    })
     .slice(0, rangeSize)
 
   return new TableInitialState()
@@ -61,4 +67,24 @@ export const initializeTableState = (state, tableItem, isPreloaded = false) => {
     .set('rangeSize', rangeSize)
     .set('sortBy', sortBy)
     .set('totalItems', state.totalItems || Object.keys(state.map).length)
+}
+
+export const setupPageTable = (state, activePage, totalItems) => {
+  const sortBy = state.sortBy || 'name'
+  const startNum = ((activePage - 1) * state.rangeSize)
+  const endNum = startNum + state.rangeSize
+  return state
+    .set('activePage', activePage)
+    .set('totalItems', totalItems || state.totalItems)
+    .set('currentItems', state.map
+      .valueSeq()
+      .sort((a, b) => {
+        const aVal = a[sortBy]
+        const bVal = b[sortBy]
+        if (aVal == bVal)
+          return 0
+        return a[sortBy] > b[sortBy] ? 1 : -1
+      })
+      .slice(startNum, endNum)
+    )
 }

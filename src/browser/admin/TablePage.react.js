@@ -57,7 +57,8 @@ TablePage = injectIntl(TablePage)
 const getTableName = state => {
 //  console.log('asyncConnect getTableName state', state);
   const pathname = state.routing.locationBeforeTransitions.pathname
-  return pathname.split('/').pop();
+  const pathArr = pathname.split('/')
+  return pathArr[pathArr.length - 2];
 }
 
 export default asyncConnect([

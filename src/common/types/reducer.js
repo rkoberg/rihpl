@@ -2,7 +2,7 @@
 import { PAGE_TABLE, TABLES_BOOTSTRAP_SUCCESS } from '../tables/actions'
 import Immutable from 'immutable'
 
-import {initializeTableState, TableInitialState, setMeta} from '../tables/model'
+import {initializeTableState, setupPageTable, setMeta, TableInitialState} from '../tables/model'
 
 const TABLE_NAME = 'types'
 
@@ -25,16 +25,7 @@ export default function typesReducer(state = new TableInitialState, action) {
 
     case PAGE_TABLE:
       if (action.meta.tableName === TABLE_NAME) {
-        const activePage = action.meta.activePage
-        const startItem = ((activePage - 1) * state.rangeSize)
-        const endItem = startItem + (state.rangeSize - 1)
-        return state
-          .set('activePage', action.meta.activePage)
-          .set('currentItems', state.map
-            .valueSeq()
-            .sort((a, b) => a[state.sortBy] > b[state.sortBy])
-            .slice(startItem, endItem)
-          )
+        return setupPageTable(state, action.meta.activePage)
       }
   }
 

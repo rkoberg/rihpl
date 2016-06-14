@@ -2,7 +2,7 @@
 import { PAGE_TABLE, TABLES_BOOTSTRAP_SUCCESS, TABLES_LOAD_START, TABLES_LOAD_SUCCESS } from '../tables/actions'
 import Immutable from 'immutable'
 
-import {initializeTableState, loadList, TableInitialState, setList, setMeta} from '../tables/model'
+import {initializeTableState, setupPageTable, setMeta, TableInitialState} from '../tables/model'
 
 const TABLE_NAME = 'products'
 
@@ -33,22 +33,23 @@ export default function productsReducer(state = new TableInitialState, action) {
 
     case TABLES_LOAD_SUCCESS:
       if (action.meta.key === TABLE_NAME) {
+        console.log('products TABLES_LOAD_SUCCESS')
         const {activePage, items, totalItems} = action.payload
 
         const startItem = ((activePage - 1) * state.rangeSize)
         const newMap = Immutable.Map(items.map(item => [item.id, new TableItem(item)]))
 
         return state
-          .set('activePage', parseInt(activePage, 10))
-          .set('currentItems', newMap.valueSeq().sort((a, b) => a[state.sortBy] > b[state.sortBy]))
+//          .set('activePage', parseInt(activePage, 10))
+//          .set('currentItems', newMap.valueSeq().sort((a, b) => a[state.sortBy] > b[state.sortBy]))
           .mergeIn(['map'], newMap)
-          .set('totalItems', parseInt(totalItems, 10))
+//          .set('totalItems', parseInt(totalItems, 10))
       }
 
     case PAGE_TABLE:
       if (action.meta.tableName === TABLE_NAME)
-        return state
-          .set('activePage', action.meta.activePage)
+        console.log('products PAGE_TABLE')
+        return setupPageTable(state, action.meta.activePage)
   }
 
   return state

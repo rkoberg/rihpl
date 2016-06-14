@@ -93,7 +93,7 @@ class AdminPage extends Component {
             </MenuItem>
             {tables.map.valueSeq().map(table => adminMessages[table.name] && (
             <MenuItem key={table.name}>
-              <Link activeClassName="active" to={`/admin/${table.name}`}>
+              <Link activeClassName="active" to={`/admin/tables/${table.name}`}>
                 <FormattedMessage {...adminMessages[table.name]} />
               </Link>
             </MenuItem>
@@ -139,7 +139,7 @@ class AdminPage extends Component {
 AdminPage = injectIntl(AdminPage)
 
 export default asyncConnect([
-  
+
   ],
   state => ({
     open: state.admin.open,
