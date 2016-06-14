@@ -22,7 +22,8 @@ const MetaTableDef = Immutable.Record({
 
 export const TableInitialState = Immutable.Record({
   activePage: 1,
-  map: Immutable.OrderedMap(),
+  currentSet: Immutable.List(),
+  list: Immutable.List(),
   meta: MetaTableDef(),
   preloaded: false,
   rangeSize: 10,
@@ -30,12 +31,11 @@ export const TableInitialState = Immutable.Record({
   totalItems: 0,
 })
 
-export const setMap = (tableItem, mapJson) => Immutable.OrderedMap(
-  Object.keys(mapJson)
-    .map(key => [key, new tableItem(mapJson[key])])
+export const setList = (tableItem, arrayJson) => Immutable.List(
+  arrayJson.map(item => new tableItem(item))
 )
 
-export const loadMap = (tableItem, arrayJson) => arrayJson.map(item => [item.id, new tableItem(item)])
+export const loadList = (tableItem, arrayJson) => arrayJson.map(item => new tableItem(item))
 
 
 export const setMeta = metaJson => metaJson ?
@@ -47,3 +47,14 @@ export const setMeta = metaJson => metaJson ?
       Immutable.List()
   }) :
   MetaTableDef()
+
+export const initializeTableState = (state, tableItem, isPreloaded = false) => {
+  return new TableInitialState()
+    .set('activePage', state.activePage)
+    .set('list', setList(tableItem, state.list))
+    .set('meta', setMeta(state.meta))
+    .set('preloaded', isPreloaded)
+    .set('rangeSize', state.rangeSize)
+    .set('sortBy', state.sortBy)
+    .set('totalItems', state.totalItems)
+}

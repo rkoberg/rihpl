@@ -30,9 +30,9 @@ const resetOnLogout = (reducer, initialState) => (state, action) => {
       device: initialState.device,
       intl: initialState.intl,
       routing: state.routing // Note routing state has to be reused.
-    };
+    }
   }
-  return reducer(state, action);
+  return reducer(state, action)
 }
 
 // Update app state from localStorage / AsyncStorage.
@@ -47,10 +47,10 @@ const updateAppStateFromStorage = reducer => (state, action) => {
           ...state[appFeature].toJS(),
           ...appStateFromStorage[appFeature]
         }
-      };
-    });
+      }
+    })
   }
-  return reducer(state, action);
+  return reducer(state, action)
 }
 
 export default function configureReducer(initialState, platformReducers) {
@@ -77,8 +77,8 @@ export default function configureReducer(initialState, platformReducers) {
   })
 
   // The power of higher-order reducers, http://slides.com/omnidan/hor
-  reducer = resetOnLogout(reducer, initialState);
-  reducer = updateAppStateFromStorage(reducer);
+  reducer = resetOnLogout(reducer, initialState)
+  reducer = updateAppStateFromStorage(reducer)
 
   return reducer
 }
