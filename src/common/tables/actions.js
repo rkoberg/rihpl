@@ -18,7 +18,7 @@ export function bootstrap(tableName) {
 //    console.log('admin/actions bootstrap targetState', targetState.toJS())
 //    console.log('admin/actions bootstrap targetState.meta.columns.size', targetState.meta.columns.size)
 //
-    if (targetState.meta.columns.size)
+    if (targetState.meta && targetState.meta.columns.size)
       return {
         type: 'DEV_NULL'
       }
@@ -46,7 +46,7 @@ export function bootstrap(tableName) {
 export function load(tableName, targetState, nextActivePage = null) {
   return ({fetch}) => {
 
-   console.log('admin/actions bootstrap targetState', targetState.toJS())
+   console.log('admin/actions bootstrap targetState', targetState)
 //    console.log('admin/actions bootstrap targetState.meta.columns.size', targetState.meta.columns.size)
 //
     const activePage = nextActivePage ? nextActivePage : targetState.activePage
@@ -101,10 +101,9 @@ export function pageTable(tableName, activePage) {
 
     const targetState = getState()[tableName]
 
-
     return {
       type: PAGE_TABLE,
-      payload: dispatch(load(tableName, targetState, activePage)),
+      payload: targetState.preloaded ? null : dispatch(load(tableName, targetState, activePage)),
       meta: {
         tableName,
         activePage

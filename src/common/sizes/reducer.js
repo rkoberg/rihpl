@@ -2,7 +2,7 @@
 import { PAGE_TABLE, TABLES_BOOTSTRAP_SUCCESS } from '../tables/actions'
 import Immutable from 'immutable'
 
-import {TableInitialState, setMap, setMeta} from '../tables/TableDef'
+import {initializeTableState, TableInitialState, setList, setMeta} from '../tables/model'
 
 const TABLE_NAME = 'sizes'
 
@@ -15,16 +15,7 @@ const TableItem = Immutable.Record({
 export default function sizesReducer(state = new TableInitialState, action) {
 
   if (!(state instanceof TableInitialState)) {
-    const totalItems = Object.keys(state.map).length
-
-    return new TableInitialState()
-      .set('activePage', 1)
-      .set('map', setMap(TableItem, state.map))
-      .set('meta', setMeta(state.meta))
-      .set('preloaded', true)
-      .set('rangeSize', 10)
-      .set('sortBy', 'name')
-      .set('totalItems', totalItems)
+    return initializeTableState(state, TableItem, true)
   }
 
   switch (action.type) {

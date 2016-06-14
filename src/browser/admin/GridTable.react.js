@@ -16,7 +16,6 @@ export default class GridTable extends Component {
 
   handleSelect = (activePage) => {
     const {dispatch, pageTable, tableName} = this.props
-   console.log('handleSelect activePage', activePage);
     dispatch(pageTable(tableName, activePage))
   }
 
@@ -24,22 +23,14 @@ export default class GridTable extends Component {
     // console.log('this.props', this.props)
     const {
       table: {
-        activePage, meta, rangeSize, map, totalItems
+        activePage, currentItems, map, meta, rangeSize, sortBy, totalItems
       }
     } = this.props
 
     const numPages = Math.ceil(totalItems / rangeSize)
     const startItem = ((activePage - 1) * rangeSize)
     const endItem = startItem + (rangeSize - 1)
-    console.log('GridTable render activePage', activePage)
-    console.log('GridTable rendernumPages', numPages)
-    console.log('GridTable renderstartItem', startItem)
-    console.log('GridTable renderendItem', endItem)
-
-    const iterableItems = map.valueSeq().slice(startItem, endItem)
     const iterableCols = meta.columns ? meta.columns.valueSeq() : []
-//    console.log('iterableItems', iterableItems.toJS())
-//    console.log('meta.columns', meta.columns.toJS())
 
     return (
       <div className="grid-table-wrapper">
@@ -50,7 +41,7 @@ export default class GridTable extends Component {
           </tr>
           </thead>
           <tbody>
-          {iterableItems.map(row =>
+          {currentItems.map(row =>
             <tr key={row.id}>
               {iterableCols.map(col => <td key={row.id + col.name}>{row[col.name]}</td>)}
             </tr>

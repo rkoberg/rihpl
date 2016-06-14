@@ -35,14 +35,12 @@ const load = () => {
         fetch(getApiUrl(cacheable.name))
           .then(response => response.json())
           .then(items => {
-//            _cache[cacheKey] = items
             _cache[cacheKey] = {}
             _cache[cacheKey].map = {}
             items.map(item => {
               const key = item.id ? item.id : item.name
               _cache[cacheKey].map[key] = item
             })
-
           })
           .catch(err => {
             console.error(err)

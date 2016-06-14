@@ -22,21 +22,14 @@ const MetaTableDef = Immutable.Record({
 
 export const TableInitialState = Immutable.Record({
   activePage: 1,
-  currentSet: Immutable.List(),
-  list: Immutable.List(),
+  currentItems: Immutable.List(),
+  map: Immutable.Map(),
   meta: MetaTableDef(),
   preloaded: false,
   rangeSize: 10,
   sortBy: 'name',
   totalItems: 0,
 })
-
-export const setList = (tableItem, arrayJson) => Immutable.List(
-  arrayJson.map(item => new tableItem(item))
-)
-
-export const loadList = (tableItem, arrayJson) => arrayJson.map(item => new tableItem(item))
-
 
 export const setMeta = metaJson => metaJson ?
   MetaTableDef({
@@ -49,12 +42,23 @@ export const setMeta = metaJson => metaJson ?
   MetaTableDef()
 
 export const initializeTableState = (state, tableItem, isPreloaded = false) => {
+
+  const sortBy = state.sortBy || 'name'
+  const rangeSize = state.rangeSize || 10
+
+  const newMap = Immutable.Map(state.map)
+  const currentItems = newMap
+    .valueSeq()
+    .sort((a, b) => a[sortBy] > b[sortBy])
+    .slice(0, rangeSize)
+
   return new TableInitialState()
-    .set('activePage', state.activePage)
-    .set('list', setList(tableItem, state.list))
+    .set('activePage', state.activePage || 1)
+    .set('currentItems', currentItems)
+    .set('map', newMap)
     .set('meta', setMeta(state.meta))
     .set('preloaded', isPreloaded)
-    .set('rangeSize', state.rangeSize)
-    .set('sortBy', state.sortBy)
-    .set('totalItems', state.totalItems)
+    .set('rangeSize', rangeSize)
+    .set('sortBy', sortBy)
+    .set('totalItems', state.totalItems || Object.keys(state.map).length)
 }

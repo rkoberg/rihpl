@@ -2,7 +2,7 @@
 import { PAGE_TABLE, TABLES_BOOTSTRAP_SUCCESS } from '../tables/actions'
 import Immutable from 'immutable'
 
-import {TableInitialState, setMap, setMeta} from '../tables/TableDef'
+import {initializeTableState, TableInitialState, setMeta} from '../tables/model'
 
 const TABLE_NAME = 'types'
 
@@ -14,16 +14,7 @@ const TableItem = Immutable.Record({
 export default function typesReducer(state = new TableInitialState, action) {
 
   if (!(state instanceof TableInitialState)) {
-    const totalItems = Object.keys(state.map).length
-//    console.log('typesReducer initialState state', state);
-    return new TableInitialState()
-      .set('activePage', 1)
-      .set('map', setMap(TableItem, state.map))
-      .set('meta', setMeta(state.meta))
-      .set('preloaded', true)
-      .set('rangeSize', 10)
-      .set('sortBy', 'name')
-      .set('totalItems', totalItems)
+    return initializeTableState(state, TableItem, true)
   }
 
   switch (action.type) {
@@ -33,9 +24,18 @@ export default function typesReducer(state = new TableInitialState, action) {
         return state.set('meta', setMeta(action.payload))
 
     case PAGE_TABLE:
-      if (action.meta.tableName === TABLE_NAME)
+      if (action.meta.tableName === TABLE_NAME) {
+        const activePage = action.meta.activePage
+        const startItem = ((activePage - 1) * state.rangeSize)
+        const endItem = startItem + (state.rangeSize - 1)
         return state
           .set('activePage', action.meta.activePage)
+          .set('currentItems', state.map
+            .valueSeq()
+            .sort((a, b) => a[state.sortBy] > b[state.sortBy])
+            .slice(startItem, endItem)
+          )
+      }
   }
 
   return state
