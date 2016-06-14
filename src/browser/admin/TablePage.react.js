@@ -30,12 +30,12 @@ class TablePage extends Component {
   }
 
   render() {
-//    console.log('TablePage this.props', this.props)
-    const { dispatch,  intl, pageTable, table, tableName } = this.props
+    console.log('TablePage this.props', this.props)
+    const { dispatch, history, intl, location, pageTable, table, tableName } = this.props
     const title = intl.formatMessage(adminMessages[tableName])
 
     const gridTableOptions = {
-      dispatch, pageTable, table, tableName
+      dispatch, history, location, pageTable, table, tableName
     }
     return (
       <div className="admin-page wine-sizes-page">

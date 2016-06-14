@@ -33,23 +33,29 @@ export default function productsReducer(state = new TableInitialState, action) {
 
     case TABLES_LOAD_SUCCESS:
       if (action.meta.key === TABLE_NAME) {
-        console.log('products TABLES_LOAD_SUCCESS')
+        console.log('products TABLES_LOAD_SUCCESS action', action)
         const {activePage, items, totalItems} = action.payload
 
-        const startItem = ((activePage - 1) * state.rangeSize)
         const newMap = Immutable.Map(items.map(item => [item.id, new TableItem(item)]))
+        const sortBy = state.sortBy || 'name'
 
         return state
-//          .set('activePage', parseInt(activePage, 10))
-//          .set('currentItems', newMap.valueSeq().sort((a, b) => a[state.sortBy] > b[state.sortBy]))
+          .set('activePage', activePage)
+          .set('totalItems', totalItems || state.totalItems)
+          .set('currentItems', newMap
+            .valueSeq()
+            .sort((a, b) => {
+              const aVal = a[sortBy]
+              const bVal = b[sortBy]
+              if (aVal == bVal)
+                return 0
+              return aVal > bVal ? 1 : -1
+            })
+          )
           .mergeIn(['map'], newMap)
-//          .set('totalItems', parseInt(totalItems, 10))
+
       }
 
-    case PAGE_TABLE:
-      if (action.meta.tableName === TABLE_NAME)
-        console.log('products PAGE_TABLE')
-        return setupPageTable(state, action.meta.activePage)
   }
 
   return state

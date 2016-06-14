@@ -2,12 +2,18 @@ import Component from 'react-pure-render/component'
 import React, { PropTypes } from 'react'
 //import { FormattedHTMLMessage, defineMessages } from 'react-intl'
 import { Table } from 'react-foundation-components/lib/table'
-import { Pagination } from 'react-foundation-components/lib/pagination';
+// import { Pagination } from 'react-foundation-components/lib/pagination';
+import { Pagination } from '../foundation/pagination';
+
+import { browserHistory } from 'react-router';
+import { push as routerPush } from 'react-router-redux';
 
 export default class GridTable extends Component {
 
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
+    history: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
     pageTable: PropTypes.func.isRequired,
     table: PropTypes.object.isRequired,
     tableName: PropTypes.string.isRequired,
@@ -15,8 +21,18 @@ export default class GridTable extends Component {
 
 
   handleSelect = (activePage) => {
-    const {dispatch, pageTable, tableName} = this.props
-    dispatch(pageTable(tableName, activePage))
+    // console.log('GridTable handleSelect this.props', this.props)
+    // const {dispatch, history, location, pageTable, tableName} = this.props
+    // console.log('GridTable handleSelect history', history)
+    // console.log('GridTable handleSelect browserHistory', browserHistory)
+    // const pathArr = location.pathname.split('/')
+    // pathArr.pop()
+    // pathArr.push(activePage)
+    // const nextPathname = pathArr.join('/')
+    // location.pathname = nextPathname
+    // dispatch(routerPush(nextPathname))
+    // browserHistory.push(nextPathname)
+    // dispatch(pageTable(tableName, activePage))
   }
 
   render() {

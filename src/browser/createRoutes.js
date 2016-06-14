@@ -28,7 +28,6 @@ export default function createRoutes(getState) {
   }
 
   const goToPageOne = (nextState, replace) => {
-    console.log('goToPageOne', `${nextState.location.pathname}/1`);
     replace({
       pathname: `${nextState.location.pathname}/1`,
     })
@@ -48,8 +47,9 @@ export default function createRoutes(getState) {
 
 
       <Route component={AdminPage} path="admin">
+
         <Route onEnter={goToPageOne} path="tables/:table" />
-        <Route component={AdminTablePage} path="tables/:table/:activePage" />
+        <Route component={AdminTablePage} path="/admin/tables/:table/:activePage" />
       </Route>
 
 

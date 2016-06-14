@@ -44,22 +44,18 @@ export function bootstrap(tableName) {
 }
 
 export function load(tableName, targetState, nextActivePage = null) {
-  return ({fetch}) => {
+  return (injections) => {
 
-   console.log('admin/actions bootstrap targetState', targetState)
-//    console.log('admin/actions bootstrap targetState.meta.columns.size', targetState.meta.columns.size)
-//
+    console.log('admin/actions load injections', injections)
     const activePage = nextActivePage ? nextActivePage : targetState.activePage
 
     const startItem = ((activePage - 1) * targetState.rangeSize)
     const endItem = (startItem + targetState.rangeSize) - 1
-    console.log('tables/actions load startItem', startItem);
-    console.log('tables/actions load endItem', endItem);
 
     let totalItems = 0
 
     const getPromise = async () => {
-      const response = await fetch(`http://127.0.0.1:3000/${tableName}?order=${targetState.sortBy}`, {
+      const response = await injections.fetch(`http://127.0.0.1:3000/${tableName}?order=${targetState.sortBy}`, {
         method: 'GET',
         headers: {
           'Range-Unit': tableName,
@@ -67,17 +63,10 @@ export function load(tableName, targetState, nextActivePage = null) {
         }
       })
       if (response.status > 399) throw response
-     // console.log('admin/actions load response.headers', response.headers);
-
       //0-10/1025
       const contentRange = response.headers.get('content-range').split('/')
       totalItems = contentRange[1]
-      // const rangeArr = contentRange[0].split('-')
-      // const numPages = Math.ceil(totalItems / rangeArr[1])
-      //  activePage = Math.ceil(((rangeArr[0] + 1) / totalItems) * 100)
       const items = response.json()
-     console.log('tables/actions load getPromise totalItems', totalItems);
-     console.log('tables/actions load getPromise activePage', activePage);
       return items
     }
     return {
