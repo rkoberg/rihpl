@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react'
 //import { FormattedHTMLMessage, defineMessages } from 'react-intl'
 import { Table } from 'react-foundation-components/lib/table'
 // import { Pagination } from 'react-foundation-components/lib/pagination';
-import { Pagination } from '../foundation/pagination';
+import Pagination from '../lib/pagination/Pagination.react';
 
 import { browserHistory } from 'react-router';
 import { push as routerPush } from 'react-router-redux';
@@ -20,19 +20,11 @@ export default class GridTable extends Component {
   }
 
 
-  handleSelect = (activePage) => {
-    // console.log('GridTable handleSelect this.props', this.props)
-    // const {dispatch, history, location, pageTable, tableName} = this.props
-    // console.log('GridTable handleSelect history', history)
-    // console.log('GridTable handleSelect browserHistory', browserHistory)
-    // const pathArr = location.pathname.split('/')
-    // pathArr.pop()
-    // pathArr.push(activePage)
-    // const nextPathname = pathArr.join('/')
-    // location.pathname = nextPathname
-    // dispatch(routerPush(nextPathname))
-    // browserHistory.push(nextPathname)
-    // dispatch(pageTable(tableName, activePage))
+  onPaginationClick = (activePage) => {
+    const {dispatch, location, pageTable, tableName} = this.props
+//    const activePage = parseInt(location.pathname.split('/').pop(), 10)
+    console.log('GridTable onPaginationClick activePage', activePage)
+    dispatch(pageTable(tableName, activePage))
   }
 
   render() {
@@ -40,13 +32,22 @@ export default class GridTable extends Component {
     const {
       table: {
         activePage, currentItems, map, meta, rangeSize, sortBy, totalItems
-      }
+      },
+      tableName
     } = this.props
 
     const numPages = Math.ceil(totalItems / rangeSize)
     const startItem = ((activePage - 1) * rangeSize)
     const endItem = startItem + (rangeSize - 1)
     const iterableCols = meta.columns ? meta.columns.valueSeq() : []
+
+    const paginationOptions = {
+      activePage,
+      maxPages: 9,
+      onPaginationClick: this.onPaginationClick,
+      pathPrefix: `/admin/tables/${tableName}/`,
+      totalPages: numPages,
+    }
 
     return (
       <div className="grid-table-wrapper">
@@ -66,18 +67,19 @@ export default class GridTable extends Component {
         </Table>
 
         {numPages > 1 &&
-        <Pagination
-          activePage={activePage}
-          alignment="center"
-          maxPages={9}
-          numPages={numPages}
-          nextContent="Next"
-          onSelect={this.handleSelect}
-          previousContent="Previous"
-        />
+        <Pagination {...paginationOptions}/>
         }
       </div>
     )
   }
+/*
 
+ activePage={activePage}
+ alignment="center"
+ maxPages={9}
+ numPages={numPages}
+ nextContent="Next"
+ onSelect={this.handleSelect}
+ previousContent="Previous"
+ */
 }

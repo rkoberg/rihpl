@@ -29,6 +29,13 @@ class TablePage extends Component {
     tableName: PropTypes.string.isRequired,
   }
 
+  componentWillMount() {
+    const {dispatch, location, pageTable, tableName} = this.props
+    const activePage = parseInt(location.pathname.split('/').pop(), 10)
+    console.log('GridTable onPaginationClick activePage', activePage)
+    dispatch(pageTable(tableName, activePage))
+  }
+
   render() {
     console.log('TablePage this.props', this.props)
     const { dispatch, history, intl, location, pageTable, table, tableName } = this.props

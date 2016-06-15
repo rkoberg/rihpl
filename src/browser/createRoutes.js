@@ -49,7 +49,7 @@ export default function createRoutes(getState) {
       <Route component={AdminPage} path="admin">
 
         <Route onEnter={goToPageOne} path="tables/:table" />
-        <Route component={AdminTablePage} path="/admin/tables/:table/:activePage" />
+        <Route component={AdminTablePage} path="tables/:table/:activePage" />
       </Route>
 
 

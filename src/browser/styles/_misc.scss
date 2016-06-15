@@ -14,3 +14,16 @@
     padding-right: 0rem;
   }
 }
+
+.pagination {
+  li {
+    font-size: 1.2rem;
+  }
+  input {
+    padding: 0 .5rem;
+  }
+  .pager-active-page {
+    display: inline-block;
+    //width:4rem;
+  }
+}
