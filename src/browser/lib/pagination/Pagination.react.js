@@ -3,8 +3,11 @@ import React, { PropTypes } from 'react'
 //import linksMessages from '../../common/app/linksMessages'
 import { FormattedMessage } from 'react-intl'
 import { Link } from 'react-router'
-//import {reduxForm} from 'redux-form'
+import {reduxForm} from 'redux-form'
 import { browserHistory } from 'react-router'
+
+
+export const fields = [ 'pageNum' ]
 
 class Pagination extends Component {
 
@@ -15,15 +18,12 @@ class Pagination extends Component {
     totalPages: PropTypes.number.isRequired,
   };
 
-  handleSubmit(...rest) {
-    console.log('Pagination handleSubmit', rest);
-//    browserHistory
-  }
-
   render() {
     const {
       activePage,
-//      fields: { pageNum },
+     fields: { pageNum },
+      pagerForm,
+      handleSubmit,
       maxPages, pathPrefix, totalPages
     } = this.props
 
@@ -43,7 +43,7 @@ class Pagination extends Component {
 
 //    {...pageNum}
     return (
-      <form onSubmit={() => this.handleSubmit()}>
+      <form onSubmit={handleSubmit(pagerForm.bind(this))}>
         <ul className="pagination text-center" role="navigation" aria-label="Pagination">
           {activePage === 1 ?
             <li className="pagination-previous disabled" key="prev">Previous</li> :
@@ -56,9 +56,7 @@ class Pagination extends Component {
               maxLength={inputMaxlength}
               style={{width: `${inputWidth}rem`}}
               type="text"
-              onChange={(event) => this.props.activePage = event.target.value}
-              name="activePage"
-              value={activePage}
+              {...pageNum}
             />
             <span className="pager-sep">/</span>
             <span className="pager-total-pages">{totalPages}</span>
@@ -73,10 +71,16 @@ class Pagination extends Component {
     )
   }
 }
+const mapStateToProps = (state, props) => {
+  console.log('Pagination mapStateToProps state.products.activePage', state.products.activePage);
+  return {
+    pageNum: state.products.activePage,
+  }
+};
 
-//Pagination = reduxForm({
-//  form: 'pagination',
-//  fields: ['pageNum']
-//})(Pagination);
-//
+Pagination = reduxForm({
+ form: 'pagination',
+ fields
+})(Pagination);
+
 export default Pagination

@@ -5,8 +5,6 @@ import { Table } from 'react-foundation-components/lib/table'
 // import { Pagination } from 'react-foundation-components/lib/pagination';
 import Pagination from '../lib/pagination/Pagination.react';
 
-import { browserHistory } from 'react-router';
-
 export default class GridTable extends Component {
 
   static propTypes = {
@@ -14,6 +12,13 @@ export default class GridTable extends Component {
     tableName: PropTypes.string.isRequired,
   }
 
+
+  handleSubmit() {
+    console.log('Pagination handleSubmit this.props', this.props);
+//    browserHistory
+
+    return false
+  }
 
   render() {
     const {
@@ -30,7 +35,12 @@ export default class GridTable extends Component {
 
     const paginationOptions = {
       activePage,
+      // fields: {
+      //   pageNum: activePage
+      // },
+      // form: `${tableName}pager`,
       maxPages: 9,
+      pagerForm: this.handleSubmit,
       pathPrefix: `/admin/tables/${tableName}/`,
       tableName,
       totalPages: numPages,
