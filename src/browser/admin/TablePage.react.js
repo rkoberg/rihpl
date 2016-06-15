@@ -5,8 +5,6 @@ import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl'
 
-//import Griddle from 'griddle-react'
-
 import { asyncConnect } from 'redux-connect'
 
 import * as tablesActions from '../../common/tables/actions'
@@ -29,21 +27,11 @@ class TablePage extends Component {
     tableName: PropTypes.string.isRequired,
   }
 
-  componentWillMount() {
-    const {dispatch, location, pageTable, tableName} = this.props
-    const activePage = parseInt(location.pathname.split('/').pop(), 10)
-    console.log('GridTable onPaginationClick activePage', activePage)
-    dispatch(pageTable(tableName, activePage))
-  }
-
   render() {
-    console.log('TablePage this.props', this.props)
-    const { dispatch, history, intl, location, pageTable, table, tableName } = this.props
+    const { intl, table, tableName } = this.props
     const title = intl.formatMessage(adminMessages[tableName])
 
-    const gridTableOptions = {
-      dispatch, history, location, pageTable, table, tableName
-    }
+    const gridTableOptions = {table, tableName}
     return (
       <div className="admin-page wine-sizes-page">
         <Helmet title={title} />
@@ -62,7 +50,6 @@ class TablePage extends Component {
 TablePage = injectIntl(TablePage)
 
 const getTableName = state => {
-//  console.log('asyncConnect getTableName state', state);
   const pathname = state.routing.locationBeforeTransitions.pathname
   const pathArr = pathname.split('/')
   return pathArr[pathArr.length - 2];
@@ -78,17 +65,19 @@ export default asyncConnect([
     {
       promise: ({ store }) => {
         const tableName = getTableName(store.getState())
+        const activePage = parseInt(
+          store.getState().routing.locationBeforeTransitions.pathname.split('/').pop(), 10
+        )
         const targetState = store.getState()[tableName]
         if (!targetState.preloaded)
-          return store.dispatch(tablesActions.load(tableName, targetState))
+          return store.dispatch(tablesActions.load(tableName, targetState, activePage))
         else
-          return true
+          return store.dispatch(tablesActions.pageTable(tableName, targetState, activePage))
       }
     },
   ],
   state => {
     const tableName = getTableName(state)
-//    console.log('asyncConnect tableName', tableName)
     return {
       loading: state.admin.loading,
       message: state.admin.message,

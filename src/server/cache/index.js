@@ -12,7 +12,7 @@ const _cache = {}
 const cacheables = [
   {name: 'types'},
   {name: 'sizes'},
-  // {name: 'regions'},
+  {name: 'regions'},
   {name: '', key: 'tables'},
 ]
 

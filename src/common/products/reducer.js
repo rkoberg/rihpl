@@ -33,7 +33,6 @@ export default function productsReducer(state = new TableInitialState, action) {
 
     case TABLES_LOAD_SUCCESS:
       if (action.meta.key === TABLE_NAME) {
-        console.log('products TABLES_LOAD_SUCCESS action', action)
         const {activePage, items, totalItems} = action.payload
 
         const newMap = Immutable.Map(items.map(item => [item.id, new TableItem(item)]))

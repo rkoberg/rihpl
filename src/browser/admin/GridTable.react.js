@@ -6,32 +6,19 @@ import { Table } from 'react-foundation-components/lib/table'
 import Pagination from '../lib/pagination/Pagination.react';
 
 import { browserHistory } from 'react-router';
-import { push as routerPush } from 'react-router-redux';
 
 export default class GridTable extends Component {
 
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
-    history: PropTypes.object.isRequired,
-    location: PropTypes.object.isRequired,
-    pageTable: PropTypes.func.isRequired,
     table: PropTypes.object.isRequired,
     tableName: PropTypes.string.isRequired,
   }
 
 
-  onPaginationClick = (activePage) => {
-    const {dispatch, location, pageTable, tableName} = this.props
-//    const activePage = parseInt(location.pathname.split('/').pop(), 10)
-    console.log('GridTable onPaginationClick activePage', activePage)
-    dispatch(pageTable(tableName, activePage))
-  }
-
   render() {
-    // console.log('this.props', this.props)
     const {
       table: {
-        activePage, currentItems, map, meta, rangeSize, sortBy, totalItems
+        activePage, currentItems, meta, rangeSize, totalItems
       },
       tableName
     } = this.props
@@ -44,8 +31,8 @@ export default class GridTable extends Component {
     const paginationOptions = {
       activePage,
       maxPages: 9,
-      onPaginationClick: this.onPaginationClick,
       pathPrefix: `/admin/tables/${tableName}/`,
+      tableName,
       totalPages: numPages,
     }
 
@@ -72,14 +59,4 @@ export default class GridTable extends Component {
       </div>
     )
   }
-/*
-
- activePage={activePage}
- alignment="center"
- maxPages={9}
- numPages={numPages}
- nextContent="Next"
- onSelect={this.handleSelect}
- previousContent="Previous"
- */
 }

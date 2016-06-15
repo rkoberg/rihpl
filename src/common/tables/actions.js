@@ -46,7 +46,6 @@ export function bootstrap(tableName) {
 export function load(tableName, targetState, nextActivePage = null) {
   return (injections) => {
 
-    console.log('admin/actions load injections', injections)
     const activePage = nextActivePage ? nextActivePage : targetState.activePage
 
     const startItem = ((activePage - 1) * targetState.rangeSize)
@@ -83,13 +82,8 @@ export function load(tableName, targetState, nextActivePage = null) {
   }
 }
 
-export function pageTable(tableName, activePage) {
-//  console.log('pageTable tableName', tableName);
- console.log('pageTable activePage', activePage);
+export function pageTable(tableName, targetState, activePage) {
   return ({ dispatch, getState }) => {
-
-    const targetState = getState()[tableName]
-
     return {
       type: PAGE_TABLE,
       payload: targetState.preloaded ? null : dispatch(load(tableName, targetState, activePage)),
