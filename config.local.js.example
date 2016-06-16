@@ -1,7 +1,7 @@
 module.exports = {
   api: {
     db: {
-      name: 'fwi',
+      name: 'rihpl',
       user: 'rkoberg',
       password: '',
       startRole: 'rkoberg',
