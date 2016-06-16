@@ -67,7 +67,7 @@ export default class GridTable extends Component {
           <thead>
           <tr>
             {iterableCols.map(col => <th key={col.name}>
-              <Link to={{pathname: `${pathPrefix}1`, query: {sortBy: col.name}}}>{col.name}</Link>
+              <Link to={{pathname: `${pathPrefix}1`, query: {sortBy: `${col.name}.desc`}}}>{col.name}</Link>
             </th>)}
           </tr>
           </thead>

@@ -80,11 +80,11 @@ class AdminPage extends Component {
     const title = intl.formatMessage(adminMessages.title)
 
 //    console.log('tables', tables.map.valueSeq().toJS());
-
+// t a u  q s
     return (
       <Row className="admin-page">
         <Helmet title={title} />
-        <Column small={12} medium={12} large={3} xlarge={2} xxlarge={2}>
+        <Column small={12} medium={12} large={2} xlarge={2} xxlarge={2}>
           <Menu vertical>
             <MenuItem>
               <Link activeClassName="active" to="/admin">
@@ -100,7 +100,7 @@ class AdminPage extends Component {
             ))}
           </Menu>
         </Column>
-        <Column small={12} medium={12} large={9} xlarge={10} xxlarge={10}>
+        <Column small={12} medium={12} large={10} xlarge={10} xxlarge={10}>
           {children ||
           <FormattedHTMLMessage {...messages.intro} />
           }

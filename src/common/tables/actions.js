@@ -43,18 +43,19 @@ export function bootstrap(tableName) {
   }
 }
 
-export function load(tableName, targetState, nextActivePage = null) {
+export function load(tableName, targetState, nextActivePage = null, query = {}) {
   return (injections) => {
 
     const activePage = nextActivePage ? nextActivePage : targetState.activePage
 
     const startItem = ((activePage - 1) * targetState.rangeSize)
     const endItem = (startItem + targetState.rangeSize) - 1
+    const sortBy = query.sortBy || targetState.sortBy
 
     let totalItems = 0
 
     const getPromise = async () => {
-      const response = await injections.fetch(`http://127.0.0.1:3000/${tableName}?order=${targetState.sortBy}`, {
+      const response = await injections.fetch(`http://127.0.0.1:3000/${tableName}?order=${sortBy}`, {
         method: 'GET',
         headers: {
           'Range-Unit': tableName,
@@ -73,7 +74,8 @@ export function load(tableName, targetState, nextActivePage = null) {
       payload: getPromise().then(items => ({
         activePage,
         items,
-        totalItems
+        query,
+        totalItems,
       })),
       meta: {
         key: tableName,
@@ -82,8 +84,8 @@ export function load(tableName, targetState, nextActivePage = null) {
   }
 }
 
-export function pageTable(tableName, targetState, activePage) {
-  return ({ dispatch, getState }) => {
+export function pageTable(tableName, targetState, activePage = null, query = null) {
+  return ({ dispatch }) => {
     return {
       type: PAGE_TABLE,
       payload: targetState.preloaded ? null : dispatch(load(tableName, targetState, activePage)),

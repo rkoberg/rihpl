@@ -33,10 +33,11 @@ export default function productsReducer(state = new TableInitialState, action) {
 
     case TABLES_LOAD_SUCCESS:
       if (action.meta.key === TABLE_NAME) {
-        const {activePage, items, totalItems} = action.payload
+        const {activePage, items, query, totalItems} = action.payload
 
         const newMap = Immutable.Map(items.map(item => [item.id, new TableItem(item)]))
-        const sortBy = state.sortBy || 'name'
+        const sortBy = query.sortBy || state.sortBy || 'name'
+        console.log('TABLES_LOAD_SUCCESS sortBy', sortBy);
 
         return state
           .set('activePage', activePage)

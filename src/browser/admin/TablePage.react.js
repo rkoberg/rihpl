@@ -10,6 +10,7 @@ import { asyncConnect } from 'redux-connect'
 import * as tablesActions from '../../common/tables/actions'
 import adminMessages from '../../common/admin/adminMessages'
 
+import GridFilter from './GridFilter.react'
 import GridTable from './GridTable.react'
 
 class TablePage extends Component {
@@ -34,6 +35,7 @@ class TablePage extends Component {
     const { intl, table, tableName, regions, sizes, types } = this.props
     const title = intl.formatMessage(adminMessages[tableName])
 
+    const gridFilterOptions = {table, tableName, regions, sizes, types}
     const gridTableOptions = {table, tableName, regions, sizes, types}
     return (
       <div className="admin-page wine-sizes-page">
@@ -42,6 +44,7 @@ class TablePage extends Component {
           <FormattedMessage {...adminMessages[tableName]} />
         </h2>
 
+        <GridFilter {...gridFilterOptions}/>
         <GridTable {...gridTableOptions}/>
 
       </div>

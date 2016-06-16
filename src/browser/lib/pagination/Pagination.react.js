@@ -5,7 +5,6 @@ import { FormattedMessage } from 'react-intl'
 import { Link } from 'react-router'
 import {reduxForm} from 'redux-form'
 
-
 export const fields = [ 'pageNum' ]
 
 const submitValidation = (totalPages, pagerForm) => {
