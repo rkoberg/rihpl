@@ -5,7 +5,6 @@ const InitialState = Record({
   formDisabled: false,
   formError: null
 })
-const initialState = new InitialState
 
 export default function authReducer(state = new InitialState, action) {
   if (!(state instanceof InitialState)) return new InitialState(state);

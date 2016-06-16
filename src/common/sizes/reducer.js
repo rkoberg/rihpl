@@ -15,7 +15,7 @@ const TableItem = Immutable.Record({
 export default function sizesReducer(state = new TableInitialState, action) {
 
   if (!(state instanceof TableInitialState)) {
-    return initializeTableState(state, TableItem, true)
+    return initializeTableState(state, TableItem, 'sizes', true)
   }
 
   switch (action.type) {

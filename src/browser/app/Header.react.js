@@ -50,11 +50,6 @@ class Header extends Component {
                   </Link>
                 </MenuItem>
                 <MenuItem>
-                  <Link activeClassName="active" to="/fields">
-                    <FormattedMessage {...linksMessages.fields} />
-                  </Link>
-                </MenuItem>
-                <MenuItem>
                   <Link activeClassName="active" to="/intl">
                     <FormattedMessage {...linksMessages.intl} />
                   </Link>

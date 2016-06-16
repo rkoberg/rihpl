@@ -1,9 +1,11 @@
 import Component from 'react-pure-render/component'
 import React, { PropTypes } from 'react'
-//import { FormattedHTMLMessage, defineMessages } from 'react-intl'
+import { FormattedDate } from 'react-intl'
 import { Table } from 'react-foundation-components/lib/table'
 // import { Pagination } from 'react-foundation-components/lib/pagination';
 import Pagination from '../lib/pagination/Pagination.react';
+import { browserHistory } from 'react-router'
+import { Link } from 'react-router'
 
 export default class GridTable extends Component {
 
@@ -12,12 +14,15 @@ export default class GridTable extends Component {
     tableName: PropTypes.string.isRequired,
   }
 
+//  constructor(props) {
+//    super(props)
+//    this.handleSubmit = this.handleSubmit.bind(this)
+//  }
+
 
   handleSubmit() {
-    console.log('Pagination handleSubmit this.props', this.props);
-//    browserHistory
-
-    return false
+    const {pathPrefix, values: {pageNum}} = this.props
+    browserHistory.push(`${pathPrefix}${pageNum}`)
   }
 
   render() {
@@ -25,25 +30,35 @@ export default class GridTable extends Component {
       table: {
         activePage, currentItems, meta, rangeSize, totalItems
       },
-      tableName
+      tableName,
     } = this.props
+
 
     const numPages = Math.ceil(totalItems / rangeSize)
     const startItem = ((activePage - 1) * rangeSize)
     const endItem = startItem + (rangeSize - 1)
     const iterableCols = meta.columns ? meta.columns.valueSeq() : []
+    const pathPrefix = `/admin/tables/${tableName}/`
 
     const paginationOptions = {
       activePage,
-      // fields: {
-      //   pageNum: activePage
-      // },
-      // form: `${tableName}pager`,
       maxPages: 9,
       pagerForm: this.handleSubmit,
-      pathPrefix: `/admin/tables/${tableName}/`,
+      pathPrefix,
       tableName,
       totalPages: numPages,
+    }
+
+    const cellVal = (row, col) => {
+      const colVal = row[col.name]
+      if (col.references) {
+//        console.log('col.references.table', col.references.table)
+//        console.log('this.props[col.references.table]', this.props[col.references.table])
+        return this.props[col.references.table].map.get(colVal).name
+      } else if (col.type === 'timestamp with time zone') {
+        return <FormattedDate value={colVal}/>
+      }
+      return colVal
     }
 
     return (
@@ -51,13 +66,15 @@ export default class GridTable extends Component {
         <Table>
           <thead>
           <tr>
-            {iterableCols.map(col => <th key={col.name}>{col.name}</th>)}
+            {iterableCols.map(col => <th key={col.name}>
+              <Link to={{pathname: `${pathPrefix}1`, query: {sortBy: col.name}}}>{col.name}</Link>
+            </th>)}
           </tr>
           </thead>
           <tbody>
           {currentItems.map(row =>
             <tr key={row.id}>
-              {iterableCols.map(col => <td key={row.id + col.name}>{row[col.name]}</td>)}
+              {iterableCols.map(col => <td key={row.id + col.name}>{cellVal(row, col)}</td>)}
             </tr>
           )}
           </tbody>

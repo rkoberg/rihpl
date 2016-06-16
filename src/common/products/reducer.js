@@ -22,7 +22,7 @@ const TableItem = Immutable.Record({
 export default function productsReducer(state = new TableInitialState, action) {
 
   if (!(state instanceof TableInitialState)) {
-    return initializeTableState(state, TableItem, false)
+    return initializeTableState(state, TableItem, 'products')
   }
 
   switch (action.type) {

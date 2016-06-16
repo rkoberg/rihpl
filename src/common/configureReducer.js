@@ -9,9 +9,9 @@ import { LOGOUT } from './auth/actions'
 import { UPDATE_APP_STATE_FROM_STORAGE_SUCCESS } from './app/actions'
 import { combineReducers } from 'redux'
 import { reduxFields } from './lib/redux-fields'
-import {reducer as formReducer} from 'redux-form';
 import { routerReducer as routing } from 'react-router-redux'
 
+import {reducer as formReducer} from 'redux-form'
 import { reducer as reduxAsyncConnect } from 'redux-connect'
 
 import app from './app/reducer'

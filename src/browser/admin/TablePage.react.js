@@ -25,13 +25,16 @@ class TablePage extends Component {
     pageTable: PropTypes.func.isRequired,
     table: PropTypes.object.isRequired,
     tableName: PropTypes.string.isRequired,
+    regions: PropTypes.object.isRequired,
+    sizes: PropTypes.object.isRequired,
+    types: PropTypes.object.isRequired
   }
 
   render() {
-    const { intl, table, tableName } = this.props
+    const { intl, table, tableName, regions, sizes, types } = this.props
     const title = intl.formatMessage(adminMessages[tableName])
 
-    const gridTableOptions = {table, tableName}
+    const gridTableOptions = {table, tableName, regions, sizes, types}
     return (
       <div className="admin-page wine-sizes-page">
         <Helmet title={title} />
@@ -64,15 +67,17 @@ export default asyncConnect([
     },
     {
       promise: ({ store }) => {
+//        console.log('TablePage asyncConnect store.getState()', store.getState())
         const tableName = getTableName(store.getState())
+        const loc = store.getState().routing.locationBeforeTransitions
         const activePage = parseInt(
-          store.getState().routing.locationBeforeTransitions.pathname.split('/').pop(), 10
+          loc.pathname.split('/').pop(), 10
         )
         const targetState = store.getState()[tableName]
         if (!targetState.preloaded)
-          return store.dispatch(tablesActions.load(tableName, targetState, activePage))
+          return store.dispatch(tablesActions.load(tableName, targetState, activePage, loc.query))
         else
-          return store.dispatch(tablesActions.pageTable(tableName, targetState, activePage))
+          return store.dispatch(tablesActions.pageTable(tableName, targetState, activePage, loc.query))
       }
     },
   ],
@@ -84,6 +89,10 @@ export default asyncConnect([
       pageTable: tablesActions.pageTable,
       table: state[tableName],
       tableName: tableName,
+
+      regions: state.regions,
+      sizes: state.sizes,
+      types: state.types,
     }
   },
 

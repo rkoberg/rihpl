@@ -1,13 +1,14 @@
-import Component from 'react-pure-render/component'
-import DynamicField from './DynamicField.react.js'
-import Helmet from 'react-helmet'
-import React, { PropTypes } from 'react'
-import buttonsMessages from '../../common/app/buttonsMessages'
-import linksMessages from '../../common/app/linksMessages'
-import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl'
-import { focusInvalidField, ValidationError } from '../../common/lib/validation'
-import { connect } from 'react-redux'
-import { fields } from '../../common/lib/redux-fields'
+import './FieldsPage.scss';
+import Component from 'react-pure-render/component';
+import DynamicField from './DynamicField.react.js';
+import Helmet from 'react-helmet';
+import React, { PropTypes } from 'react';
+import buttonsMessages from '../../common/app/buttonsMessages';
+import linksMessages from '../../common/app/linksMessages';
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
+import { focusInvalidField, ValidationError } from '../../common/lib/validation';
+import { connect } from 'react-redux';
+import { fields } from '../../common/lib/redux-fields';
 
 const messages = defineMessages({
   h2: {
@@ -18,7 +19,7 @@ const messages = defineMessages({
     defaultMessage: 'Something like redux-form but simplified.',
     id: 'fields.page.p'
   }
-})
+});
 
 class FieldsPage extends Component {
 
@@ -31,51 +32,51 @@ class FieldsPage extends Component {
   };
 
   constructor(props) {
-    super(props)
-    this.onFormSubmit = this.onFormSubmit.bind(this)
+    super(props);
+    this.onFormSubmit = this.onFormSubmit.bind(this);
   }
 
   async onFormSubmit(e) {
-    e.preventDefault()
-    const { fields } = this.props
+    e.preventDefault();
+    const { fields } = this.props;
 
     // Disable form.
-    fields.$disabled.setValue(true)
+    fields.$disabled.setValue(true);
 
     // Use Redux action for real usage.
     const exampleAction = async (values) => new Promise((resolve, reject) => {
       if (values.someField.trim()) {
-        setTimeout(resolve, 1000)
-        return
+        setTimeout(resolve, 1000);
+        return;
       }
       setTimeout(() => {
         reject({
           reason: new ValidationError('required', { prop: 'someField' })
-        })
-      }, 1000)
-    })
+        });
+      }, 1000);
+    });
 
     try {
       // For simple flat forms we can use handy fields.$values() helper.
-      const values = fields.$values()
-      console.log(values) // eslint-disable-line no-console
+      const values = fields.$values();
+      console.log(values); // eslint-disable-line no-console
       // For complex nested forms we can get whole model via redux connect.
       // const allValues = this.propsfieldsPageModel && this.propsfieldsPageModel.toJS();
       // console.log(allValues); // eslint-disable-line no-console
-      await exampleAction(values)
+      await exampleAction(values);
     } catch (error) {
-      fields.$disabled.setValue(false)
-      fields.$error.setValue(error.reason)
-      focusInvalidField(this, error.reason)
-      throw error
+      fields.$disabled.setValue(false);
+      fields.$error.setValue(error.reason);
+      focusInvalidField(this, error.reason);
+      throw error;
     }
 
     // Reset all (even nested) fieldsPage fields.
-    fields.$reset()
+    fields.$reset();
   }
 
   render() {
-    const { fields, fieldsPageModel, intl } = this.props
+    const { fields, fieldsPageModel, intl } = this.props;
 
     // Just an example of some dynamically loaded data.
     // cato.org/publications/commentary/key-concepts-libertarianism
@@ -92,7 +93,7 @@ class FieldsPage extends Component {
     ].map((concept, index) => ({
       id: index,
       name: concept,
-    }))
+    }));
 
     return (
       <div className="fields-page">
@@ -184,12 +185,12 @@ class FieldsPage extends Component {
           </fieldset>
         </form>
       </div>
-    )
+    );
   }
 
 }
 
-FieldsPage = injectIntl(FieldsPage)
+FieldsPage = injectIntl(FieldsPage);
 
 FieldsPage = fields(FieldsPage, {
   path: 'fieldsPage',
@@ -208,9 +209,9 @@ FieldsPage = fields(FieldsPage, {
     gender: 'male',
     selectedNumber: '2'
   })
-})
+});
 
-// Connect is not required. It's just a demonstration of reduxFields state.
+// Connect is not required. It's just a demonstration of fields state.
 export default connect(state => ({
-  fieldsPageModel: state.reduxFields.get('fieldsPage')
-}))(FieldsPage)
+  fieldsPageModel: state.fields.get('fieldsPage')
+}))(FieldsPage);

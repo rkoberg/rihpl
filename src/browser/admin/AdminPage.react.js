@@ -93,7 +93,7 @@ class AdminPage extends Component {
             </MenuItem>
             {tables.map.valueSeq().map(table => adminMessages[table.name] && (
             <MenuItem key={table.name}>
-              <Link activeClassName="active" to={`/admin/tables/${table.name}`}>
+              <Link activeClassName="active" to={`/admin/tables/${table.name}/1`}>
                 <FormattedMessage {...adminMessages[table.name]} />
               </Link>
             </MenuItem>

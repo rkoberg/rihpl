@@ -1,7 +1,7 @@
-import Component from 'react-pure-render/component'
-import React, { PropTypes } from 'react'
-import classnames from 'classnames'
-import { fields } from '../../common/lib/redux-fields'
+import Component from 'react-pure-render/component';
+import React, { PropTypes } from 'react';
+import classnames from 'classnames';
+import { fields } from '../../common/lib/redux-fields';
 
 class DynamicField extends Component {
 
@@ -11,12 +11,12 @@ class DynamicField extends Component {
   };
 
   isDirty() {
-    const { fields, item } = this.props
-    return fields.name.value !== item.name
+    const { fields, item } = this.props;
+    return fields.name.value !== item.name;
   }
 
   render() {
-    const { fields } = this.props
+    const { fields } = this.props;
 
     return (
       <div className={classnames('dynamic-field', { 'is-dirty': this.isDirty() })}>
@@ -26,7 +26,7 @@ class DynamicField extends Component {
           type="text"
         />
       </div>
-    )
+    );
   }
 
 }
@@ -35,4 +35,4 @@ export default fields(DynamicField, {
   path: props => ['fieldsPage', 'dynamicFields', props.item.id],
   fields: ['name'],
   getInitialState: props => props.item
-})
+});
