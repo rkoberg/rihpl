@@ -1,14 +1,18 @@
-import fs from 'fs';
-import extend from 'extend';
+const fs = require('fs')
+const path = require('path')
+const extend = require('extend')
 
-let localConfig = false;
+let localConfig = false
+
+const localConfigPath = path.join(__dirname, 'config.local.js')
 
 try {
-  const stats = fs.statSync('./config.local.js');
-  localConfig = require('./config.local.js');
+  const stats = fs.statSync(localConfigPath)
+  localConfig = require(localConfigPath)
 } catch (err) {
+  console.log('localConfig err', err)
   if(err.code == 'ENOENT')
-    localConfig = false;
+    localConfig = false
 }
 
 const defaultConfig = {
@@ -27,8 +31,10 @@ const defaultConfig = {
     port: 8000,
     host: '127.0.0.1',
   }
-};
+}
 
-export default localConfig ?
+const config = localConfig ?
   extend(true, {}, defaultConfig, localConfig) :
-  defaultConfig;
+  defaultConfig
+
+module.exports = config

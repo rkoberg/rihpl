@@ -1,7 +1,10 @@
 
-import config from '../config.js'
 
-export default {
+const config = require('../config.js')
+
+console.log('knexfile config', config)
+
+module.exports = {
 
   development: {
     client: 'pg',
@@ -15,13 +18,17 @@ export default {
     },
     seeds: {
       directory: './seeds'
+    },
+    pool: {
+      min: 2,
+      max: 10
     }
   },
 
   staging: {
     client: 'pg',
     connection: {
-      database: 'fwi',
+      database: 'rihpl',
       user: 'username',
       password: 'password'
     },
@@ -37,7 +44,7 @@ export default {
   production: {
     client: 'pg',
     connection: {
-      database: 'fwi',
+      database: 'rihpl',
       user: 'username',
       password: 'password'
     },
