@@ -1,13 +1,13 @@
-import Component from 'react-pure-render/component'
-import LoginError from './LoginError.react'
-import React, { PropTypes } from 'react'
-import buttonsMessages from '../../common/app/buttonsMessages'
-import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl'
-import { browserHistory, locationShape } from 'react-router'
-import { connect } from 'react-redux'
-import { fields } from '../../common/lib/redux-fields'
-import { focusInvalidField } from '../../common/lib/validation'
-import { login } from '../../common/auth/actions'
+import Component from 'react-pure-render/component';
+import LoginError from './LoginError.react';
+import React, { PropTypes } from 'react';
+import buttonsMessages from '../../common/app/buttonsMessages';
+import { FormattedMessage, defineMessages } from 'react-intl';
+import { browserHistory, locationShape } from 'react-router';
+import { connect } from 'react-redux';
+import { fields } from '../../common/lib/redux-fields';
+import { focusInvalidField } from '../../common/lib/validation';
+import { login } from '../../common/auth/actions';
 
 const messages = defineMessages({
   emailPlaceholder: {
@@ -26,46 +26,42 @@ const messages = defineMessages({
     defaultMessage: 'password',
     id: 'auth.login.passwordPlaceholder'
   }
-})
+});
 
 class Login extends Component {
 
   static propTypes = {
     auth: PropTypes.object.isRequired,
     fields: PropTypes.object.isRequired,
-    intl: intlShape.isRequired,
     location: locationShape,
     login: PropTypes.func.isRequired
   };
 
   constructor(props) {
-    super(props)
-    this.onFormSubmit = this.onFormSubmit.bind(this)
+    super(props);
+    this.onFormSubmit = this.onFormSubmit.bind(this);
   }
 
   async onFormSubmit(e) {
-    e.preventDefault()
-    const { login, fields } = this.props
+    e.preventDefault();
+    const { login, fields } = this.props;
     try {
-      await login(fields.$values())
+      await login(fields.$values());
     } catch (error) {
-      focusInvalidField(this, error.reason)
-      throw error
+      focusInvalidField(this, error.reason);
+      throw error;
     }
-    this.redirectAfterLogin()
+    this.redirectAfterLogin();
   }
 
   redirectAfterLogin() {
-    const { location } = this.props
-    const nextPathname = location.state && location.state.nextPathname || '/'
-    browserHistory.replace(nextPathname)
+    const { location } = this.props;
+    const nextPathname = location.state && location.state.nextPathname || '/';
+    browserHistory.replace(nextPathname);
   }
 
   render() {
-    const { auth, fields } = this.props
-    const { intl } = this.props
-    const emailPlaceholder = intl.formatMessage(messages.emailPlaceholder)
-    const passwordPlaceholder = intl.formatMessage(messages.passwordPlaceholder)
+    const { auth, fields } = this.props;
 
     return (
       <div className="login">
@@ -74,18 +70,22 @@ class Login extends Component {
             <legend>
               <FormattedMessage {...messages.formLegend} />
             </legend>
-            <input
-              {...fields.email}
-              maxLength="100"
-              placeholder={emailPlaceholder}
-            />
+            <FormattedMessage {...messages.emailPlaceholder}>
+              {message => <input
+                {...fields.email}
+                maxLength="100"
+                placeholder={message}
+              />}
+            </FormattedMessage>
             <br />
-            <input
-              {...fields.password}
-              maxLength="300"
-              placeholder={passwordPlaceholder}
-              type="password"
-            />
+            <FormattedMessage {...messages.passwordPlaceholder}>
+              {message => <input
+                {...fields.password}
+                maxLength="300"
+                placeholder={message}
+                type="password"
+              />}
+            </FormattedMessage>
             <br />
             <button type="submit">
               <FormattedMessage {...buttonsMessages.login} />
@@ -97,7 +97,7 @@ class Login extends Component {
           </fieldset>
         </form>
       </div>
-    )
+    );
   }
 
 }
@@ -105,10 +105,8 @@ class Login extends Component {
 Login = fields(Login, {
   path: 'auth',
   fields: ['email', 'password']
-})
-
-Login = injectIntl(Login)
+});
 
 export default connect(state => ({
   auth: state.auth
-}), { login })(Login)
+}), { login })(Login);

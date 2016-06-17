@@ -1,4 +1,4 @@
-import { defineMessages } from 'react-intl'
+import { defineMessages } from 'react-intl';
 
 export default defineMessages({
   title: {
@@ -21,4 +21,4 @@ export default defineMessages({
     defaultMessage: 'Products',
     id: 'app.admin.products'
   }
-})
+});

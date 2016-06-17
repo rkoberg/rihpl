@@ -2,7 +2,7 @@ import createLoggerMiddleware from 'redux-logger';
 import promiseMiddleware from 'redux-promise-middleware';
 
 // Deps
-//import Firebase from 'firebase';
+// import Firebase from 'firebase';
 import fetch from 'isomorphic-fetch';
 import shortid from 'shortid';
 import validate from './validate';

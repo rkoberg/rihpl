@@ -1,9 +1,9 @@
-import Component from 'react-pure-render/component'
-import React, { PropTypes } from 'react'
-import { IntlProvider } from 'react-intl'
-import { connect } from 'react-redux'
-import { logout } from '../auth/actions'
-import { updateAppStateFromStorage } from './actions'
+import Component from 'react-pure-render/component';
+import React, { PropTypes } from 'react';
+import { IntlProvider } from 'react-intl';
+import { connect } from 'react-redux';
+import { logout } from '../auth/actions';
+import { updateAppStateFromStorage } from './actions';
 
 export default function start(Wrapped) {
   class Start extends Component {
@@ -14,16 +14,16 @@ export default function start(Wrapped) {
     };
 
     componentDidMount() {
-      const { dispatch } = this.props
+      const { dispatch } = this.props;
       // Client side changes must be dispatched after componentDidMount, aka
       // the first app render, to match client and server HTML. Otherwise,
       // React attempt to reuse markup will fail.
-      dispatch(updateAppStateFromStorage())
+      dispatch(updateAppStateFromStorage());
     }
 
     render() {
-      const { intl } = this.props
-      const { currentLocale, defaultLocale, initialNow, messages } = intl
+      const { intl } = this.props;
+      const { currentLocale, defaultLocale, initialNow, messages } = intl;
 
       return (
         <IntlProvider
@@ -35,14 +35,14 @@ export default function start(Wrapped) {
         >
           <Wrapped {...this.props} />
         </IntlProvider>
-      )
+      );
     }
 
   }
 
   Start = connect(state => ({
     intl: state.intl
-  }))(Start)
+  }))(Start);
 
-  return Start
+  return Start;
 }

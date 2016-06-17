@@ -1,4 +1,4 @@
-import { defineMessages } from 'react-intl'
+import { defineMessages } from 'react-intl';
 
 export default defineMessages({
   add100: {
@@ -13,4 +13,4 @@ export default defineMessages({
     defaultMessage: 'Clear Completed',
     id: 'todos.buttons.clearCompleted'
   }
-})
+});

@@ -1,6 +1,6 @@
-import Component from 'react-pure-render/component'
-import React from 'react'
-import { FormattedHTMLMessage, defineMessages } from 'react-intl'
+import Component from 'react-pure-render/component';
+import React from 'react';
+import { FormattedHTMLMessage, defineMessages } from 'react-intl';
 
 // Messages collocation ftw.
 // https://github.com/yahoo/react-intl/wiki/API#definemessages
@@ -9,7 +9,7 @@ const messages = defineMessages({
     defaultMessage: 'Made with love by magic',
     id: 'footer.madeByHtml'
   }
-})
+});
 
 export default class Footer extends Component {
 
@@ -20,7 +20,7 @@ export default class Footer extends Component {
           <FormattedHTMLMessage {...messages.madeByHtml} />
         </p>
       </footer>
-    )
+    );
   }
 
 }

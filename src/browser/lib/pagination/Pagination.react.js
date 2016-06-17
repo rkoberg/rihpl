@@ -1,28 +1,28 @@
-import Component from 'react-pure-render/component'
-import React, { PropTypes } from 'react'
-//import linksMessages from '../../common/app/linksMessages'
-import { FormattedMessage } from 'react-intl'
-import { Link } from 'react-router'
-import {reduxForm} from 'redux-form'
+import Component from 'react-pure-render/component';
+import React, { PropTypes } from 'react';
+// import linksMessages from '../../common/app/linksMessages'
+import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router';
+import { reduxForm } from 'redux-form';
 
-export const fields = [ 'pageNum' ]
+export const fields = ['pageNum'];
 
 const submitValidation = (totalPages, pagerForm) => {
   return (values, dispatch) => {
     return new Promise((resolve, reject) => {
       if (!values.pageNum)
-        reject({pageNum: 'The page number is required'})
+        reject({ pageNum: 'The page number is required' });
 
-      const pageNum = Number(values.pageNum)
+      const pageNum = Number(values.pageNum);
       if (pageNum === NaN || !(pageNum > 0 && pageNum <= totalPages))
-        reject({pageNum: `The page number must be a number from 1 to ${totalPages}`})
+        reject({ pageNum: `The page number must be a number from 1 to ${totalPages}` });
       else {
-        dispatch(pagerForm)
-        resolve()
+        dispatch(pagerForm);
+        resolve();
       }
-    })
-  }
-}
+    });
+  };
+};
 
 
 class Pagination extends Component {
@@ -41,17 +41,17 @@ class Pagination extends Component {
       pagerForm,
       handleSubmit,
       maxPages, pathPrefix, totalPages
-    } = this.props
+    } = this.props;
 
-    let inputMaxlength = 1
+    let inputMaxlength = 1;
     if (totalPages > 9 && totalPages < 100)
-      inputMaxlength = 2
+      inputMaxlength = 2;
     if (totalPages > 99 && totalPages < 1000)
-      inputMaxlength = 3
+      inputMaxlength = 3;
     if (totalPages > 999 && totalPages < 10000)
-      inputMaxlength = 4
+      inputMaxlength = 4;
 
-    let inputWidth = inputMaxlength === 1 ? 2 : inputMaxlength
+    let inputWidth = inputMaxlength === 1 ? 2 : inputMaxlength;
 
     return (
       <form onSubmit={handleSubmit(submitValidation(totalPages, pagerForm.bind(this)))}>
@@ -65,7 +65,7 @@ class Pagination extends Component {
             <input
               className="pager-active-page"
               maxLength={inputMaxlength}
-              style={{width: `${inputWidth}rem`}}
+              style={{ width: `${inputWidth}rem` }}
               type="text"
               {...pageNum}
             />
@@ -82,22 +82,22 @@ class Pagination extends Component {
         {pageNum.touched && pageNum.error &&
         <div className="alert callout">{pageNum.error}</div>}
       </form>
-    )
+    );
   }
 }
 const mapStateToProps = (state, props) => {
-  const {tableName} = props
+  const { tableName } = props;
 
   return {
     initialValues: {
       pageNum: state[tableName].activePage
     },
-  }
+  };
 };
 
 Pagination = reduxForm({
- form: 'pagination',
- fields
+  form: 'pagination',
+  fields
 }, mapStateToProps)(Pagination);
 
-export default Pagination
+export default Pagination;

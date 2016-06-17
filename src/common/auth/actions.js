@@ -1,10 +1,10 @@
-import ValidationError from '../lib/validation/ValidationError'
-import { browserHistory } from 'react-router'
+import ValidationError from '../lib/validation/ValidationError';
+import { browserHistory } from 'react-router';
 
-export const LOGIN_ERROR = 'LOGIN_ERROR'
-export const LOGIN_START = 'LOGIN_START'
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
-export const LOGOUT = 'LOGOUT'
+export const LOGIN_ERROR = 'LOGIN_ERROR';
+export const LOGIN_START = 'LOGIN_START';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGOUT = 'LOGOUT';
 
 export function login(fields) {
   return ({ fetch, validate }) => {
@@ -18,47 +18,47 @@ export function login(fields) {
           .prop('password')
             .required()
             .simplePassword()
-          .promise
+          .promise;
         // Simulate response for server-less (Firebase hosting) example.
         if (process.env.IS_SERVERLESS) {
           return {
             email: fields.email,
             id: Date.now()
-          }
+          };
         }
         // Naive API fetch example.
         const response = await fetch('/api/v1/auth/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(fields)
-        })
-        if (response.status !== 200) throw response
-        return response.json()
+        });
+        if (response.status !== 200) throw response;
+        return response.json();
       } catch (error) {
         // HTTP status to ValidationError.
         if (error.status === 401) {
-          throw new ValidationError('wrongPassword', { prop: 'password' })
+          throw new ValidationError('wrongPassword', { prop: 'password' });
         }
-        throw error
+        throw error;
       }
-    }
+    };
 
     return {
       type: 'LOGIN',
       payload: getPromise()
-    }
-  }
+    };
+  };
 }
 
 export function logout() {
   return ({ engine }) => {
     // Always redirect to home first to ensure valid view state after logout.
     if (process.env.IS_BROWSER) {
-      browserHistory.replace('/')
+      browserHistory.replace('/');
     }
-    engine.save({}) // Always reset client storage.
+    engine.save({}); // Always reset client storage.
     return {
       type: LOGOUT
-    }
-  }
+    };
+  };
 }

@@ -1,24 +1,24 @@
 
-import Component from 'react-pure-render/component'
-import Helmet from 'react-helmet'
-import React, { PropTypes } from 'react'
-import { connect } from 'react-redux'
-import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl'
-import { Table } from 'react-foundation-components/lib/table'
+import Component from 'react-pure-render/component';
+import Helmet from 'react-helmet';
+import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
+import { Table } from 'react-foundation-components/lib/table';
 
-import Griddle from 'griddle-react'
+import Griddle from 'griddle-react';
 
-import { asyncConnect } from 'redux-connect'
+import { asyncConnect } from 'redux-connect';
 
-import * as adminActions from '../../common/admin/actions'
-import adminMessages from '../../common/admin/adminMessages'
+import * as adminActions from '../../common/admin/actions';
+import adminMessages from '../../common/admin/adminMessages';
 
-//const messages = defineMessages({
+// const messages = defineMessages({
 //  title: {
 //    defaultMessage: 'Wine Sizes',
 //    id: 'admin.sizes.title'
 //  }
-//})
+// })
 
 class RecordFormPage extends Component {
 
@@ -33,8 +33,8 @@ class RecordFormPage extends Component {
   };
 
   render() {
-    const { intl, rows } = this.props
-    const title = intl.formatMessage(messages.title)
+    const { intl, rows } = this.props;
+    const title = intl.formatMessage(messages.title);
 
     return (
       <div className="admin-page wine-sizes-page">
@@ -50,38 +50,38 @@ class RecordFormPage extends Component {
           showFilter
           showSettings
           tableClassName="griddle-table"
-          useFixedHeader={true}
+          useFixedHeader
         />
       </div>
-    )
+    );
   }
 
 }
 
-RecordFormPage = injectIntl(RecordFormPage)
+RecordFormPage = injectIntl(RecordFormPage);
 
 export default asyncConnect([
-    {
-      promise: ({ store }) => store.dispatch(adminActions.bootstrap(store)),
-    },
-  ],
+  {
+    promise: ({ store }) => store.dispatch(adminActions.bootstrap(store)),
+  },
+],
   state => {
-    const pathname = state.routing.locationBeforeTransitions.pathname
+    const pathname = state.routing.locationBeforeTransitions.pathname;
     const tableName = pathname.split('/').pop();
     return {
       loading: state.admin.loading,
       message: state.admin.message,
       rows: state[tableName],
       meta: state.app[tableName],
-    }
+    };
   },
 
   adminActions
 
-)(RecordFormPage)
+)(RecordFormPage);
 
-//export default connect(state => ({
+// export default connect(state => ({
 //  loading: state.admin.loading,
 //  message: state.admin.message,
 //  sizes: state.sizes,
-//}))(SizesPage)
+// }))(SizesPage)

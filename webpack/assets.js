@@ -1,4 +1,4 @@
-import * as plugin from 'webpack-isomorphic-tools/plugin'
+import * as plugin from 'webpack-isomorphic-tools/plugin';
 
 export default {
   assets: {
@@ -19,18 +19,18 @@ export default {
       filter(module, regex, options, log) {
         return options.development
           ? plugin.style_loader_filter(module, regex, options, log)
-          : regex.test(module.name)
+          : regex.test(module.name);
       },
       path(module, options, log) {
         return options.development
           ? plugin.style_loader_path_extractor(module, options, log)
-          : module.name
+          : module.name;
       },
       parser(module, options, log) {
         return options.development
           ? plugin.css_modules_loader_parser(module, options, log)
-          : module.source
+          : module.source;
       }
     }
   }
-}
+};

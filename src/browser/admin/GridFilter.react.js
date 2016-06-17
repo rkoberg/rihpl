@@ -1,16 +1,16 @@
-import Component from 'react-pure-render/component'
-import React, { PropTypes } from 'react'
-import { FormattedDate } from 'react-intl'
+import Component from 'react-pure-render/component';
+import React, { PropTypes } from 'react';
+import { FormattedDate } from 'react-intl';
 import { Accordion, AccordionItem } from 'react-foundation-components/lib/accordion';
-import { browserHistory } from 'react-router'
-import { Link } from 'react-router'
+import { browserHistory } from 'react-router';
+import { Link } from 'react-router';
 
 
 import { Row, Column } from 'react-foundation-components/lib/grid';
 import { ShowForScreenSize, ShowOnlyForScreenSize } from 'react-foundation-components/lib/visibility';
 
-import { Button } from 'react-foundation-components/lib/button'
-import { ButtonGroup } from 'react-foundation-components/lib/button-group'
+import { Button } from 'react-foundation-components/lib/button';
+import { ButtonGroup } from 'react-foundation-components/lib/button-group';
 import {
   FormField,
   FormFieldButton,
@@ -19,11 +19,11 @@ import {
   FormFieldInline,
   FormFieldInput,
   FormFieldLabel,
-} from 'react-foundation-components/lib/forms'
+} from 'react-foundation-components/lib/forms';
 
-import {reduxForm} from 'redux-form'
+import { reduxForm } from 'redux-form';
 
-export const fields = [ 'name' ]
+export const fields = ['name'];
 
 export default class GridFilter extends Component {
 
@@ -40,14 +40,14 @@ export default class GridFilter extends Component {
     const {
       table,
       tableName,
-    } = this.props
+    } = this.props;
 
     const {
       activePage, currentItems, meta, rangeSize, totalItems,
       regions, sizes, types,
-    } = table
+    } = table;
 
-    let activeKey = 0
+    let activeKey = 0;
 
     // error={this.state.error}
     return (
@@ -104,6 +104,6 @@ export default class GridFilter extends Component {
           </AccordionItem>
         </Accordion>
       </div>
-    )
+    );
   }
 }

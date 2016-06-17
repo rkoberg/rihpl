@@ -1,5 +1,5 @@
 
-import Immutable from 'immutable'
+import Immutable from 'immutable';
 
 const MetaColumnDef = Immutable.Record({
   references: null,
@@ -13,12 +13,12 @@ const MetaColumnDef = Immutable.Record({
   enum: Immutable.List(),
   nullable: false,
   position: 0
-})
+});
 
 const MetaTableDef = Immutable.Record({
   pkey: Immutable.List(),
   columns: Immutable.Map(),
-})
+});
 
 export const TableInitialState = Immutable.Record({
   activePage: 1,
@@ -31,7 +31,7 @@ export const TableInitialState = Immutable.Record({
   sortBy: 'name',
   sortOrder: 'asc',
   totalItems: 0,
-})
+});
 
 export const setMeta = metaJson => metaJson ?
   MetaTableDef({
@@ -41,28 +41,28 @@ export const setMeta = metaJson => metaJson ?
       Immutable.List(metaJson.columns.map(col => MetaColumnDef(col))) :
       Immutable.List()
   }) :
-  MetaTableDef()
+  MetaTableDef();
 
 export const initializeTableState = (state, tableItem, tableName, isPreloaded = false) => {
 
-  const activePage = state.activePage || 1
-  const sortBy = state.sortBy || 'name'
-  const rangeSize = state.rangeSize || 10
+  const activePage = state.activePage || 1;
+  const sortBy = state.sortBy || 'name';
+  const rangeSize = state.rangeSize || 10;
 
-  const startNum = isPreloaded ? ((activePage - 1) * rangeSize) : 0
-  const endNum = startNum + rangeSize
+  const startNum = isPreloaded ? ((activePage - 1) * rangeSize) : 0;
+  const endNum = startNum + rangeSize;
 
-  const newMap = Immutable.Map(state.map)
+  const newMap = Immutable.Map(state.map);
   const currentItems = newMap
     .valueSeq()
     .sort((a, b) => {
-      const aVal = a[sortBy]
-      const bVal = b[sortBy]
+      const aVal = a[sortBy];
+      const bVal = b[sortBy];
       if (aVal == bVal)
-        return 0
-      return a[sortBy] > b[sortBy] ? 1 : -1
+        return 0;
+      return a[sortBy] > b[sortBy] ? 1 : -1;
     })
-    .slice(startNum, endNum)
+    .slice(startNum, endNum);
 
   return new TableInitialState()
     .set('activePage', activePage)
@@ -73,25 +73,25 @@ export const initializeTableState = (state, tableItem, tableName, isPreloaded = 
     .set('preloaded', isPreloaded)
     .set('rangeSize', rangeSize)
     .set('sortBy', sortBy)
-    .set('totalItems', state.totalItems || Object.keys(state.map).length)
-}
+    .set('totalItems', state.totalItems || Object.keys(state.map).length);
+};
 
 export const setupPageTable = (state, activePage, totalItems) => {
-  const sortBy = state.sortBy || 'name'
-  const startNum = ((activePage - 1) * state.rangeSize)
-  const endNum = startNum + state.rangeSize
+  const sortBy = state.sortBy || 'name';
+  const startNum = ((activePage - 1) * state.rangeSize);
+  const endNum = startNum + state.rangeSize;
   return state
     .set('activePage', activePage)
     .set('totalItems', totalItems || state.totalItems)
     .set('currentItems', state.map
       .valueSeq()
       .sort((a, b) => {
-        const aVal = a[sortBy]
-        const bVal = b[sortBy]
+        const aVal = a[sortBy];
+        const bVal = b[sortBy];
         if (aVal == bVal)
-          return 0
-        return a[sortBy] > b[sortBy] ? 1 : -1
+          return 0;
+        return a[sortBy] > b[sortBy] ? 1 : -1;
       })
       .slice(startNum, endNum)
-    )
-}
+    );
+};

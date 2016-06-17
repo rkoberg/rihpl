@@ -1,11 +1,11 @@
-import Buttons from './Buttons.react'
-import Component from 'react-pure-render/component'
-import Helmet from 'react-helmet'
-import NewTodo from './NewTodo.react'
-import React from 'react'
-import Todos from './Todos.react'
-import linksMessages from '../../common/app/linksMessages'
-import { injectIntl, intlShape } from 'react-intl'
+import Buttons from './Buttons.react';
+import Component from 'react-pure-render/component';
+import Helmet from 'react-helmet';
+import NewTodo from './NewTodo.react';
+import React from 'react';
+import Todos from './Todos.react';
+import linksMessages from '../../common/app/linksMessages';
+import { injectIntl, intlShape } from 'react-intl';
 
 class TodosPage extends Component {
 
@@ -14,8 +14,8 @@ class TodosPage extends Component {
   };
 
   render() {
-    const { intl } = this.props
-    const title = intl.formatMessage(linksMessages.todos)
+    const { intl } = this.props;
+    const title = intl.formatMessage(linksMessages.todos);
 
     return (
       <div className="todos-page">
@@ -24,9 +24,9 @@ class TodosPage extends Component {
         <Todos />
         <Buttons />
       </div>
-    )
+    );
   }
 
 }
 
-export default injectIntl(TodosPage)
+export default injectIntl(TodosPage);

@@ -1,4 +1,4 @@
-import del from 'del'
-import gulp from 'gulp'
+import del from 'del';
+import gulp from 'gulp';
 
-gulp.task('clean', () => del('build/*'))
+gulp.task('clean', () => del('build/*'));

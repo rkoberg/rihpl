@@ -1,27 +1,27 @@
-import '../styles/main.scss'
+import '../styles/main.scss';
 
-import Component from 'react-pure-render/component'
+import Component from 'react-pure-render/component';
 
-import Immutable from 'immutable'
+import Immutable from 'immutable';
 
 // import { ReduxAsyncConnect, asyncConnect, reducer as reduxAsyncConnect } from 'redux-connect'
 
-import Footer from './Footer.react'
-import Header from './Header.react'
-import Helmet from 'react-helmet'
-import React, { PropTypes } from 'react'
-import favicon from '../../common/app/favicon'
-import start from '../../common/app/start'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { locationShape } from 'react-router'
+import Footer from './Footer.react';
+import Header from './Header.react';
+import Helmet from 'react-helmet';
+import React, { PropTypes } from 'react';
+import favicon from '../../common/app/favicon';
+import start from '../../common/app/start';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { locationShape } from 'react-router';
 
 import { Row, Column } from 'react-foundation-components/lib/grid';
 import { ShowForScreenSize, ShowOnlyForScreenSize } from 'react-foundation-components/lib/visibility';
 
-import { asyncConnect } from 'redux-connect'
+import { asyncConnect } from 'redux-connect';
 
-import * as AppActionCreators from '../../common/app/actions'
+import * as AppActionCreators from '../../common/app/actions';
 // import Size from '../../server/model/sizes'
 
 // v4-alpha.getbootstrap.com/getting-started/introduction/#starter-template
@@ -35,7 +35,7 @@ const bootstrap4Metas = [
     'http-equiv': 'x-ua-compatible',
     content: 'ie=edge'
   }
-]
+];
 
 class App extends Component {
 
@@ -46,7 +46,7 @@ class App extends Component {
   };
 
   render() { // .app.sizes.toJS()
-    const { children, currentLocale, location } = this.props
+    const { children, currentLocale, location } = this.props;
 
     return (
       <div className="container">
@@ -74,19 +74,19 @@ class App extends Component {
         </Row>
         <Footer />
       </div>
-    )
+    );
   }
 
 }
 
-App = start(App)
+App = start(App);
 
 export default asyncConnect([
-  
+
 ],
   state => ({
     currentLocale: state.intl.currentLocale,
     sizes: state.sizes
   })
 
-)(App)
+)(App);

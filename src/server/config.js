@@ -1,10 +1,10 @@
 
 
 // www.andrewsouthpaw.com/2015/02/08/environment-variables/
-import nconf from 'nconf'
+import nconf from 'nconf';
 
 // Use less-terrible separator character, stackoverflow.com/questions/25017495
-nconf.env('__')
+nconf.env('__');
 
 // For local development with secrets. Check src/common/_secrets.json file.
 // nconf.file('src/common/secrets.json');
@@ -24,6 +24,6 @@ nconf.defaults({
 
   apiBaseUrl: `${process.env.API_SCHEME || 'http'}://${process.env.API_HOST || '127.0.0.1'}:${process.env.API_PORT || 3000}`,
 
-})
+});
 
-export default nconf.get()
+export default nconf.get();

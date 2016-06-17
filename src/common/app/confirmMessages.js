@@ -1,4 +1,4 @@
-import { defineMessages } from 'react-intl'
+import { defineMessages } from 'react-intl';
 
 export default defineMessages({
   areYouSure: {
@@ -9,4 +9,4 @@ export default defineMessages({
     defaultMessage: 'You have unsaved changes. Are you sure?',
     id: 'app.confirm.unsavedChanges'
   }
-})
+});

@@ -11,16 +11,16 @@ import { UPDATE_APP_STATE_FROM_STORAGE_SUCCESS } from './app/actions';
 import { combineReducers } from 'redux';
 import { routerReducer as routing } from 'react-router-redux';
 
-import {reducer as formReducer} from 'redux-form'
-import { reducer as reduxAsyncConnect } from 'redux-connect'
+import { reducer as formReducer } from 'redux-form';
+import { reducer as reduxAsyncConnect } from 'redux-connect';
 
-import sizes from './sizes/reducer'
-import types from './types/reducer'
-import regions from './regions/reducer'
-import products from './products/reducer'
+import sizes from './sizes/reducer';
+import types from './types/reducer';
+import regions from './regions/reducer';
+import products from './products/reducer';
 
-import tables from './tables/reducer'
-import admin from './admin/reducer'
+import tables from './tables/reducer';
+import admin from './admin/reducer';
 
 // Reset app state on logout, stackoverflow.com/q/35622588/233902.
 const resetOnLogout = (reducer, initialState) => (state, action) => {
@@ -30,10 +30,10 @@ const resetOnLogout = (reducer, initialState) => (state, action) => {
       device: initialState.device,
       intl: initialState.intl,
       routing: state.routing // Note routing state has to be reused.
-    }
+    };
   }
-  return reducer(state, action)
-}
+  return reducer(state, action);
+};
 
 // Update app state from localStorage / AsyncStorage.
 const updateAppStateFromStorage = reducer => (state, action) => {
@@ -47,11 +47,11 @@ const updateAppStateFromStorage = reducer => (state, action) => {
           ...state[appFeature].toJS(),
           ...appStateFromStorage[appFeature]
         }
-      }
-    })
+      };
+    });
   }
-  return reducer(state, action)
-}
+  return reducer(state, action);
+};
 
 export default function configureReducer(initialState, platformReducers) {
   let reducer = combineReducers({
@@ -75,11 +75,11 @@ export default function configureReducer(initialState, platformReducers) {
     products,
     tables,
     admin,
-  })
+  });
 
   // The power of higher-order reducers, http://slides.com/omnidan/hor
-  reducer = resetOnLogout(reducer, initialState)
-  reducer = updateAppStateFromStorage(reducer)
+  reducer = resetOnLogout(reducer, initialState);
+  reducer = updateAppStateFromStorage(reducer);
 
-  return reducer
+  return reducer;
 }

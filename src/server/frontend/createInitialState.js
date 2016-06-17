@@ -1,7 +1,7 @@
-import config from '../config'
-import loadMessages from '../intl/loadMessages'
+import config from '../config';
+import loadMessages from '../intl/loadMessages';
 
-const messages = loadMessages()
+const messages = loadMessages();
 
 export default function createInitialState() {
   return {
@@ -18,5 +18,5 @@ export default function createInitialState() {
       locales: config.locales,
       messages
     }
-  }
+  };
 }

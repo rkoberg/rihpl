@@ -1,18 +1,18 @@
-import Component from 'react-pure-render/component'
-import Helmet from 'react-helmet'
-import React, { PropTypes } from 'react'
-import { Link } from 'react-router'
-import { connect } from 'react-redux'
+import Component from 'react-pure-render/component';
+import Helmet from 'react-helmet';
+import React, { PropTypes } from 'react';
+import { Link } from 'react-router';
+import { connect } from 'react-redux';
 import {
   FormattedHTMLMessage,
   FormattedMessage,
   defineMessages,
   injectIntl,
   intlShape
-} from 'react-intl'
+} from 'react-intl';
 
 
-import { Menu, MenuItem } from 'react-foundation-components/lib/menu'
+import { Menu, MenuItem } from 'react-foundation-components/lib/menu';
 // import {
 //  Menu as FlexMenu,
 //  MenuItem as FlexMenuItem,
@@ -22,13 +22,13 @@ import {
   OffCanvas,
   OffCanvasContent,
   OffCanvasContainer,
-} from 'react-foundation-components/lib/off-canvas'
+} from 'react-foundation-components/lib/off-canvas';
 import {
   TitleBar,
   TitleBarItem,
   TitleBarTitle,
   TitleBarMenuIcon,
-} from 'react-foundation-components/lib/title-bar'
+} from 'react-foundation-components/lib/title-bar';
 // import {
 //  TitleBar as FlexTitleBar,
 //  TitleBarItem as FlexTitleBarItem,
@@ -43,10 +43,10 @@ import {
 } from 'react-foundation-components/lib/visibility';
 
 
-import { asyncConnect } from 'redux-connect'
+import { asyncConnect } from 'redux-connect';
 
-import * as adminActions from '../../common/admin/actions'
-import adminMessages from '../../common/admin/adminMessages'
+import * as adminActions from '../../common/admin/actions';
+import adminMessages from '../../common/admin/adminMessages';
 // import linksMessages from '../../common/app/linksMessages'
 
 // import AdminWrapper from './AdminWrapper.react.js';
@@ -62,7 +62,7 @@ const messages = defineMessages({
     `,
     id: 'admin.intro'
   }
-})
+});
 
 class AdminPage extends Component {
 
@@ -75,8 +75,8 @@ class AdminPage extends Component {
   };
 
   render() {
-    const { children, intl, open, tables, toggleOffcanvas } = this.props
-    const title = intl.formatMessage(adminMessages.title)
+    const { children, intl, open, tables, toggleOffcanvas } = this.props;
+    const title = intl.formatMessage(adminMessages.title);
 
     return (
       <Row className="admin-page">
@@ -128,25 +128,25 @@ class AdminPage extends Component {
         </OffCanvasContainer>
          */}
       </Row>
-    )
+    );
   }
 
 }
 
-AdminPage = injectIntl(AdminPage)
+AdminPage = injectIntl(AdminPage);
 
 export default asyncConnect([
 
-  ],
+],
   state => ({
     open: state.admin.open,
     tables: state.tables,
   }),
   adminActions
 
-)(AdminPage)
+)(AdminPage);
 
-//export default connect(state => ({
+// export default connect(state => ({
 //  open: state.admin.open,
 //  tables: state.formMeta.tables
-//}), adminActions)(AdminPage)
+// }), adminActions)(AdminPage)

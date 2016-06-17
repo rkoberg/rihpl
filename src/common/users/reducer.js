@@ -2,7 +2,7 @@ import * as actions from './actions';
 import * as authActions from '../auth/actions';
 import User from './user';
 import { Record, Seq } from 'immutable';
-//import { firebaseActions, mapAuthToUser } from '../lib/redux-firebase';
+// import { firebaseActions, mapAuthToUser } from '../lib/redux-firebase';
 
 const InitialState = Record({
   // Undefined is absence of evidence. Null is evidence of absence.

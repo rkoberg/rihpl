@@ -1,7 +1,7 @@
-import * as intlActions from '../../common/intl/actions'
-import Component from 'react-pure-render/component'
-import React, { PropTypes } from 'react'
-import { connect } from 'react-redux'
+import * as intlActions from '../../common/intl/actions';
+import Component from 'react-pure-render/component';
+import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
 
 class Locales extends Component {
 
@@ -12,7 +12,7 @@ class Locales extends Component {
   };
 
   render() {
-    const { currentLocale, locales, setCurrentLocale } = this.props
+    const { currentLocale, locales, setCurrentLocale } = this.props;
 
     return (
       <div className="locales">
@@ -24,7 +24,7 @@ class Locales extends Component {
           >{locale}</button>
         )}
       </div>
-    )
+    );
   }
 
 }
@@ -32,5 +32,5 @@ class Locales extends Component {
 export default connect(state => ({
   currentLocale: state.intl.currentLocale,
   locales: state.intl.locales
-}), intlActions)(Locales)
+}), intlActions)(Locales);
 

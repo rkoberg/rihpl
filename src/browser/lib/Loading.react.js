@@ -10,9 +10,9 @@
 // }
 // TODO: Make it universal.
 
-import './Loading.scss'
-import Component from 'react-pure-render/component'
-import React, { PropTypes } from 'react'
+import './Loading.scss';
+import Component from 'react-pure-render/component';
+import React, { PropTypes } from 'react';
 
 export default class Loading extends Component {
 
@@ -27,25 +27,25 @@ export default class Loading extends Component {
   };
 
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       // Render no-break space for the first second of loading.
       currentText: String.fromCharCode(160)
-    }
+    };
   }
 
   componentDidMount() {
     this.timer = setTimeout(() => {
-      this.setState({ currentText: this.props.loadingText })
-    }, 1000)
+      this.setState({ currentText: this.props.loadingText });
+    }, 1000);
     this.longTimer = setTimeout(() => {
-      this.setState({ currentText: this.props.longLoadingText })
-    }, 10000)
+      this.setState({ currentText: this.props.longLoadingText });
+    }, 10000);
   }
 
   componentWillUnmount() {
-    clearTimeout(this.timer)
-    clearTimeout(this.longTimer)
+    clearTimeout(this.timer);
+    clearTimeout(this.longTimer);
   }
 
   render() {
@@ -53,7 +53,7 @@ export default class Loading extends Component {
       <div className="rihpl-loading">
         {this.state.currentText}
       </div>
-    )
+    );
   }
 
 }

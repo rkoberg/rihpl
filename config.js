@@ -1,6 +1,6 @@
 
 
-process.env.BASE_PATH = __dirname
+process.env.BASE_PATH = __dirname;
 
 const config = {
   api: {
@@ -21,5 +21,5 @@ const config = {
     host: process.env.APP_HOST || '127.0.0.1',
     scheme: process.env.APP_SCHME || 'http',
   }
-}
-module.exports = config
+};
+module.exports = config;

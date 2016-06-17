@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import cx from 'classnames';
 import cxBinder from 'classnames/bind';
 
-import { Link } from 'react-router'
+import { Link } from 'react-router';
 
 import TextAlignment from 'react-foundation-components/lib/text-alignment';
 import { HideForScreenReader } from 'react-foundation-components/lib/visibility';
@@ -26,20 +26,20 @@ function createPaginationLink(baseClassName, disabledCalculator, newPageCalculat
     let content = children;
 
     if (!current && !disabled) {
-      let pathname = page
+      let pathname = page;
 
       switch (baseClassName) {
         case 'pagination-next':
-          pathname = activePage + 1
+          pathname = activePage + 1;
           break;
         case 'pagination-previous':
-          pathname = activePage - 1
+          pathname = activePage - 1;
           break;
       }
 
       content = (
         <Link
-          to={{pathname: `${pathname}`}}
+          to={{ pathname: `${pathname}` }}
           aria-label={label}
         >
           {children}

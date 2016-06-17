@@ -1,11 +1,11 @@
-import Component from 'react-pure-render/component'
-import React, { PropTypes } from 'react'
-import { FormattedDate } from 'react-intl'
-import { Table } from 'react-foundation-components/lib/table'
+import Component from 'react-pure-render/component';
+import React, { PropTypes } from 'react';
+import { FormattedDate } from 'react-intl';
+import { Table } from 'react-foundation-components/lib/table';
 // import { Pagination } from 'react-foundation-components/lib/pagination';
 import Pagination from '../lib/pagination/Pagination.react';
-import { browserHistory } from 'react-router'
-import { Link } from 'react-router'
+import { browserHistory } from 'react-router';
+import { Link } from 'react-router';
 
 export default class GridTable extends Component {
 
@@ -21,8 +21,8 @@ export default class GridTable extends Component {
 
 
   handleSubmit() {
-    const {pathPrefix, values: {pageNum}} = this.props
-    browserHistory.push(`${pathPrefix}${pageNum}`)
+    const { pathPrefix, values: { pageNum } } = this.props;
+    browserHistory.push(`${pathPrefix}${pageNum}`);
   }
 
   render() {
@@ -31,14 +31,14 @@ export default class GridTable extends Component {
         activePage, currentItems, meta, rangeSize, totalItems
       },
       tableName,
-    } = this.props
+    } = this.props;
 
 
-    const numPages = Math.ceil(totalItems / rangeSize)
-    const startItem = ((activePage - 1) * rangeSize)
-    const endItem = startItem + (rangeSize - 1)
-    const iterableCols = meta.columns ? meta.columns.valueSeq() : []
-    const pathPrefix = `/admin/tables/${tableName}/`
+    const numPages = Math.ceil(totalItems / rangeSize);
+    const startItem = ((activePage - 1) * rangeSize);
+    const endItem = startItem + (rangeSize - 1);
+    const iterableCols = meta.columns ? meta.columns.valueSeq() : [];
+    const pathPrefix = `/admin/tables/${tableName}/`;
 
     const paginationOptions = {
       activePage,
@@ -47,17 +47,17 @@ export default class GridTable extends Component {
       pathPrefix,
       tableName,
       totalPages: numPages,
-    }
+    };
 
     const cellVal = (row, col) => {
-      const colVal = row[col.name]
+      const colVal = row[col.name];
       if (col.references) {
-        return this.props[col.references.table].map.get(colVal).name
+        return this.props[col.references.table].map.get(colVal).name;
       } else if (col.type === 'timestamp with time zone') {
-        return <FormattedDate value={colVal}/>
+        return <FormattedDate value={colVal} />;
       }
-      return colVal
-    }
+      return colVal;
+    };
 
     return (
       <div className="grid-table-wrapper">
@@ -65,7 +65,7 @@ export default class GridTable extends Component {
           <thead>
           <tr>
             {iterableCols.map(col => <th key={col.name}>
-              <Link to={{pathname: `${pathPrefix}1`, query: {sortBy: `${col.name}.desc`}}}>{col.name}</Link>
+              <Link to={{ pathname: `${pathPrefix}1`, query: { sortBy: `${col.name}.desc` } }}>{col.name}</Link>
             </th>)}
           </tr>
           </thead>
@@ -79,9 +79,9 @@ export default class GridTable extends Component {
         </Table>
 
         {numPages > 1 &&
-        <Pagination {...paginationOptions}/>
+        <Pagination {...paginationOptions} />
         }
       </div>
-    )
+    );
   }
 }

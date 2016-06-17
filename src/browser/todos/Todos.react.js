@@ -1,10 +1,10 @@
-import * as todosActions from '../../common/todos/actions'
-import Component from 'react-pure-render/component'
-import React, { PropTypes } from 'react'
-import Todo from './Todo.react'
-import todosMessages from '../../common/todos/todosMessages'
-import { FormattedMessage } from 'react-intl'
-import { connect } from 'react-redux'
+import * as todosActions from '../../common/todos/actions';
+import Component from 'react-pure-render/component';
+import React, { PropTypes } from 'react';
+import Todo from './Todo.react';
+import todosMessages from '../../common/todos/todosMessages';
+import { FormattedMessage } from 'react-intl';
+import { connect } from 'react-redux';
 
 // Container component.
 export class Todos extends Component {
@@ -24,13 +24,13 @@ export class Todos extends Component {
   // }
 
   render() {
-    const { deleteTodo, todos, toggleTodoCompleted } = this.props
+    const { deleteTodo, todos, toggleTodoCompleted } = this.props;
 
     if (!todos.size) {
-      return <p><FormattedMessage {...todosMessages.empty} /></p>
+      return <p><FormattedMessage {...todosMessages.empty} /></p>;
     }
 
-    const list = todos.toList().sortBy(item => item.createdAt).reverse()
+    const list = todos.toList().sortBy(item => item.createdAt).reverse();
 
     return (
       <ol className="todos">
@@ -43,11 +43,11 @@ export class Todos extends Component {
           />
         )}
       </ol>
-    )
+    );
   }
 
 }
 
 export default connect(state => ({
   todos: state.todos.map
-}), todosActions)(Todos)
+}), todosActions)(Todos);

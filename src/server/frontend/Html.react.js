@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component, PropTypes } from 'react';
 
 export default class Html extends Component {
 
@@ -11,12 +11,12 @@ export default class Html extends Component {
   };
 
   render() {
-    const { appCssFilename, bodyHtml, googleAnalyticsId, helmet, isProduction } = this.props
+    const { appCssFilename, bodyHtml, googleAnalyticsId, helmet, isProduction } = this.props;
     const linkStyles = appCssFilename &&
       <link
         href={appCssFilename}
         rel="stylesheet"
-      />
+      />;
     const analytics = isProduction && googleAnalyticsId !== 'UA-XXXXXXX-X' &&
       <script
         dangerouslySetInnerHTML={{ __html: `
@@ -25,7 +25,7 @@ export default class Html extends Component {
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 ga('create', '${googleAnalyticsId}', 'auto'); ga('send', 'pageview');` }}
-      />
+      />;
 
     return (
       <html {...helmet.htmlAttributes.toComponent()}>
@@ -40,7 +40,7 @@ ga('create', '${googleAnalyticsId}', 'auto'); ga('send', 'pageview');` }}
         </head>
         <body dangerouslySetInnerHTML={{ __html: bodyHtml }} />
       </html>
-    )
+    );
   }
 
 }

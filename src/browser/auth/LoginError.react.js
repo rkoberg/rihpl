@@ -1,6 +1,6 @@
-import Component from 'react-pure-render/component'
-import React, { PropTypes } from 'react'
-import { FormattedMessage, defineMessages } from 'react-intl'
+import Component from 'react-pure-render/component';
+import React, { PropTypes } from 'react';
+import { FormattedMessage, defineMessages } from 'react-intl';
 
 const messages = defineMessages({
   required: {
@@ -22,7 +22,7 @@ const messages = defineMessages({
     defaultMessage: 'Wrong password.',
     id: 'auth.login.error.wrongPassword'
   }
-})
+});
 
 export default class LoginError extends Component {
 
@@ -31,9 +31,9 @@ export default class LoginError extends Component {
   };
 
   render() {
-    const { error } = this.props
-    if (!error) return null
-    const message = messages[error.name]
+    const { error } = this.props;
+    if (!error) return null;
+    const message = messages[error.name];
 
     return (
       <p className="error-message">
@@ -43,7 +43,7 @@ export default class LoginError extends Component {
           error.toString()
         }
       </p>
-    )
+    );
   }
 
 }
