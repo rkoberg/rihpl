@@ -9,8 +9,18 @@ import users from './users/reducer';
 import { LOGOUT } from './auth/actions';
 import { UPDATE_APP_STATE_FROM_STORAGE_SUCCESS } from './app/actions';
 import { combineReducers } from 'redux';
-import { fieldsReducer as fields } from './lib/redux-fields';
 import { routerReducer as routing } from 'react-router-redux';
+
+import {reducer as formReducer} from 'redux-form'
+import { reducer as reduxAsyncConnect } from 'redux-connect'
+
+import sizes from './sizes/reducer'
+import types from './types/reducer'
+import regions from './regions/reducer'
+import products from './products/reducer'
+
+import tables from './tables/reducer'
+import admin from './admin/reducer'
 
 // Reset app state on logout, stackoverflow.com/q/35622588/233902.
 const resetOnLogout = (reducer, initialState) => (state, action) => {
@@ -47,12 +57,9 @@ export default function configureReducer(initialState, platformReducers) {
   let reducer = combineReducers({
     reduxAsyncConnect,
     ...platformReducers,
-    app,
     auth,
     config,
     device,
-    fields,
-    firebase,
     intl,
     routing,
     todos,

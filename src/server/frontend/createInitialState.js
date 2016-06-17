@@ -8,8 +8,9 @@ export default function createInitialState() {
     config: {
       appName: config.appName,
       appVersion: config.appVersion,
-      firebaseUrl: config.firebaseUrl,
-      sentryUrl: config.sentryUrl
+//      firebaseUrl: config.firebaseUrl,
+      sentryUrl: config.sentryUrl,
+      apiBaseUrl: config.apiBaseUrl,
     },
     intl: {
       currentLocale: config.defaultLocale,

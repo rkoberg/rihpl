@@ -1,40 +1,22 @@
-const fs = require('fs')
-const path = require('path')
-const extend = require('extend')
 
-let localConfig = false
-
-const localConfigPath = path.join(__dirname, 'config.local.js')
-
-try {
-  const stats = fs.statSync(localConfigPath)
-  localConfig = require(localConfigPath)
-} catch (err) {
-  console.log('localConfig err', err)
-  if(err.code == 'ENOENT')
-    localConfig = false
-}
-
-const defaultConfig = {
+const config = {
   api: {
-    port: 3000,
-    host: '127.0.0.1',
+    port: process.env.API_PORT || 3000,
+    host: process.env.API_HOST || '127.0.0.1',
+    scheme: process.env.API_SCHEME || 'http',
     db: {
-      name: 'rihpl',
-      user: '',
-      password: '',
-      port: 5432,
-      startRole: '',
+      name: process.env.API_DB_NAME || 'rihpl',
+      user: process.env.API_DB_USER || '',
+      password: process.env.API_DB_PASSWORD || '',
+      port: process.env.API_DB_PORT || 5432,
+      startRole: process.env.API_DB_START_ROLE || '',
     }
   },
   app: {
-    port: 8000,
-    host: '127.0.0.1',
+    port: process.env.APP_PORT || 8000,
+    host: process.env.APP_HOST || '127.0.0.1',
+    scheme: process.env.APP_SCHME || 'http',
   }
 }
-
-const config = localConfig ?
-  extend(true, {}, defaultConfig, localConfig) :
-  defaultConfig
-
+console.log('config', config);
 module.exports = config

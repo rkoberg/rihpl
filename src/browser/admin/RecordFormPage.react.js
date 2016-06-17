@@ -33,7 +33,6 @@ class RecordFormPage extends Component {
   };
 
   render() {
-    console.log('RecordFormPage.render this.props', this.props)
     const { intl, rows } = this.props
     const title = intl.formatMessage(messages.title)
 
@@ -67,7 +66,6 @@ export default asyncConnect([
     },
   ],
   state => {
-//    console.log('RecordFormPage asyncConnect state', state);
     const pathname = state.routing.locationBeforeTransitions.pathname
     const tableName = pathname.split('/').pop();
     return {

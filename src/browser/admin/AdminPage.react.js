@@ -75,12 +75,9 @@ class AdminPage extends Component {
   };
 
   render() {
-//    console.log('AdminPage this.props', this.props)
     const { children, intl, open, tables, toggleOffcanvas } = this.props
     const title = intl.formatMessage(adminMessages.title)
 
-//    console.log('tables', tables.map.valueSeq().toJS());
-// t a u  q s
     return (
       <Row className="admin-page">
         <Helmet title={title} />

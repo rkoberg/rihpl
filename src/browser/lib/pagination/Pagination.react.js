@@ -35,7 +35,6 @@ class Pagination extends Component {
   };
 
   render() {
-//    console.log('Pagination render this.props', this.props)
     const {
       activePage,
       fields: { pageNum },
@@ -87,8 +86,6 @@ class Pagination extends Component {
   }
 }
 const mapStateToProps = (state, props) => {
-//  console.log('Pagination mapStateToProps props', props);
-//  console.log('Pagination mapStateToProps state', state);
   const {tableName} = props
 
   return {

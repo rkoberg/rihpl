@@ -1,7 +1,7 @@
 
 exports.up = function (knex, Promise) {
   return Promise.all([
-    
+
     knex.raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"'),
 
     knex.schema.createTable('types', function (table) {
@@ -72,7 +72,6 @@ exports.up = function (knex, Promise) {
       table.index('name', 'products_name_idx')
       table.index('vintage', 'products_vintage_idx')
       table.index('saleprice', 'products_saleprice_idx')
-      table.index('listprice', 'products_listprice_idx')
       // table.index('regions', 'products_regions_idx', 'gin');
     })
   ])

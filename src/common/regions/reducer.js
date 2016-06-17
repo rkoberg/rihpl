@@ -18,9 +18,6 @@ export default function regionsReducer(state = new TableInitialState, action) {
   if (!(state instanceof TableInitialState)) {
     return initializeTableState(state, TableItem, 'regions', true)
   }
-
-//  console.log('regionsReducer action', action);
-
   switch (action.type) {
 
     case TABLES_BOOTSTRAP_SUCCESS:

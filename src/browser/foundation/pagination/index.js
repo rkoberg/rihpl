@@ -26,21 +26,6 @@ function createPaginationLink(baseClassName, disabledCalculator, newPageCalculat
     let content = children;
 
     if (!current && !disabled) {
-      // const onClick = (...args) => {
-      //   const [event] = args;
-      //
-      //   event.preventDefault();
-      //
-      //   if (onSelect) {
-      //     onSelect(newPageCalculator({ activePage, startPage, lastPage, page }), ...args);
-      //   }
-      // };
-      // onClick={onClick}
-
-
-      // console.log('baseClassName', baseClassName);
-      // console.log('page', page);
-
       let pathname = page
 
       switch (baseClassName) {
@@ -51,7 +36,6 @@ function createPaginationLink(baseClassName, disabledCalculator, newPageCalculat
           pathname = activePage - 1
           break;
       }
-      console.log('pathname', pathname);
 
       content = (
         <Link

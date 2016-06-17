@@ -70,7 +70,6 @@ export default asyncConnect([
     },
     {
       promise: ({ store }) => {
-//        console.log('TablePage asyncConnect store.getState()', store.getState())
         const tableName = getTableName(store.getState())
         const loc = store.getState().routing.locationBeforeTransitions
         const activePage = parseInt(

@@ -37,7 +37,6 @@ export default function productsReducer(state = new TableInitialState, action) {
 
         const newMap = Immutable.Map(items.map(item => [item.id, new TableItem(item)]))
         const sortBy = query.sortBy || state.sortBy || 'name'
-        console.log('TABLES_LOAD_SUCCESS sortBy', sortBy);
 
         return state
           .set('activePage', activePage)

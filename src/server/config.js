@@ -1,3 +1,5 @@
+
+
 // www.andrewsouthpaw.com/2015/02/08/environment-variables/
 import nconf from 'nconf'
 
@@ -17,8 +19,11 @@ nconf.defaults({
   googleAnalyticsId: 'UA-XXXXXXX-X',
   isProduction: process.env.NODE_ENV === 'production',
   locales: ['en'],
-  port: process.env.PORT || 8000,
+  port: process.env.APP_PORT || process.env.PORT || 8000,
   sentryUrl: 'https://f297cec9c9654088b8ccf1ea9136c458@app.getsentry.com/77415',
+
+  apiBaseUrl: `${process.env.API_SCHEME || 'http'}://${process.env.API_HOST || '127.0.0.1'}:${process.env.API_PORT || 3000}`,
+
 })
 
 export default nconf.get()

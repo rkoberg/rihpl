@@ -1,11 +1,10 @@
-import types from './types'
 
 import fetch from 'isomorphic-fetch'
 import express from 'express'
 
-import config from '../../../config'
+import config from '../config'
 
-const {api: {host, port}} = config
+const {apiBaseUrl} = config
 
 const _cache = {}
 
@@ -16,7 +15,7 @@ const cacheables = [
   {name: '', key: 'tables'},
 ]
 
-const getApiUrl = (pathname) => `http://${host}:${port}/${pathname}?order=name`
+const getApiUrl = (pathname) => `${apiBaseUrl}/${pathname}?order=name`
 
 
 //{
@@ -53,8 +52,6 @@ const load = () => {
 load()
 
 const app = express()
-app.use('/types', types)
-
 
 export const getCache = () => _cache
 

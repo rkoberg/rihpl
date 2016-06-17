@@ -32,6 +32,7 @@ export default function configureMiddleware(
 
   const middleware = [
     injectMiddleware({
+      apiBaseUrl: initialState.config.apiBaseUrl,
       ...platformDeps,
       engine,
       fetch,

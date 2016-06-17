@@ -16,11 +16,9 @@ import { ReduxAsyncConnect, loadOnServer, reducer as reduxAsyncConnect } from 'r
 import {getCache} from '../cache'
 
 const initialState = createInitialState()
-//console.log('initialState', initialState)
 
 const createRequestInitialState = req => {
   const cached = getCache();
-//  console.log('createRequestInitialState cached', cached);
   return {
     ...cached,
     ...initialState,

@@ -52,8 +52,6 @@ export default class GridTable extends Component {
     const cellVal = (row, col) => {
       const colVal = row[col.name]
       if (col.references) {
-//        console.log('col.references.table', col.references.table)
-//        console.log('this.props[col.references.table]', this.props[col.references.table])
         return this.props[col.references.table].map.get(colVal).name
       } else if (col.type === 'timestamp with time zone') {
         return <FormattedDate value={colVal}/>
