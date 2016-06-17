@@ -6,11 +6,10 @@
     "build": "gulp build",
     "postinstall": "gulp build --production",
     "test": "gulp test",
-    "api": "postgrest postgres://127.0.0.1:5432/rihpl -a rkoberg -s public",
-    "migrate": "knex migrate:latest --knexfile=db/knexfile.js",
-    "rollback": "knex migrate:rollback --knexfile=db/knexfile.js",
-    "seed": "knex seed:run --knexfile=db/knexfile.js",
-    "exportSchema": "./exportSchema.js",
+    "api": "gulp api",
+    "migrate": "gulp dbmigrate",
+    "rollback": "gulp dbrollback",
+    "seed": "gulp dbseed",
     "lintFix": "eslint --fix"
   },
   "engines": {

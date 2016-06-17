@@ -1,23 +1,19 @@
 
 
-const config = require('../config.js')
-
-console.log('knexfile config', config)
-
 module.exports = {
 
   development: {
     client: 'pg',
     connection: {
-      database: config.api.db.name,
-      user: config.api.db.user,
-      password: config.api.db.password
+      database: process.env.API_DB_NAME,
+      user: process.env.API_DB_USER,
+      password: process.env.API_DB_PASSWORD
     },
     migrations: {
-      directory: './migrations'
+      directory: `${process.env.BASE_PATH}/db/migrations`
     },
     seeds: {
-      directory: './seeds'
+      directory: `${process.env.BASE_PATH}/db/seeds`
     },
     pool: {
       min: 2,
