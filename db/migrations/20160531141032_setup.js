@@ -53,7 +53,7 @@ exports.up = function (knex, Promise) {
 
     knex.schema.createTable('products', function (table) {
       // table.increments();
-      table.uuid('id').primary();
+      table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
       table.string('name').notNullable();
       table.integer('vintage');
       table.integer('saleprice');

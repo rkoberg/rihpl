@@ -49,7 +49,6 @@ export const getActionFromLocation = location => {
 export const getIdFromLocation = location => {
   const pathname = location.pathname;
   const pathArr = pathname.split('/');
-  console.log('getIdFromLocation pathArr', pathArr);
   return pathArr.length === 6 ? pathArr.pop() : null;
 };
 

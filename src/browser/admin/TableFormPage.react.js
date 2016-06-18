@@ -15,7 +15,8 @@ import DynamicTableForm from './DynamicTableForm.react';
 import {getActionFromLocation, getIdFromLocation, getTableNameFromLocation} from '../../common/tables/model'
 
 
-const excludedFields = ['id', 'created_at', 'updated_at'];
+const excludedFields = [];
+//const excludedFields = ['created_at', 'updated_at'];
 
 // const messages = defineMessages({
 //  title: {
@@ -42,27 +43,28 @@ class TableFormPage extends Component {
 
   render() {
 
-    const { regions, sizes, types, table, tableName } = this.props;
+    const { dispatch, regions, sizes, types, table, tableName } = this.props;
 
     const formActionType = getActionFromLocation(this.props.location);
 
     const itemTypeName = <FormattedMessage {...adminMessages[`${tableName}Singular`]} />;
 
 
-    const fields = table.meta.columns.map(col => col.name);
+    const fields = table.meta.columns.map(col => col.name).toJS();
     const editableItemId = getIdFromLocation(this.props.location);
 
-    const editableItem = editableItemId === null ? {} : table.map.get(editableItemId).toJS();
+    const initialValues = editableItemId === null ? {} : table.map.get(editableItemId).toJS();
 
 //    <FormFieldHelp>Uncontrolled Text Help</FormFieldHelp>
 
-    const onSubmit = (formVals) => {
-      console.log('TableFormPage onSubmit formVals', formVals);
+    const onSubmit = (formVals, dispatch) => {
+      dispatch(tablesActions.createOrUpdate(tableName, formVals))
     }
 
     const formProps = {
-      editableItem,
-      fields: fields.filter(field => !excludedFields.includes(field)).toJS(),
+//      fields: fields.filter(field => !excludedFields.includes(field)).toJS(),
+      fields,
+      initialValues,
       onSubmit,
       table,
       tableName,
@@ -97,13 +99,15 @@ export default asyncConnect([
     {
       promise: ({ store }) => {
         const loc = store.getState().routing.locationBeforeTransitions;
-        const tableName = getTableNameFromLocation(loc);
         const id = getIdFromLocation(loc);
+        if (!id)
+          return null;
+        const tableName = getTableNameFromLocation(loc);
         return store.dispatch(tablesActions.getById(tableName, id));
       }
     },
   ],
-  state => {
+  (state, ...rest) => {
     const tableName = getTableNameFromLocation(state.routing.locationBeforeTransitions);
 
     return {

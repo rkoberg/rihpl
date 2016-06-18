@@ -3,7 +3,7 @@ import Component from 'react-pure-render/component';
 import Helmet from 'react-helmet';
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { FormattedMessage, defineMessages } from 'react-intl';
+import { defineMessages, FormattedDate, FormattedMessage, FormattedTime } from 'react-intl';
 import * as tablesActions from '../../common/tables/actions';
 import * as adminActions from '../../common/admin/actions';
 import adminMessages from '../../common/admin/adminMessages';
@@ -40,16 +40,43 @@ class DynamicTableForm extends Component {
 
   render() {
 
-    const { editableItem, fields, handleSubmit, submitting, table, tableName } = this.props;
+    const { fields, handleSubmit, initialValues, submitting, table, tableName } = this.props;
+
+//    Object.keys(fields).map(key => fields[key].value = editableItem[key]);
 
     return (
       <form onSubmit={handleSubmit}>
         {Object.keys(fields).map((fieldName, fieldIndex) => {
           const field = fields[fieldName];
-          const fieldVal = editableItem[fieldName] ? editableItem[fieldName] : '';
 
 
           const col = table.meta.columns.filter(column => column.name === fieldName).first();
+
+          if (fieldName === 'id' && field.value) {
+            return <FormFieldInput
+              key={`${fieldName}${fieldIndex}`}
+              type="hidden"
+              {...field}
+            />
+          } else if (fieldName === 'id')
+            return;
+
+          if (fieldName === 'created_at' && field.value) {
+            return <FormFieldInput
+              key={`${fieldName}${fieldIndex}`}
+              type="hidden"
+              {...field}
+            />
+          } else if (fieldName === 'created_at')
+            return;
+
+          if (fieldName === 'updated_at' && field.value) {
+            return <p key={`${fieldName}${fieldIndex}`}>
+              <label>Created at:</label>
+              <FormattedDate value={field.value}/> <FormattedTime value={field.value}/>
+            </p>
+          } else if (fieldName === 'updated_at')
+            return;
 
           if (col.references) {
 
@@ -79,7 +106,6 @@ class DynamicTableForm extends Component {
                     {...field}
                     options={options.toJS()}
                     onBlur={onBlur}
-                    value={fieldVal}
                   />
                   <FormFieldError>Select Error</FormFieldError>
                   <FormFieldHelp>Start typing what you want...</FormFieldHelp>
@@ -95,7 +121,6 @@ class DynamicTableForm extends Component {
                   <FormFieldInput
                     type="select"
                     {...field}
-                    value={fieldVal}
                   >
                     <option key={`${fieldName}${fieldIndex}default`}>- Choose -</option>
                     {refTable.map.valueSeq().map((val, valIndex) => <option key={`${val}${valIndex}`} value={val.id}>{val.name}</option>)}
@@ -116,7 +141,6 @@ class DynamicTableForm extends Component {
                 maxLength={col.maxLen}
                 type="text"
                 {...field}
-                value={fieldVal}
               />
               <FormFieldError>Uncontrolled Text Error</FormFieldError>
             </FormField>
@@ -131,4 +155,14 @@ class DynamicTableForm extends Component {
 }
 
 //export default DynamicTableForm;
-export default reduxForm({ form: 'tableForm' })(DynamicTableForm)
+export default reduxForm(
+  { form: 'tableForm' },
+//  state => { // mapStateToProps
+//
+//
+//
+//    return {
+//      initialValues: state.account.data
+//    }
+//  },
+)(DynamicTableForm)

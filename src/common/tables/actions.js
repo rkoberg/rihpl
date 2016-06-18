@@ -16,6 +16,11 @@ export const TABLES_GET_BY_ID_START = 'TABLES_GET_BY_ID_START';
 export const TABLES_GET_BY_ID_SUCCESS = 'TABLES_GET_BY_ID_SUCCESS';
 export const TABLES_GET_BY_ID_ERROR = 'TABLES_GET_BY_ID_ERROR';
 
+export const TABLES_CREATE_OR_UPDATE = 'TABLES_CREATE_OR_UPDATE';
+export const TABLES_CREATE_OR_UPDATE_START = 'TABLES_CREATE_OR_UPDATE_START';
+export const TABLES_CREATE_OR_UPDATE_SUCCESS = 'TABLES_CREATE_OR_UPDATE_SUCCESS';
+export const TABLES_CREATE_OR_UPDATE_ERROR = 'TABLES_CREATE_OR_UPDATE_ERROR';
+
 export function bootstrap(tableName) {
 
 
@@ -102,7 +107,6 @@ export function pageTable(tableName, targetState, activePage = null, query = nul
 
 export function getById(tableName, id) {
   return ({ apiBaseUrl, fetch }) => {
-
     const getPromise = async () => {
       const response = await fetch(`${apiBaseUrl}/${tableName}?id=eq.${id}`, {
         method: 'GET',
@@ -123,5 +127,32 @@ export function getById(tableName, id) {
       }
     };
   }
+}
 
+export function createOrUpdate(tableName, data) {
+  return ({ apiBaseUrl, fetch }) => {
+    const getPromise = async () => {
+
+      const url = data.id ? `${apiBaseUrl}/${tableName}?id=eq.${data.id}` : `${apiBaseUrl}/${tableName}`;
+
+      const response = await fetch(url, {
+        method: data.id ? 'PATCH' : 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Prefer: 'return=representation'
+        },
+        body: JSON.stringify(data)
+      });
+      if (response.status > 399) throw response;
+      const items = response.json();
+      return items;
+    };
+    return {
+      type: TABLES_CREATE_OR_UPDATE,
+      payload: getPromise(),
+      meta: {
+        key: tableName,
+      }
+    };
+  }
 }
