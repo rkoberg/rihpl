@@ -1,7 +1,9 @@
 import Component from 'react-pure-render/component';
 import Helmet from 'react-helmet';
-import React from 'react';
+import React, {PropTypes} from 'react';
 import { FormattedMessage, defineMessages } from 'react-intl';
+
+import { asyncConnect } from 'redux-connect';
 
 const messages = defineMessages({
   title: {
@@ -10,9 +12,14 @@ const messages = defineMessages({
   }
 });
 
-export default class ProfilePage extends Component {
+class ProfilePage extends Component {
+
+  static propTypes = {
+    foo: PropTypes.bool.isRequired,
+  };
 
   render() {
+    const {foo} = this.props;
     return (
       <div className="profile-page">
         <FormattedMessage {...messages.title}>
@@ -21,8 +28,20 @@ export default class ProfilePage extends Component {
         <p>
           <FormattedMessage {...messages.title} />
         </p>
+        <p>foo: {foo}</p>
       </div>
     );
   }
 
 }
+
+export default asyncConnect([
+  ],
+  state => {
+    
+    return {
+      foo: state.admin.loading,
+    };
+  },
+
+)(ProfilePage);

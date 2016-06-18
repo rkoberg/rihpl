@@ -2,6 +2,7 @@ import app from './app/reducer';
 import auth from './auth/reducer';
 import config from './config/reducer';
 import device from './device/reducer';
+import fields from './lib/redux-fields/reducer';
 import intl from './intl/reducer';
 import todos from './todos/reducer';
 import ui from './ui/reducer';
@@ -60,6 +61,7 @@ export default function configureReducer(initialState, platformReducers) {
     auth,
     config,
     device,
+    fields,
     intl,
     routing,
     todos,

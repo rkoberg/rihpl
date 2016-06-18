@@ -27,6 +27,7 @@ export default class GridTable extends Component {
 
   render() {
     const {
+      pathPrefix,
       table: {
         activePage, currentItems, meta, rangeSize, totalItems
       },
@@ -38,7 +39,6 @@ export default class GridTable extends Component {
     const startItem = ((activePage - 1) * rangeSize);
     const endItem = startItem + (rangeSize - 1);
     const iterableCols = meta.columns ? meta.columns.valueSeq() : [];
-    const pathPrefix = `/admin/tables/${tableName}/`;
 
     const paginationOptions = {
       activePage,
@@ -65,14 +65,24 @@ export default class GridTable extends Component {
           <thead>
           <tr>
             {iterableCols.map(col => <th key={col.name}>
-              <Link to={{ pathname: `${pathPrefix}1`, query: { sortBy: `${col.name}.desc` } }}>{col.name}</Link>
+              <Link to={{ pathname: `${pathPrefix}1`, query: { sortBy: `${col.name}.desc` } }}>{col.name === 'id' ? 'Actions' : col.name}</Link>
             </th>)}
           </tr>
           </thead>
           <tbody>
           {currentItems.map(row =>
             <tr key={row.id}>
-              {iterableCols.map(col => <td key={row.id + col.name}>{cellVal(row, col)}</td>)}
+              {iterableCols.map(col => {
+                if (col.name === 'id') {
+                  const id = cellVal(row, col);
+                  return (
+                    <td key={row.id + col.name}>
+                      <Link to={`${pathPrefix}edit/${id}`}>Edit</Link>
+                    </td>
+                  )
+                }
+                return <td key={row.id + col.name}>{cellVal(row, col)}</td>
+              })}
             </tr>
           )}
           </tbody>

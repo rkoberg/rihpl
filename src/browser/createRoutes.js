@@ -13,6 +13,7 @@ import { IndexRoute, Route } from 'react-router';
 
 import AdminPage from './admin/AdminPage.react.js';
 import AdminTablePage from './admin/TablePage.react';
+import AdminTableFormPage from './admin/TableFormPage.react';
 
 export default function createRoutes(getState) {
   const requireAuth = (nextState, replace) => {
@@ -33,23 +34,24 @@ export default function createRoutes(getState) {
     });
   };
 
+  // onEnter={requireAuth} for /me
   return (
     <Route component={App} path="/">
       <IndexRoute component={Home} />
       <Route component={Auth} path="login" />
       <Route component={Intl} path="intl" />
       <Route component={Fields} path="fields" />
-      <Route component={Me} onEnter={requireAuth} path="me">
+      <Route component={Me} path="me">
         <Route component={Profile} path="profile" />
         <Route component={Settings} path="settings" />
       </Route>
       <Route component={Todos} path="todos" />
 
-
       <Route component={AdminPage} path="admin">
+        <Route component={AdminTableFormPage} path="tables/:table/new" />
+        <Route component={AdminTableFormPage} path="tables/:table/edit/:id" />
         <Route component={AdminTablePage} path="tables/:table/:activePage" />
       </Route>
-
 
       <Route component={NotFound} path="*" />
     </Route>

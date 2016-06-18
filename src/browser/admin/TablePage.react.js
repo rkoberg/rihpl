@@ -3,8 +3,9 @@ import Component from 'react-pure-render/component';
 import Helmet from 'react-helmet';
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
+import { FormattedMessage, defineMessages } from 'react-intl';
 
+import { Link } from 'react-router';
 import { asyncConnect } from 'redux-connect';
 import { Button } from 'react-foundation-components/lib/button';
 
@@ -14,11 +15,12 @@ import adminMessages from '../../common/admin/adminMessages';
 import GridFilter from './GridFilter.react';
 import GridTable from './GridTable.react';
 
+import {getTableNameFromLocation} from '../../common/tables/model'
+
 class TablePage extends Component {
 
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
-    intl: intlShape.isRequired,
     loading: PropTypes.bool.isRequired,
     message: React.PropTypes.oneOfType([
       React.PropTypes.string,
@@ -32,18 +34,27 @@ class TablePage extends Component {
     types: PropTypes.object.isRequired
   }
 
-  render() {
-    const { intl, table, tableName, regions, sizes, types } = this.props;
-    const title = intl.formatMessage(adminMessages[tableName]);
+//  shouldComponentUpdate(nextProps, nextState) {
+//    if (!this.props.tableName)
+//      return false;
+//    return true;
+//  }
 
-    const gridFilterOptions = { table, tableName, regions, sizes, types };
-    const gridTableOptions = { table, tableName, regions, sizes, types };
+  render() {
+
+    const { table, tableName, regions, sizes, types } = this.props;
+    const pathPrefix = `/admin/tables/${tableName}/`;
+
+    const gridFilterOptions = { pathPrefix, table, tableName, regions, sizes, types };
+    const gridTableOptions = { pathPrefix, table, tableName, regions, sizes, types };
     return (
       <div className="admin-page wine-sizes-page">
-        <Helmet title={title} />
+        <FormattedMessage {...adminMessages[tableName]}>
+          {message => <Helmet title={message} />}
+        </FormattedMessage>
         <h2>
           <FormattedMessage {...adminMessages[tableName]} />
-          <Button className="float-right">New {title}</Button>
+          <Link className="button float-right" to={`${pathPrefix}new`}>New <FormattedMessage {...adminMessages[`${tableName}Singular`]} /></Link>
         </h2>
 
         <GridFilter {...gridFilterOptions} />
@@ -55,38 +66,30 @@ class TablePage extends Component {
 
 }
 
-TablePage = injectIntl(TablePage);
-
-const getTableName = state => {
-  const pathname = state.routing.locationBeforeTransitions.pathname;
-  const pathArr = pathname.split('/');
-  return pathArr[pathArr.length - 2];
-};
-
 export default asyncConnect([
-  {
-    promise: ({ store }) => {
-      const tableName = getTableName(store.getState());
-      return store.dispatch(tablesActions.bootstrap(tableName));
-    }
-  },
-  {
-    promise: ({ store }) => {
-      const tableName = getTableName(store.getState());
-      const loc = store.getState().routing.locationBeforeTransitions;
-      const activePage = parseInt(
+    {
+      promise: ({ store }) => {
+        const tableName = getTableNameFromLocation(store.getState().routing.locationBeforeTransitions);
+        return store.dispatch(tablesActions.bootstrap(tableName));
+      }
+    },
+    {
+      promise: ({ store }) => {
+        const loc = store.getState().routing.locationBeforeTransitions;
+        const tableName = getTableNameFromLocation(loc);
+        const activePage = parseInt(
           loc.pathname.split('/').pop(), 10
         );
-      const targetState = store.getState()[tableName];
-      if (!targetState.preloaded)
-        return store.dispatch(tablesActions.load(tableName, targetState, activePage, loc.query));
-      else
+        const targetState = store.getState()[tableName];
+        if (!targetState.preloaded)
+          return store.dispatch(tablesActions.load(tableName, targetState, activePage, loc.query));
+        else
           return store.dispatch(tablesActions.pageTable(tableName, targetState, activePage, loc.query));
-    }
-  },
-],
+      }
+    },
+  ],
   state => {
-    const tableName = getTableName(state);
+    const tableName = getTableNameFromLocation(state.routing.locationBeforeTransitions);
     return {
       loading: state.admin.loading,
       message: state.admin.message,

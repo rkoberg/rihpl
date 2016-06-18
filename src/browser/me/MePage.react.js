@@ -30,7 +30,7 @@ class MePage extends Component {
   };
 
   render() {
-    const { children, viewer: { email } } = this.props;
+    const { children } = this.props;//, viewer: { email }
 
     return (
       <div className="me-page">
@@ -51,7 +51,7 @@ class MePage extends Component {
         </ul>
         {children ||
           <p>
-            <FormattedMessage {...messages.welcome} values={{ email }} />
+            <FormattedMessage {...messages.welcome} values={{ email: 'foo@foo' }} />
           </p>
         }
         <AuthLogout />

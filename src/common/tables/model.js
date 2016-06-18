@@ -33,6 +33,27 @@ export const TableInitialState = Immutable.Record({
   totalItems: 0,
 });
 
+
+export const getTableNameFromLocation = location => {
+  const pathname = location.pathname;
+  const pathArr = pathname.split('/');
+  return pathArr[3];
+};
+
+export const getActionFromLocation = location => {
+  const pathname = location.pathname;
+  const pathArr = pathname.split('/');
+  return pathArr[4];
+};
+
+export const getIdFromLocation = location => {
+  const pathname = location.pathname;
+  const pathArr = pathname.split('/');
+  console.log('getIdFromLocation pathArr', pathArr);
+  return pathArr.length === 6 ? pathArr.pop() : null;
+};
+
+
 export const setMeta = metaJson => metaJson ?
   MetaTableDef({
     pkey: Immutable.List(metaJson.pkey),

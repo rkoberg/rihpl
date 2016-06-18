@@ -1,5 +1,5 @@
 
-import { PAGE_TABLE, TABLES_BOOTSTRAP_SUCCESS, TABLES_LOAD_START, TABLES_LOAD_SUCCESS } from '../tables/actions';
+import { PAGE_TABLE, TABLES_BOOTSTRAP_SUCCESS, TABLES_GET_BY_ID_SUCCESS, TABLES_LOAD_START, TABLES_LOAD_SUCCESS } from '../tables/actions';
 import Immutable from 'immutable';
 
 import { initializeTableState, setupPageTable, setMeta, TableInitialState } from '../tables/model';
@@ -52,9 +52,15 @@ export default function productsReducer(state = new TableInitialState, action) {
             })
           )
           .mergeIn(['map'], newMap);
-
       }
 
+    case TABLES_GET_BY_ID_SUCCESS:
+      if (action.meta.key === TABLE_NAME) {
+        console.log('products/reducer TABLES_GET_BY_ID action', action);
+
+        return state
+          .setIn(['map', action.meta.id], new TableItem(action.payload));
+      }
   }
 
   return state;

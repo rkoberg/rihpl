@@ -81,12 +81,18 @@ class App extends Component {
 
 App = start(App);
 
-export default asyncConnect([
-
-],
+//export default asyncConnect([
+//
+//  ],
+//  state => ({
+//    currentLocale: state.intl.currentLocale,
+//    sizes: state.sizes
+//  })
+//
+//)(App);
+export default connect(
   state => ({
     currentLocale: state.intl.currentLocale,
     sizes: state.sizes
   })
-
 )(App);

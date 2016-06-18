@@ -11,6 +11,11 @@ export const TABLES_LOAD_ERROR = 'TABLES_LOAD_ERROR';
 
 export const PAGE_TABLE = 'PAGE_TABLE';
 
+export const TABLES_GET_BY_ID = 'TABLES_GET_BY_ID';
+export const TABLES_GET_BY_ID_START = 'TABLES_GET_BY_ID_START';
+export const TABLES_GET_BY_ID_SUCCESS = 'TABLES_GET_BY_ID_SUCCESS';
+export const TABLES_GET_BY_ID_ERROR = 'TABLES_GET_BY_ID_ERROR';
+
 export function bootstrap(tableName) {
 
 
@@ -93,4 +98,30 @@ export function pageTable(tableName, targetState, activePage = null, query = nul
       }
     };
   };
+}
+
+export function getById(tableName, id) {
+  return ({ apiBaseUrl, fetch }) => {
+
+    const getPromise = async () => {
+      const response = await fetch(`${apiBaseUrl}/${tableName}?id=eq.${id}`, {
+        method: 'GET',
+        headers: {
+          Prefer: 'plurality=singular'
+        }
+      });
+      if (response.status > 399) throw response;
+      const items = response.json();
+      return items;
+    };
+    return {
+      type: TABLES_GET_BY_ID,
+      payload: getPromise(),
+      meta: {
+        key: tableName,
+        id,
+      }
+    };
+  }
+
 }
