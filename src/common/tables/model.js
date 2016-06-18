@@ -73,7 +73,8 @@ export const initializeTableState = (state, tableItem, tableName, isPreloaded = 
   const startNum = isPreloaded ? ((activePage - 1) * rangeSize) : 0;
   const endNum = startNum + rangeSize;
 
-  const newMap = Immutable.Map(state.map);
+  const mapKeys = Object.keys(state.map);
+  const newMap = Immutable.Map(mapKeys.map(key => [key, new tableItem(state.map[key])]));
   const currentItems = newMap
     .valueSeq()
     .sort((a, b) => {
