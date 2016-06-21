@@ -1,11 +1,13 @@
 import Component from 'react-pure-render/component';
 import React, { PropTypes } from 'react';
+import { browserHistory } from 'react-router';
+import { Link } from 'react-router';
+
 import { FormattedDate } from 'react-intl';
 import { Table } from 'react-foundation-components/lib/table';
 // import { Pagination } from 'react-foundation-components/lib/pagination';
-import Pagination from '../lib/pagination/Pagination.react';
-import { browserHistory } from 'react-router';
-import { Link } from 'react-router';
+import Pagination from '../../pagination/Pagination.react';
+import GridFilter from './GridFilter.react';
 
 export default class GridTable extends Component {
 
@@ -28,17 +30,18 @@ export default class GridTable extends Component {
   render() {
     const {
       pathPrefix,
-      table: {
-        activePage, currentItems, meta, rangeSize, totalItems
-      },
+      table,
       tableName,
     } = this.props;
 
 
+    const { activePage, currentItems, formProps, rangeSize, totalItems } = table;
+    console.log('GridTable render currentItems', currentItems.toJS());
+
     const numPages = Math.ceil(totalItems / rangeSize);
     const startItem = ((activePage - 1) * rangeSize);
     const endItem = startItem + (rangeSize - 1);
-    const iterableCols = meta.columns ? meta.columns.valueSeq() : [];
+    console.log('GridTable render formProps', formProps);
 
     const paginationOptions = {
       activePage,
@@ -51,28 +54,37 @@ export default class GridTable extends Component {
 
     const cellVal = (row, col) => {
       const colVal = row[col.name];
-      if (col.references) {
-        return this.props[col.references.table].map.get(colVal).name;
-      } else if (col.type === 'timestamp with time zone') {
+      if (col.type === 'reference') {
+        return this.props[col.references].map.get(colVal).name;
+      } else if (col.type === 'read only date') {
         return <FormattedDate value={colVal} />;
       }
-      return colVal;
+      return Array.isArray(colVal) ? colVal.map(val => val.name).join(', ') : colVal;
     };
+
+//    const gridFilterOptions = { pathPrefix, table, tableName, regions, sizes, types };
+    const gridFilterOptions = {
+      tableName,
+      table,
+    }
 
     return (
       <div className="grid-table-wrapper">
+        <GridFilter {...gridFilterOptions} />
         <Table>
           <thead>
           <tr>
-            {iterableCols.map(col => <th key={col.name}>
-              <Link to={{ pathname: `${pathPrefix}1`, query: { sortBy: `${col.name}.desc` } }}>{col.name === 'id' ? 'Actions' : col.name}</Link>
-            </th>)}
+            {formProps.fields.map(col => (
+                <th key={col.name}>
+                  <Link to={{ pathname: `${pathPrefix}1`, query: { sortBy: `${col.name}.desc` } }}>{col.name === 'id' ? 'Actions' : col.label}</Link>
+                </th>
+            ))}
           </tr>
           </thead>
           <tbody>
-          {currentItems.map(row =>
+          {currentItems.map(row => (
             <tr key={row.id}>
-              {iterableCols.map(col => {
+              {formProps.fields.map(col => {
                 if (col.name === 'id') {
                   const id = cellVal(row, col);
                   return (
@@ -84,7 +96,7 @@ export default class GridTable extends Component {
                 return <td key={row.id + col.name}>{cellVal(row, col)}</td>
               })}
             </tr>
-          )}
+          ))}
           </tbody>
         </Table>
 

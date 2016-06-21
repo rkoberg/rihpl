@@ -15,12 +15,12 @@ import { routerReducer as routing } from 'react-router-redux';
 import { reducer as formReducer } from 'redux-form';
 import { reducer as reduxAsyncConnect } from 'redux-connect';
 
-import sizes from './sizes/reducer';
-import types from './types/reducer';
-import regions from './regions/reducer';
-import products from './products/reducer';
+import sizes from '../plugins/admin/sizes/common/reducer';
+import types from '../plugins/admin/types/common/reducer';
+import regions from '../plugins/admin/regions/common/reducer';
+import products from '../plugins/admin/products/common/reducer';
 
-import tables from './tables/reducer';
+import tables from '../plugins/tables/common/reducer';
 import admin from './admin/reducer';
 
 // Reset app state on logout, stackoverflow.com/q/35622588/233902.

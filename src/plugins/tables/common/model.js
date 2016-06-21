@@ -1,30 +1,11 @@
 
 import Immutable from 'immutable';
 
-const MetaColumnDef = Immutable.Record({
-  references: null,
-  default: null,
-  precision: null,
-  updatable: true,
-  schema: '',
-  name: '',
-  type: '',
-  maxLen: 255,
-  enum: Immutable.List(),
-  nullable: false,
-  position: 0
-});
-
-const MetaTableDef = Immutable.Record({
-  pkey: Immutable.List(),
-  columns: Immutable.Map(),
-});
-
 export const TableInitialState = Immutable.Record({
   activePage: 1,
   currentItems: Immutable.List(),
+  formProps: FormProps,
   map: Immutable.Map(),
-  meta: MetaTableDef(),
   name: '',
   preloaded: false,
   rangeSize: 10,
@@ -32,6 +13,25 @@ export const TableInitialState = Immutable.Record({
   sortOrder: 'asc',
   totalItems: 0,
 });
+
+
+export const FormProps = Immutable.Record({
+  fields: Immutable.List(),
+});
+
+
+export const FieldProps = Immutable.Record({
+  errorMsg: 'This field is required',
+  format: 'plain',
+  help: null,
+  label: null,
+  maxLength: 255,
+  name: null,
+  references: null,
+  type: 'text',
+  value: null,
+});
+
 
 
 export const getTableNameFromLocation = location => {
@@ -53,18 +53,9 @@ export const getIdFromLocation = location => {
 };
 
 
-export const setMeta = metaJson => metaJson ?
-  MetaTableDef({
-    pkey: Immutable.List(metaJson.pkey),
-//    columns: Immutable.List(metaJson.columns.map(col => MetaColumnDef(col)))
-    columns: metaJson.columns.length ?
-      Immutable.List(metaJson.columns.map(col => MetaColumnDef(col))) :
-      Immutable.List()
-  }) :
-  MetaTableDef();
+export const initializeTableState = ({state, TableItem, tableName, fieldProps, isPreloaded = false}) => {
 
-export const initializeTableState = (state, tableItem, tableName, isPreloaded = false) => {
-
+  console.log('initializeTableState fieldProps', fieldProps);
   const activePage = state.activePage || 1;
   const sortBy = state.sortBy || 'name';
   const rangeSize = state.rangeSize || 10;
@@ -73,7 +64,7 @@ export const initializeTableState = (state, tableItem, tableName, isPreloaded = 
   const endNum = startNum + rangeSize;
 
   const mapKeys = Object.keys(state.map);
-  const newMap = Immutable.Map(mapKeys.map(key => [key, new tableItem(state.map[key])]));
+  const newMap = Immutable.Map(mapKeys.map(key => [key, new TableItem(state.map[key])]));
   const currentItems = newMap
     .valueSeq()
     .sort((a, b) => {
@@ -88,13 +79,15 @@ export const initializeTableState = (state, tableItem, tableName, isPreloaded = 
   return new TableInitialState()
     .set('activePage', activePage)
     .set('currentItems', currentItems)
+    .set('formProps', new FormProps({
+      fields: Immutable.List(fieldProps.map(props => new FieldProps(props)))
+    }))
     .set('map', newMap)
-    .set('meta', setMeta(state.meta))
     .set('name', tableName)
     .set('preloaded', isPreloaded)
     .set('rangeSize', rangeSize)
     .set('sortBy', sortBy)
-    .set('totalItems', state.totalItems || Object.keys(state.map).length);
+    .set('totalItems', Number(state.totalItems) || Object.keys(state.map).length);
 };
 
 export const setupPageTable = (state, activePage, totalItems) => {

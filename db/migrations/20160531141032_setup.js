@@ -56,8 +56,8 @@ exports.up = function (knex, Promise) {
       table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
       table.string('name').notNullable();
       table.integer('vintage');
-      table.integer('saleprice');
-      table.integer('listprice');
+      table.float('saleprice');
+      table.float('listprice');
       table.integer('quantity');
       table.uuid('type_id')
         .references('types.id');

@@ -21,35 +21,6 @@ export const TABLES_CREATE_OR_UPDATE_START = 'TABLES_CREATE_OR_UPDATE_START';
 export const TABLES_CREATE_OR_UPDATE_SUCCESS = 'TABLES_CREATE_OR_UPDATE_SUCCESS';
 export const TABLES_CREATE_OR_UPDATE_ERROR = 'TABLES_CREATE_OR_UPDATE_ERROR';
 
-export function bootstrap(tableName) {
-
-
-  return ({ apiBaseUrl, fetch, getState }) => {
-
-    const targetState = getState()[tableName];
-    if (targetState.meta && targetState.meta.columns.size)
-      return {
-        type: 'DEV_NULL'
-      };
-
-    const getPromise = async () => {
-      const response = await fetch(`${apiBaseUrl}/${tableName}`, {
-        method: 'OPTIONS',
-      });
-      if (response.status > 399) throw response;
-
-      const items = response.json();
-      return items;
-    };
-    return {
-      type: TABLES_BOOTSTRAP,
-      payload: getPromise(),
-      meta: {
-        key: tableName
-      }
-    };
-  };
-}
 
 export function load(tableName, targetState, nextActivePage = null, query = {}) {
   return ({ apiBaseUrl, fetch }) => {
@@ -63,7 +34,7 @@ export function load(tableName, targetState, nextActivePage = null, query = {}) 
     let totalItems = 0;
 
     const getPromise = async () => {
-      const response = await fetch(`${apiBaseUrl}/${tableName}?order=${sortBy}`, {
+      const response = await fetch(`${apiBaseUrl}/${tableName}?order=${sortBy}&select=*,regions{*}`, {
         method: 'GET',
         headers: {
           'Range-Unit': tableName,
@@ -79,12 +50,13 @@ export function load(tableName, targetState, nextActivePage = null, query = {}) 
     };
     return {
       type: TABLES_LOAD,
-      payload: getPromise().then(items => ({
-        activePage,
-        items,
-        query,
-        totalItems,
-      })),
+      payload: getPromise()
+        .then(items => ({
+          activePage,
+          items,
+          query,
+          totalItems,
+        })),
       meta: {
         key: tableName,
       }
@@ -108,12 +80,14 @@ export function pageTable(tableName, targetState, activePage = null, query = nul
 export function getById(tableName, id) {
   return ({ apiBaseUrl, fetch }) => {
     const getPromise = async () => {
-      const response = await fetch(`${apiBaseUrl}/${tableName}?id=eq.${id}`, {
+      const response = await fetch(`${apiBaseUrl}/${tableName}?id=eq.${id}&select=*,regions{*}`, {
         method: 'GET',
         headers: {
           Prefer: 'plurality=singular'
         }
       });
+
+//      console.log('tables/actions getById response', response)
       if (response.status > 399) throw response;
       const items = response.json();
       return items;

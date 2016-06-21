@@ -43,7 +43,7 @@ export default class GridFilter extends Component {
     } = this.props;
 
     const {
-      activePage, currentItems, meta, rangeSize, totalItems,
+      activePage, currentItems, rangeSize, totalItems,
       regions, sizes, types,
     } = table;
 

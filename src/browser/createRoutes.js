@@ -11,9 +11,9 @@ import Settings from './me/SettingsPage.react';
 import Todos from './todos/TodosPage.react';
 import { IndexRoute, Route } from 'react-router';
 
-import AdminPage from './admin/AdminPage.react.js';
-import AdminTablePage from './admin/TablePage.react';
-import AdminTableFormPage from './admin/TableFormPage.react';
+import * as admin from '../plugins/admin';
+
+//console.log('admin.routes()', admin.routes());
 
 export default function createRoutes(getState) {
   const requireAuth = (nextState, replace) => {
@@ -47,11 +47,7 @@ export default function createRoutes(getState) {
       </Route>
       <Route component={Todos} path="todos" />
 
-      <Route component={AdminPage} path="admin">
-        <Route component={AdminTableFormPage} path="tables/:table/new" />
-        <Route component={AdminTableFormPage} path="tables/:table/edit/:id" />
-        <Route component={AdminTablePage} path="tables/:table/:activePage" />
-      </Route>
+      {admin.routes()}
 
       <Route component={NotFound} path="*" />
     </Route>

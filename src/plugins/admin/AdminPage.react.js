@@ -57,13 +57,21 @@ class AdminPage extends Component {
                 <h4><FormattedMessage {...messages.dashboard} /></h4>
               </Link>
             </MenuItem>
-            {tables.map.valueSeq().map(table => adminMessages[table.name] && (
+            {/*
+              tables.map.valueSeq().map(table => adminMessages[table.name] && (
             <MenuItem key={table.name}>
-              <Link activeClassName="active" to={`/admin/tables/${table.name}/1`}>
+              <Link activeClassName="active" to={`/admin/${table.name}/1`}>
                 <FormattedMessage {...adminMessages[table.name]} />
               </Link>
             </MenuItem>
-            ))}
+            ))
+            */}
+
+            <MenuItem key="products">
+              <Link activeClassName="active" to={`/admin/products/1`}>
+                <FormattedMessage {...adminMessages.products} />
+              </Link>
+            </MenuItem>
           </Menu>
         </Column>
         <Column small={12} medium={12} large={10} xlarge={10} xxlarge={10}>

@@ -1,5 +1,5 @@
 
-import { TABLES_BOOTSTRAP_ERROR, TABLES_LOAD_ERROR } from '../tables/actions';
+import { TABLES_BOOTSTRAP_ERROR, TABLES_LOAD_ERROR } from './actions';
 import Immutable from 'immutable';
 
 const TableItem = Immutable.Record({
